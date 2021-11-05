@@ -1,9 +1,11 @@
 language: java
 addons:
   sonarcloud:
-    organization: "borisv13-github" # the key of the org you chose at step #3
+    organization: borisv13-github
     token:
-      secure: $SONAR # encrypted value of your token
+      secure: "$SONAR"
 script:
-  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+env:
+  global:
+    secure: EwoJV+aX0kA5LzuKpuwZrcYbwGlUkaOV7Q5qQhSwT4hdaaqDvwlqjsjbbRaATj0pN0z+J1JRX6iOa8JmI9oLsmuoHxh/sHI92JQdsquGzV/MJzHA4gQF5amcCnNPfVH8iGHiB0rpZ8uhtTGTmewpPIv2Q6RnLzu1X77Y258ZcDyCQIOhJOKeaheuJUWqqc3BDQe7cTwiBtb08Z1SmZjPb3AAWd8MJho6pI/3XnDLDW9ebALEbTeMHt7ZhCWdsiWJpCUrn2L9uVYmQzXS4GPGB9B8ioW1nw3/BBRjmSz63PUU0wmeBCk1fKT4YRWpxX/Nqn9Qg7fO3/B2dsB7YU/slDcxAQl/Te6LBNU0SeXybA8TMJ7K1d+Q1i07l292gPe6hqc+eTKjUi2TYCv0pQmqWsJP2y0I5cQ0OgUaK+McIrZoDbxnyHN/C4d47w17oQecDLWVpCoyyMIxroYWQP9tORmGG3KO6QnTYEe2UJORSZlDOKLCaG6cO5RnY1FbUePO9N8oiCLb7reMrgOuZpO7McEAgArbTekSSbgYWNxySqGGjfC5FU+OMqbVToPqx3W02vv39pyO6bs6oiFma40P1qsV617cV5OfmSLdjrL5h7gXeB+RJknsm0zgIleloB6Yg1Jz+rFQTPgvCfXYkqc7VV7d4Hm905J2jloPsD1JAKc=
