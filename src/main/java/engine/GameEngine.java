@@ -107,7 +107,7 @@ public class GameEngine {
 	}
 
 	private void makeMoveIfPossible(int x, int y) {
-		if (isAttemptedMovePossible(x, y)) {
+		if (Boolean.TRUE.equals(isAttemptedMovePossible(x, y))) {
 			setPlayer(x, y);
 		}
 	}
