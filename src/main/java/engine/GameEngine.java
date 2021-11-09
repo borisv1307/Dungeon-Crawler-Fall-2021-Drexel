@@ -73,20 +73,27 @@ public class GameEngine {
 		return (int) player.getY();
 	}
 
+	public void setPlayerMovementThroughWall(int x, int y) {
+		TileType attemptedLocation = getTileFromCoordinates(getPlayerXCoordinate() + x, getPlayerYCoordinate() + y);
+		if (attemptedLocation.equals(TileType.PASSABLE)) {
+			setPlayer(getPlayerXCoordinate() + x, getPlayerYCoordinate() + y);
+		}
+	}
+
 	public void keyLeft() {
-		setPlayer(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
+		setPlayerMovementThroughWall(-1, 0);
 	}
 
 	public void keyRight() {
-		setPlayer(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
+		setPlayerMovementThroughWall(1, 0);
 	}
 
 	public void keyUp() {
-		setPlayer(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
+		setPlayerMovementThroughWall(0, -1);
 	}
 
 	public void keyDown() {
-		setPlayer(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
+		setPlayerMovementThroughWall(0, 1);
 	}
 
 	public void setExit(boolean exit) {
