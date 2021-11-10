@@ -74,19 +74,33 @@ public class GameEngine {
 	}
 
 	public void keyLeft() {
-		// TODO Implement movement logic here
+		int newX = getPlayerXCoordinate() - 1;
+		int newY = getPlayerYCoordinate();
+		setPlayerIfPassable(newX, newY);
 	}
 
 	public void keyRight() {
-		// TODO Implement movement logic here
+		int newX = getPlayerXCoordinate() + 1;
+		int newY = getPlayerYCoordinate();
+		setPlayerIfPassable(newX, newY);
 	}
 
 	public void keyUp() {
-		// TODO Implement movement logic here
+		int newX = getPlayerXCoordinate();
+		int newY = getPlayerYCoordinate() - 1;
+		setPlayerIfPassable(newX, newY);
 	}
 
 	public void keyDown() {
-		// TODO Implement movement logic here
+		int newX = getPlayerXCoordinate();
+		int newY = getPlayerYCoordinate() + 1;
+		setPlayerIfPassable(newX, newY);
+	}
+
+	public void setPlayerIfPassable(int x, int y) {
+		if (getTileFromCoordinates(x, y).equals(TileType.PASSABLE)) {
+			setPlayer(x, y);
+		}
 	}
 
 	public void setExit(boolean exit) {
