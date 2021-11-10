@@ -106,7 +106,10 @@ public class GameEngine {
 
 	private boolean canMoveTo(int x, int y) {
 		TileType attemptedLocation = getTileFromCoordinates(x, y);
-		return (attemptedLocation.equals(TileType.PASSABLE)) ? true : false;
+		if (attemptedLocation.equals(TileType.PASSABLE)) {
+			return true;
+		}
+		return false;
 	}
 
 	public boolean isExit() {
