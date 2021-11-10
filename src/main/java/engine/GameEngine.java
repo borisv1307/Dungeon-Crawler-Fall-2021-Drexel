@@ -75,19 +75,35 @@ public class GameEngine {
     }
 
     public void keyLeft() {
-        setPlayer(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
+        movePlayerIfPossible(getPlayerXCoordinate() - 1,
+                getPlayerYCoordinate());
+
     }
 
     public void keyRight() {
-        setPlayer(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
+        movePlayerIfPossible(getPlayerXCoordinate() + 1,
+                getPlayerYCoordinate());
+
     }
 
     public void keyUp() {
-        setPlayer(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
+        movePlayerIfPossible(getPlayerXCoordinate(),
+                getPlayerYCoordinate() - 1);
+
     }
 
     public void keyDown() {
-        setPlayer(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
+        movePlayerIfPossible(getPlayerXCoordinate(),
+                getPlayerYCoordinate() + 1);
+
+    }
+
+    public void movePlayerIfPossible(int xCoordinate, int yCoordinate) {
+        TileType nextLocation = getTileFromCoordinates(xCoordinate,
+                yCoordinate);
+        if (nextLocation.equals(TileType.PASSABLE)) {
+            setPlayer(xCoordinate, yCoordinate);
+        }
     }
 
     public void setExit(boolean exit) {
