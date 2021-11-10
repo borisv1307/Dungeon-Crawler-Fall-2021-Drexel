@@ -1,6 +1,7 @@
 package engine;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,13 +11,13 @@ import ui.GameFrame;
 
 public class GameEngine {
 
+	private boolean exit;
 	private final LevelCreator levelCreator;
 	private final Map<Point, TileType> tiles = new HashMap<>();
-	private final int level;
-	private boolean exit;
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
+	private final int level;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
@@ -40,20 +41,20 @@ public class GameEngine {
 		}
 	}
 
-	public int getLevelHorizontalDimension() {
-		return levelHorizontalDimension;
-	}
-
 	public void setLevelHorizontalDimension(int levelHorizontalDimension) {
 		this.levelHorizontalDimension = levelHorizontalDimension;
 	}
 
-	public int getLevelVerticalDimension() {
-		return levelVerticalDimension;
-	}
-
 	public void setLevelVerticalDimension(int levelVerticalDimension) {
 		this.levelVerticalDimension = levelVerticalDimension;
+	}
+
+	public int getLevelHorizontalDimension() {
+		return levelHorizontalDimension;
+	}
+
+	public int getLevelVerticalDimension() {
+		return levelVerticalDimension;
 	}
 
 	public TileType getTileFromCoordinates(int x, int y) {
@@ -72,48 +73,48 @@ public class GameEngine {
 		return (int) player.getY();
 	}
 
-	public void keyLeft() {
-		int newX = getPlayerXCoordinate() - 1;
-		int newY = getPlayerYCoordinate();
-		if (canMoveTo(newX, newY)) {
-			setPlayer(newX, newY);
-		}
-	}
+    public void keyLeft() {
+        int newX = getPlayerXCoordinate() - 1;
+        int newY = getPlayerYCoordinate();
+        if (canMoveTo(newX, newY)) {
+            setPlayer(newX, newY);
+        }
+    }
 
-	public void keyRight() {
-		int newX = getPlayerXCoordinate() + 1;
-		int newY = getPlayerYCoordinate();
-		if (canMoveTo(newX, newY)) {
-			setPlayer(newX, newY);
-		}
-	}
+    public void keyRight() {
+        int newX = getPlayerXCoordinate() + 1;
+        int newY = getPlayerYCoordinate();
+        if (canMoveTo(newX, newY)) {
+            setPlayer(newX, newY);
+        }
+    }
 
-	public void keyUp() {
-		int newX = getPlayerXCoordinate();
-		int newY = getPlayerYCoordinate() - 1;
-		if (canMoveTo(newX, newY)) {
-			setPlayer(newX, newY);
-		}
-	}
+    public void keyUp() {
+        int newX = getPlayerXCoordinate();
+        int newY = getPlayerYCoordinate() - 1;
+        if (canMoveTo(newX, newY)) {
+            setPlayer(newX, newY);
+        }
+    }
 
-	public void keyDown() {
-		int newX = getPlayerXCoordinate();
-		int newY = getPlayerYCoordinate() + 1;
-		if (canMoveTo(newX, newY)) {
-			setPlayer(newX, newY);
-		}
-	}
+    public void keyDown() {
+        int newX = getPlayerXCoordinate();
+        int newY = getPlayerYCoordinate() + 1;
+        if (canMoveTo(newX, newY)) {
+            setPlayer(newX, newY);
+        }
+    }
 
 	private boolean canMoveTo(int x, int y) {
 		TileType attemptedLocation = getTileFromCoordinates(x, y);
 		return attemptedLocation.equals(TileType.PASSABLE);
 	}
 
-	public boolean isExit() {
-		return exit;
-	}
-
 	public void setExit(boolean exit) {
 		this.exit = exit;
+	}
+
+	public boolean isExit() {
+		return exit;
 	}
 }
