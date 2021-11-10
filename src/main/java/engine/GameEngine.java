@@ -74,19 +74,19 @@ public class GameEngine {
 	}
 
 	public void keyLeft() {
-		makeMoveIfPossible(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
+		makeAttemptedMoveIfPossibleByCoordinates(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
 	}
 
 	public void keyRight() {
-		makeMoveIfPossible(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
+		makeAttemptedMoveIfPossibleByCoordinates(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
 	}
 
 	public void keyUp() {
-		makeMoveIfPossible(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
+		makeAttemptedMoveIfPossibleByCoordinates(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
 	}
 
 	public void keyDown() {
-		makeMoveIfPossible(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
+		makeAttemptedMoveIfPossibleByCoordinates(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
 	}
 
 	public void setExit(boolean exit) {
@@ -97,18 +97,10 @@ public class GameEngine {
 		return exit;
 	}
 
-	private Boolean isAttemptedMovePossible(int x, int y) {
-		Boolean movePossible = false;
-		TileType attemptedLocation = getTileFromCoordinates(x, y);
-		if (attemptedLocation.equals(TileType.PASSABLE)) {
-			movePossible = true;
-		}
-		return movePossible;
-	}
-
-	private void makeMoveIfPossible(int x, int y) {
-		if (Boolean.TRUE.equals(isAttemptedMovePossible(x, y))) {
-			setPlayer(x, y);
+	private void makeAttemptedMoveIfPossibleByCoordinates(int xCoordinate, int yCoordinate) {
+		TileType attemptedTileToMoveTo = getTileFromCoordinates(xCoordinate, yCoordinate);
+		if (attemptedTileToMoveTo.equals(TileType.PASSABLE)) {
+			setPlayer(xCoordinate, yCoordinate);
 		}
 	}
 
