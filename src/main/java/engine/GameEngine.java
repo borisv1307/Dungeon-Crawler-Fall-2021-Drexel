@@ -18,6 +18,7 @@ public class GameEngine {
 	private int levelVerticalDimension;
 	private Point player;
 	private final int level;
+	private int[] direction;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
@@ -74,19 +75,35 @@ public class GameEngine {
 	}
 
 	public void keyLeft() {
-		setPlayer(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
+		direction = new int[] { -1, 0 };
+		attemptMove(direction);
 	}
 
 	public void keyRight() {
-		setPlayer(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
+		direction = new int[] { 1, 0 };
+		attemptMove(direction);
 	}
 
 	public void keyUp() {
-		setPlayer(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
+		direction = new int[] { 0, -1 };
+		attemptMove(direction);
 	}
 
 	public void keyDown() {
-		setPlayer(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
+		direction = new int[] { 0, 1 };
+		attemptMove(direction);
+	}
+
+	private void attemptMove(int[] direction) {
+		int xCoordinate = getPlayerXCoordinate() + direction[0];
+		int yCoordinate = getPlayerYCoordinate() + direction[1];
+		TileType attemptedTile = getTileFromCoordinates(xCoordinate, yCoordinate);
+		if (isPassableTile(attemptedTile))
+			setPlayer(xCoordinate, yCoordinate);
+	}
+
+	private boolean isPassableTile(TileType attemptedTile) {
+		return attemptedTile.equals(TileType.PASSABLE);
 	}
 
 	public void setExit(boolean exit) {
