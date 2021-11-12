@@ -74,19 +74,19 @@ public class GameEngine {
 	}
 
 	public void keyLeft() {
-		// TODO Implement movement logic here
+		movePlayerTo(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
 	}
 
 	public void keyRight() {
-		// TODO Implement movement logic here
+		movePlayerTo(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
 	}
 
 	public void keyUp() {
-		// TODO Implement movement logic here
+		movePlayerTo(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
 	}
 
 	public void keyDown() {
-		// TODO Implement movement logic here
+		movePlayerTo(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
 	}
 
 	public void setExit(boolean exit) {
@@ -95,5 +95,12 @@ public class GameEngine {
 
 	public boolean isExit() {
 		return exit;
+	}
+
+	private void movePlayerTo(int x, int y) {
+		TileType nextLocation = getTileFromCoordinates(x, y);
+		if (nextLocation.equals(TileType.PASSABLE)) {
+			setPlayer(x, y);
+		}
 	}
 }
