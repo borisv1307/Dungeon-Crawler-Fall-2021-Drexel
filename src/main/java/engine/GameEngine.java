@@ -110,10 +110,10 @@ public class GameEngine {
 	}
 
 	public int getXCoordinate(String direction) {
-		if (direction == "l") {
+		if (direction.equals("l")) {
 			return getPlayerYCoordinate() - 1;
 		}
-		if (direction == "r") {
+		if (direction.equals("r")) {
 			return getPlayerYCoordinate() + 1;
 		} else {
 			return getPlayerYCoordinate();
@@ -121,10 +121,10 @@ public class GameEngine {
 	}
 
 	public int getYCoordinate(String direction) {
-		if (direction == "d") {
+		if (direction.equals("d")) {
 			return getPlayerYCoordinate() + 1;
 		}
-		if (direction == "u") {
+		if (direction.equals("u")) {
 			return getPlayerYCoordinate() - 1;
 		} else {
 			return getPlayerYCoordinate();
