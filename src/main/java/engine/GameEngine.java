@@ -74,19 +74,39 @@ public class GameEngine {
 	}
 
 	public void keyLeft() {
-		// TODO Implement movement logic here
+		attemptRelativeMovement(-1, 0);
 	}
 
 	public void keyRight() {
-		// TODO Implement movement logic here
+		attemptRelativeMovement(1, 0);
 	}
 
 	public void keyUp() {
-		// TODO Implement movement logic here
+		attemptRelativeMovement(0, -1);
 	}
 
 	public void keyDown() {
-		// TODO Implement movement logic here
+		attemptRelativeMovement(0, 1);
+	}
+
+	private void attemptRelativeMovement(int xOffset, int yOffset) {
+		Point attemptedDestination = getDestinationLocationFromOffset(xOffset, yOffset);
+		if (movementIsPossible(attemptedDestination)) {
+			movePlayerToPoint(attemptedDestination);
+		}
+	}
+
+	private Point getDestinationLocationFromOffset(int xOffset, int yOffset) {
+		return new Point(getPlayerXCoordinate() + xOffset, getPlayerYCoordinate() + yOffset);
+	}
+
+	private boolean movementIsPossible(Point attemptedDestination) {
+		TileType attemptedLocation = getTileFromCoordinates((int) attemptedDestination.getX(), (int) attemptedDestination.getY());
+		return attemptedLocation.equals(TileType.PASSABLE);
+	}
+
+	private void movePlayerToPoint(Point attemptedDestination) {
+		setPlayer((int) attemptedDestination.getX(), (int) attemptedDestination.getY());
 	}
 
 	public void setExit(boolean exit) {
