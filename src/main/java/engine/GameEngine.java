@@ -73,20 +73,24 @@ public class GameEngine {
 		return (int) player.getY();
 	}
 
+	public void offsetPlayerLocation(int xOffset, int yOffset) {
+		setPlayer(getPlayerXCoordinate() + xOffset, getPlayerYCoordinate() + yOffset);
+	}
+
 	public void keyLeft() {
-		// TODO Implement movement logic here
+		offsetPlayerLocation(-1, 0);
 	}
 
 	public void keyRight() {
-		// TODO Implement movement logic here
+		offsetPlayerLocation(1, 0);
 	}
 
 	public void keyUp() {
-		// TODO Implement movement logic here
+		offsetPlayerLocation(0, -1);
 	}
 
 	public void keyDown() {
-		// TODO Implement movement logic here
+		offsetPlayerLocation(0, 1);
 	}
 
 	public void setExit(boolean exit) {
