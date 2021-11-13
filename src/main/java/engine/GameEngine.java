@@ -74,19 +74,61 @@ public class GameEngine {
 	}
 
 	public void keyLeft() {
-		setPlayer(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
+		int x = getXCoordinate("l");
+		int y = getYCoordinate("l");
+		TileType attemptedLocation = getTileFromCoordinates(x, y);
+		if (attemptedLocation.equals(TileType.PASSABLE)) {
+			setPlayer(x, y);
+		}
 	}
 
 	public void keyRight() {
-		setPlayer(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
+		int x = getXCoordinate("r");
+		int y = getYCoordinate("r");
+		TileType attemptedLocation = getTileFromCoordinates(x, y);
+		if (attemptedLocation.equals(TileType.PASSABLE)) {
+			setPlayer(x, y);
+		}
 	}
 
 	public void keyUp() {
-		setPlayer(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
+		int x = getXCoordinate("u");
+		int y = getYCoordinate("u");
+		TileType attemptedLocation = getTileFromCoordinates(x, y);
+		if (attemptedLocation.equals(TileType.PASSABLE)) {
+			setPlayer(x, y);
+		}
 	}
 
 	public void keyDown() {
-		setPlayer(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
+		int x = getXCoordinate("d");
+		int y = getYCoordinate("d");
+		TileType attemptedLocation = getTileFromCoordinates(x, y);
+		if (attemptedLocation.equals(TileType.PASSABLE)) {
+			setPlayer(x, y);
+		}
+	}
+
+	public int getXCoordinate(String direction) {
+		if (direction == "l") {
+			return getPlayerYCoordinate() - 1;
+		}
+		if (direction == "r") {
+			return getPlayerYCoordinate() + 1;
+		} else {
+			return getPlayerYCoordinate();
+		}
+	}
+
+	public int getYCoordinate(String direction) {
+		if (direction == "d") {
+			return getPlayerYCoordinate() + 1;
+		}
+		if (direction == "u") {
+			return getPlayerYCoordinate() - 1;
+		} else {
+			return getPlayerYCoordinate();
+		}
 	}
 
 	public void setExit(boolean exit) {
