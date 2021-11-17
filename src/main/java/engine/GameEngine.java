@@ -12,16 +12,24 @@ import ui.GameFrame;
 public class GameEngine {
 
 	private boolean exit;
-	private final LevelCreator levelCreator;
+	private LevelCreator levelCreator;
 	private final Map<Point, TileType> tiles = new HashMap<>();
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
-	private final int level;
+	private Point stairs;
+	private int level;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
 		level = 1;
+		this.levelCreator = levelCreator;
+		this.levelCreator.createLevel(this, level);
+	}
+
+	public GameEngine(LevelCreator levelCreator, int level) {
+		exit = false;
+		this.level = level;
 		this.levelCreator = levelCreator;
 		this.levelCreator.createLevel(this, level);
 	}
@@ -36,9 +44,12 @@ public class GameEngine {
 		if (tileType.equals(TileType.PLAYER)) {
 			setPlayer(x, y);
 			tiles.put(new Point(x, y), TileType.PASSABLE);
-		} else {
+		} else if (tileType.equals(TileType.STAIRS)) {
+			setStairs(x, y);
+			tiles.put(stairs, TileType.STAIRS);
+		} else
 			tiles.put(new Point(x, y), tileType);
-		}
+
 	}
 
 	public void setLevelHorizontalDimension(int levelHorizontalDimension) {
@@ -73,32 +84,56 @@ public class GameEngine {
 		return (int) player.getY();
 	}
 
+	public void setStairs(int x, int y) {
+		stairs = new Point(x, y);
+	}
+
+	public int getStairsXCoordinate() {
+		return (int) stairs.getX();
+	}
+
+	public int getStairsYCoordinate() {
+		return (int) stairs.getY();
+	}
+
 	public void keyLeft() {
 		int newX = getPlayerXCoordinate() - 1;
 		int newY = getPlayerYCoordinate();
 		setPlayerIfPassable(newX, newY);
+		checkPlayerEnteredStairs();
 	}
 
 	public void keyRight() {
 		int newX = getPlayerXCoordinate() + 1;
 		int newY = getPlayerYCoordinate();
 		setPlayerIfPassable(newX, newY);
+		checkPlayerEnteredStairs();
 	}
 
 	public void keyUp() {
 		int newX = getPlayerXCoordinate();
 		int newY = getPlayerYCoordinate() - 1;
 		setPlayerIfPassable(newX, newY);
+		checkPlayerEnteredStairs();
 	}
 
 	public void keyDown() {
 		int newX = getPlayerXCoordinate();
 		int newY = getPlayerYCoordinate() + 1;
 		setPlayerIfPassable(newX, newY);
+		checkPlayerEnteredStairs();
+	}
+
+	private void checkPlayerEnteredStairs() {
+		if ((this.getPlayerXCoordinate() == this.getStairsXCoordinate())
+				&& (this.getPlayerYCoordinate() == this.getStairsYCoordinate())) {
+			this.loadNewLevel(level + 1);
+		}
 	}
 
 	public void setPlayerIfPassable(int x, int y) {
-		if (getTileFromCoordinates(x, y).equals(TileType.PASSABLE)) {
+		if ((getTileFromCoordinates(x, y).equals(TileType.PASSABLE))
+				|| (getTileFromCoordinates(x, y).equals(TileType.STAIRS))) {
 			setPlayer(x, y);
 		}
 	}
@@ -110,4 +145,14 @@ public class GameEngine {
 	public boolean isExit() {
 		return exit;
 	}
+
+	public void loadNewLevel(int newLevel) {
+		this.level = newLevel;
+		this.levelCreator.createLevel(this, level);
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
 }
