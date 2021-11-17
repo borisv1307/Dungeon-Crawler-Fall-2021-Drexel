@@ -17,6 +17,7 @@ public class GameEngine {
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
+	private int playerHealth = 5;
 	private final int level;
 
 	public GameEngine(LevelCreator levelCreator) {
@@ -101,7 +102,18 @@ public class GameEngine {
 		TileType attemptedTileToMoveTo = getTileFromCoordinates(xCoordinate, yCoordinate);
 		if (attemptedTileToMoveTo.equals(TileType.PASSABLE)) {
 			setPlayer(xCoordinate, yCoordinate);
+		} else if (attemptedTileToMoveTo.equals(TileType.TRAP)) {
+			setPlayer(xCoordinate, yCoordinate);
+			setPlayerHealth(getPlayerHealth() - 1);
 		}
+	}
+
+	public int getPlayerHealth() {
+		return playerHealth;
+	}
+
+	public void setPlayerHealth(int playerHealth) {
+		this.playerHealth = playerHealth;
 	}
 
 }
