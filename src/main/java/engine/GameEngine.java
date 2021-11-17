@@ -101,6 +101,7 @@ public class GameEngine {
 		int newY = getPlayerYCoordinate();
 		setPlayerIfPassable(newX, newY);
 		checkPlayerEnteredStairs();
+		checkPlayerEncounterHostile(newX, newY);
 	}
 
 	public void keyRight() {
@@ -108,6 +109,7 @@ public class GameEngine {
 		int newY = getPlayerYCoordinate();
 		setPlayerIfPassable(newX, newY);
 		checkPlayerEnteredStairs();
+		checkPlayerEncounterHostile(newX, newY);
 	}
 
 	public void keyUp() {
@@ -115,6 +117,7 @@ public class GameEngine {
 		int newY = getPlayerYCoordinate() - 1;
 		setPlayerIfPassable(newX, newY);
 		checkPlayerEnteredStairs();
+		checkPlayerEncounterHostile(newX, newY);
 	}
 
 	public void keyDown() {
@@ -122,6 +125,13 @@ public class GameEngine {
 		int newY = getPlayerYCoordinate() + 1;
 		setPlayerIfPassable(newX, newY);
 		checkPlayerEnteredStairs();
+		checkPlayerEncounterHostile(newX, newY);
+	}
+
+	private void checkPlayerEncounterHostile(int x, int y) {
+		if (getTileFromCoordinates(x, y).equals(TileType.HOSTILE)) {
+			this.setExit(true);
+		}
 	}
 
 	private void checkPlayerEnteredStairs() {
