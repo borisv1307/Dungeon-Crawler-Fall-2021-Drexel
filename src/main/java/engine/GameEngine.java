@@ -18,6 +18,8 @@ public class GameEngine {
 	private int levelVerticalDimension;
 	private Point player;
 	private Point stairs;
+	private Point portalA;
+	private Point portalB;
 	private int level;
 
 	public GameEngine(LevelCreator levelCreator) {
@@ -47,8 +49,20 @@ public class GameEngine {
 		} else if (tileType.equals(TileType.STAIRS)) {
 			setStairs(x, y);
 			tiles.put(stairs, TileType.STAIRS);
+		} else if (tileType.equals(TileType.PORTAL)) {
+			setPortals(x, y);
+			tiles.put(new Point(x, y), TileType.PORTAL);
 		} else
 			tiles.put(new Point(x, y), tileType);
+
+	}
+
+	private void setPortals(int x, int y) {
+		if (portalA == null) {
+			portalA = new Point(x, y);
+		} else {
+			portalB = new Point(x, y);
+		}
 
 	}
 
@@ -102,6 +116,7 @@ public class GameEngine {
 		setPlayerIfPassable(newX, newY);
 		checkPlayerEnteredStairs();
 		checkPlayerEncounterHostile(newX, newY);
+		checkPlayerEnteredPortal(newX, newY);
 	}
 
 	public void keyRight() {
@@ -110,6 +125,7 @@ public class GameEngine {
 		setPlayerIfPassable(newX, newY);
 		checkPlayerEnteredStairs();
 		checkPlayerEncounterHostile(newX, newY);
+		checkPlayerEnteredPortal(newX, newY);
 	}
 
 	public void keyUp() {
@@ -118,6 +134,7 @@ public class GameEngine {
 		setPlayerIfPassable(newX, newY);
 		checkPlayerEnteredStairs();
 		checkPlayerEncounterHostile(newX, newY);
+		checkPlayerEnteredPortal(newX, newY);
 	}
 
 	public void keyDown() {
@@ -126,6 +143,19 @@ public class GameEngine {
 		setPlayerIfPassable(newX, newY);
 		checkPlayerEnteredStairs();
 		checkPlayerEncounterHostile(newX, newY);
+		checkPlayerEnteredPortal(newX, newY);
+	}
+
+	private void checkPlayerEnteredPortal(int x, int y) {
+		if (getTileFromCoordinates(x, y).equals(TileType.PORTAL)) {
+			if ((x == portalA.x) && (y == portalA.y)) {
+				System.out.println("teleporting to B");
+				setPlayer(portalB.x, portalB.y);
+			} else {
+				System.out.println("teleporting to A");
+				setPlayer(portalA.x, portalA.y);
+			}
+		}
 	}
 
 	private void checkPlayerEncounterHostile(int x, int y) {
@@ -142,8 +172,8 @@ public class GameEngine {
 	}
 
 	public void setPlayerIfPassable(int x, int y) {
-		if ((getTileFromCoordinates(x, y).equals(TileType.PASSABLE))
-				|| (getTileFromCoordinates(x, y).equals(TileType.STAIRS))) {
+		TileType tile = getTileFromCoordinates(x, y);
+		if (!tile.equals(TileType.NOT_PASSABLE)) {
 			setPlayer(x, y);
 		}
 	}
@@ -163,6 +193,14 @@ public class GameEngine {
 
 	public int getLevel() {
 		return level;
+	}
+
+	public Point getPortalACoordinates() {
+		return portalA;
+	}
+
+	public Point getPortalBCoordinates() {
+		return portalB;
 	}
 
 }
