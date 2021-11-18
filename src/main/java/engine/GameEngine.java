@@ -17,7 +17,7 @@ public class GameEngine {
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
-	private Point stairs;
+	private Point stairs = new Point(-1, -1);
 	private Point portalA;
 	private Point portalB;
 	private int level;
