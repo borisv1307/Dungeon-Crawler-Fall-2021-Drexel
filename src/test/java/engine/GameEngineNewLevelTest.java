@@ -1,7 +1,5 @@
 package engine;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
@@ -26,13 +24,11 @@ public class GameEngineNewLevelTest {
 	}
 
 	@Test
-	public void add_and_get_stairs_coordinates() {
+	public void add_and_get_stairs() {
 		TileType tileType = TileType.STAIRS;
 		gameEngine.addTile(ZERO, ONE, tileType);
-		int actualX = gameEngine.getStairsXCoordinate();
-		int actualY = gameEngine.getStairsYCoordinate();
-		assertThat(actualX, equalTo(ZERO));
-		assertThat(actualY, equalTo(ONE));
+		TileType actual = gameEngine.getTileFromCoordinates(ZERO, ONE);
+		assertEquals(TileType.STAIRS, actual);
 	}
 
 	@Test

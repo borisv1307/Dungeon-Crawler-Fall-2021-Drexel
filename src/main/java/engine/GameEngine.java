@@ -46,14 +46,14 @@ public class GameEngine {
 		if (tileType.equals(TileType.PLAYER)) {
 			setPlayer(x, y);
 			tiles.put(new Point(x, y), TileType.PASSABLE);
-		} else if (tileType.equals(TileType.STAIRS)) {
-			setStairs(x, y);
-			tiles.put(new Point(x, y), tileType);
-		} else if (tileType.equals(TileType.PORTAL)) {
-			setPortals(x, y);
-			tiles.put(new Point(x, y), tileType);
 		} else
 			tiles.put(new Point(x, y), tileType);
+
+		if (tileType.equals(TileType.STAIRS)) {
+			stairs = new Point(x, y);
+		} else if (tileType.equals(TileType.PORTAL)) {
+			setPortals(x, y);
+		}
 
 	}
 
@@ -91,23 +91,11 @@ public class GameEngine {
 	}
 
 	public int getPlayerXCoordinate() {
-		return (int) player.getX();
+		return player.x;
 	}
 
 	public int getPlayerYCoordinate() {
-		return (int) player.getY();
-	}
-
-	public void setStairs(int x, int y) {
-		stairs = new Point(x, y);
-	}
-
-	public int getStairsXCoordinate() {
-		return (int) stairs.getX();
-	}
-
-	public int getStairsYCoordinate() {
-		return (int) stairs.getY();
+		return player.y;
 	}
 
 	public void keyLeft() {
@@ -141,16 +129,14 @@ public class GameEngine {
 	private void checkEncounters(int x, int y) {
 		checkPlayerEncounterHostile(x, y);
 		checkPlayerEnteredPortal(x, y);
-		checkPlayerEnteredStairs();
+		checkPlayerEnteredStairs(x, y);
 	}
 
 	private void checkPlayerEnteredPortal(int x, int y) {
 		if (getTileFromCoordinates(x, y).equals(TileType.PORTAL)) {
 			if ((x == portalA.x) && (y == portalA.y)) {
-				System.out.println("teleporting to B");
 				setPlayer(portalB.x, portalB.y);
 			} else {
-				System.out.println("teleporting to A");
 				setPlayer(portalA.x, portalA.y);
 			}
 		}
@@ -162,9 +148,8 @@ public class GameEngine {
 		}
 	}
 
-	private void checkPlayerEnteredStairs() {
-		if ((this.getPlayerXCoordinate() == this.getStairsXCoordinate())
-				&& (this.getPlayerYCoordinate() == this.getStairsYCoordinate())) {
+	private void checkPlayerEnteredStairs(int x, int y) {
+		if ((x == stairs.x) && (y == stairs.y)) {
 			this.loadNewLevel(level + 1);
 		}
 	}
