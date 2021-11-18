@@ -48,10 +48,10 @@ public class GameEngine {
 			tiles.put(new Point(x, y), TileType.PASSABLE);
 		} else if (tileType.equals(TileType.STAIRS)) {
 			setStairs(x, y);
-			tiles.put(stairs, TileType.STAIRS);
+			tiles.put(new Point(x, y), tileType);
 		} else if (tileType.equals(TileType.PORTAL)) {
 			setPortals(x, y);
-			tiles.put(new Point(x, y), TileType.PORTAL);
+			tiles.put(new Point(x, y), tileType);
 		} else
 			tiles.put(new Point(x, y), tileType);
 
@@ -114,36 +114,34 @@ public class GameEngine {
 		int newX = getPlayerXCoordinate() - 1;
 		int newY = getPlayerYCoordinate();
 		setPlayerIfPassable(newX, newY);
-		checkPlayerEnteredStairs();
-		checkPlayerEncounterHostile(newX, newY);
-		checkPlayerEnteredPortal(newX, newY);
+		checkEncounters(newX, newY);
 	}
 
 	public void keyRight() {
 		int newX = getPlayerXCoordinate() + 1;
 		int newY = getPlayerYCoordinate();
 		setPlayerIfPassable(newX, newY);
-		checkPlayerEnteredStairs();
-		checkPlayerEncounterHostile(newX, newY);
-		checkPlayerEnteredPortal(newX, newY);
+		checkEncounters(newX, newY);
 	}
 
 	public void keyUp() {
 		int newX = getPlayerXCoordinate();
 		int newY = getPlayerYCoordinate() - 1;
 		setPlayerIfPassable(newX, newY);
-		checkPlayerEnteredStairs();
-		checkPlayerEncounterHostile(newX, newY);
-		checkPlayerEnteredPortal(newX, newY);
+		checkEncounters(newX, newY);
 	}
 
 	public void keyDown() {
 		int newX = getPlayerXCoordinate();
 		int newY = getPlayerYCoordinate() + 1;
 		setPlayerIfPassable(newX, newY);
+		checkEncounters(newX, newY);
+	}
+
+	private void checkEncounters(int x, int y) {
+		checkPlayerEncounterHostile(x, y);
+		checkPlayerEnteredPortal(x, y);
 		checkPlayerEnteredStairs();
-		checkPlayerEncounterHostile(newX, newY);
-		checkPlayerEnteredPortal(newX, newY);
 	}
 
 	private void checkPlayerEnteredPortal(int x, int y) {
