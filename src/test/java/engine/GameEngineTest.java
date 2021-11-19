@@ -17,6 +17,9 @@ public class GameEngineTest {
 
 	private static final int ZERO = 0;
 	private static final int ONE = 1;
+	private static final int TWO = 2;
+	private static final int THREE = 3;
+	private static final int FOUR = 4;
 
 	GameEngine gameEngine;
 
@@ -85,5 +88,33 @@ public class GameEngineTest {
 		gameEngine.setExit(exit);
 		boolean actual = gameEngine.isExit();
 		assertThat(actual, equalTo(exit));
+	}
+
+	@Test
+	public void key_left_portal() {
+		gameEngine.addTile(ZERO, ONE, TileType.PORTAL);
+		gameEngine.addTile(FOUR, ONE, TileType.PORTAL);
+		gameEngine.addTile(THREE, ONE, TileType.PASSABLE);
+		gameEngine.addTile(TWO, ONE, TileType.PASSABLE);
+		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
+		gameEngine.keyLeft();
+		int actualX = gameEngine.getPlayerXCoordinate();
+		int actualY = gameEngine.getPlayerYCoordinate();
+		assertThat(actualX, equalTo(THREE));
+		assertThat(actualY, equalTo(ONE));
+	}
+
+	@Test
+	public void key_right_portal() {
+		gameEngine.addTile(ZERO, ONE, TileType.PORTAL);
+		gameEngine.addTile(FOUR, ONE, TileType.PORTAL);
+		gameEngine.addTile(THREE, ONE, TileType.PLAYER);
+		gameEngine.addTile(TWO, ONE, TileType.PASSABLE);
+		gameEngine.addTile(ONE, ONE, TileType.PASSABLE);
+		gameEngine.keyRight();
+		int actualX = gameEngine.getPlayerXCoordinate();
+		int actualY = gameEngine.getPlayerYCoordinate();
+		assertThat(actualX, equalTo(ONE));
+		assertThat(actualY, equalTo(ONE));
 	}
 }
