@@ -11,6 +11,8 @@ public class TileTypeTest {
 	private static final char INVALID_CHAR = 'Z';
 	private static final char VALID_CHAR = ' ';
 	private static final char DOOR_CHAR = 'D';
+	private static final char PASSABLE_BRIDGE = 'B';
+	private static final char NOT_PASSABLE_BRIDGE = 'E';
 
 	@Test
 	public void value_of() {
@@ -36,5 +38,17 @@ public class TileTypeTest {
 	public void get_tile_type_by_char_door_char() {
 		TileType actual = TileType.getTileTypeByChar(DOOR_CHAR);
 		assertEquals(TileType.DOOR, actual);
+	}
+
+	@Test
+	public void get_title_type_by_char_passable_bridge_char() {
+		TileType actual = TileType.getTileTypeByChar(PASSABLE_BRIDGE);
+		assertEquals(TileType.PASSABLE_BRIDGE, actual);
+	}
+
+	@Test
+	public void get_title_type_by_char_not_passable_bridge_char() {
+		TileType actual = TileType.getTileTypeByChar(NOT_PASSABLE_BRIDGE);
+		assertEquals(TileType.NOT_PASSABLE_BRIDGE, actual);
 	}
 }

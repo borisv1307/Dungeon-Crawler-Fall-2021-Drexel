@@ -26,6 +26,18 @@ public class TilePainter {
 
 	}
 
+	void paintPassableBridgeTile(Graphics graphics, int x, int y, int tileWidth, int tileHeight,
+			TileType passableBridge) {
+		paintTile(graphics, tileWidth, tileHeight, x, y, passableBridge);
+
+	}
+
+	void paintNotPassableBridgeTile(Graphics graphics, int x, int y, int tileWidth, int tileHeight,
+			TileType notPassableBridge) {
+		paintTile(graphics, tileWidth, tileHeight, x, y, notPassableBridge);
+
+	}
+
 	private void paintTile(Graphics graphics, int tileWidth, int tileHeight, int x, int y, TileType tileType) {
 		handleTile(graphics, tileType);
 		graphics.fillRect(x * tileWidth, y * tileHeight, tileWidth, tileHeight);

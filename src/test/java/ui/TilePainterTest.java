@@ -67,4 +67,18 @@ public class TilePainterTest {
 		Mockito.verify(graphics).fillRect(30, 40, 10, 20);
 	}
 
+	@Test
+	public void paint_passable_bridge_tile() {
+		tilePainter.paintPassableBridgeTile(graphics, X, Y, TILE_WIDTH, TILE_HEIGHT, TileType.PASSABLE_BRIDGE);
+
+		Mockito.verify(graphics).fillRect(20, 60, 10, 20);
+	}
+
+	@Test
+	public void paint_not_passable_bridge_tile() {
+		tilePainter.paintNotPassableBridgeTile(graphics, Y, X, TILE_WIDTH, TILE_HEIGHT, TileType.NOT_PASSABLE_BRIDGE);
+
+		Mockito.verify(graphics).fillRect(30, 40, 10, 20);
+	}
+
 }

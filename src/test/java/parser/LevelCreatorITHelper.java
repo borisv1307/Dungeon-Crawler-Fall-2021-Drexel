@@ -22,6 +22,7 @@ import wrappers.ReaderWrapper;
 public class LevelCreatorITHelper {
 
 	protected static final int ONE = 1;
+	protected static final int TWO = 2;
 	protected GameEngine gameEngine;
 	protected String exceptionMessage;
 	private ReaderWrapper readerWrapper;
