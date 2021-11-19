@@ -17,6 +17,7 @@ public class GameEngine {
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
+	private Point portal;
 	private final int level;
 
 	public GameEngine(LevelCreator levelCreator) {
@@ -36,6 +37,9 @@ public class GameEngine {
 		if (tileType.equals(TileType.PLAYER)) {
 			setPlayer(x, y);
 			tiles.put(new Point(x, y), TileType.PASSABLE);
+		} else if (tileType.equals(TileType.PORTAL)) {
+			setPortal(x, y);
+			tiles.put(new Point(x, y), TileType.PORTAL);
 		} else {
 			tiles.put(new Point(x, y), tileType);
 		}
@@ -65,6 +69,10 @@ public class GameEngine {
 		player = new Point(x, y);
 	}
 
+	private void setPortal(int x, int y) {
+		portal = new Point(x, y);
+	}
+
 	public int getPlayerXCoordinate() {
 		return (int) player.getX();
 	}
@@ -73,10 +81,20 @@ public class GameEngine {
 		return (int) player.getY();
 	}
 
+	public int getPortalXCoordinate() {
+		return (int) portal.getX();
+	}
+
+	public int getPortalYCoordinate() {
+		return (int) portal.getY();
+	}
+
 	public void setPlayerMovementThroughWall(int x, int y) {
 		TileType attemptedLocation = getTileFromCoordinates(getPlayerXCoordinate() + x, getPlayerYCoordinate() + y);
 		if (attemptedLocation.equals(TileType.PASSABLE)) {
 			setPlayer(getPlayerXCoordinate() + x, getPlayerYCoordinate() + y);
+		} else if (attemptedLocation.equals(TileType.PORTAL)) {
+			setPlayer(getPortalXCoordinate() + x, getPortalYCoordinate() + y);
 		}
 	}
 
