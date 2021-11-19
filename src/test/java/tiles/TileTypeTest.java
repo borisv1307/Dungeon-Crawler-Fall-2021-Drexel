@@ -10,6 +10,7 @@ public class TileTypeTest {
 
 	private static final char INVALID_CHAR = 'Z';
 	private static final char VALID_CHAR = ' ';
+	private static final char DOOR_CHAR = 'D';
 
 	@Test
 	public void value_of() {
@@ -29,5 +30,11 @@ public class TileTypeTest {
 		} catch (IllegalArgumentException exception) {
 			assertEquals(exception.getMessage(), TileType.INVALID_CHARACTER_PROVIDED_MESSAGE + "Z");
 		}
+	}
+
+	@Test
+	public void get_tile_type_by_char_door_char() {
+		TileType actual = TileType.getTileTypeByChar(DOOR_CHAR);
+		assertEquals(TileType.DOOR, actual);
 	}
 }

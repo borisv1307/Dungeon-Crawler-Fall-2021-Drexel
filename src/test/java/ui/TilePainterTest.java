@@ -60,4 +60,11 @@ public class TilePainterTest {
 		Mockito.verify(graphics).fillRect(20, 60, 10, 20);
 	}
 
+	@Test
+	public void paint_door() {
+		tilePainter.paintDoor(graphics, Y, X, TILE_WIDTH, TILE_HEIGHT, TileType.DOOR);
+
+		Mockito.verify(graphics).fillRect(30, 40, 10, 20);
+	}
+
 }

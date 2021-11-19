@@ -16,9 +16,14 @@ public class TilePainter {
 			}
 		}
 	}
-	
+
 	void paintPlayer(Graphics graphics, int x, int y, int tileWidth, int tileHeight, TileType tileType) {
 		paintTile(graphics, tileWidth, tileHeight, x, y, tileType);
+	}
+
+	void paintDoor(Graphics graphics, int x, int y, int tileWidth, int tileHeight, TileType door) {
+		paintTile(graphics, tileWidth, tileHeight, x, y, door);
+
 	}
 
 	private void paintTile(Graphics graphics, int tileWidth, int tileHeight, int x, int y, TileType tileType) {
