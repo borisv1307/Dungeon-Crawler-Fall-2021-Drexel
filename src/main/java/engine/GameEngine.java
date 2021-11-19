@@ -89,7 +89,7 @@ public class GameEngine {
 		return (int) portal.getY();
 	}
 
-	public void setPlayerMovementThroughWall(int x, int y) {
+	public void setPlayerMovementThroughObject(int x, int y) {
 		TileType attemptedLocation = getTileFromCoordinates(getPlayerXCoordinate() + x, getPlayerYCoordinate() + y);
 		if (attemptedLocation.equals(TileType.PASSABLE)) {
 			setPlayer(getPlayerXCoordinate() + x, getPlayerYCoordinate() + y);
@@ -99,19 +99,19 @@ public class GameEngine {
 	}
 
 	public void keyLeft() {
-		setPlayerMovementThroughWall(-1, 0);
+		setPlayerMovementThroughObject(-1, 0);
 	}
 
 	public void keyRight() {
-		setPlayerMovementThroughWall(1, 0);
+		setPlayerMovementThroughObject(1, 0);
 	}
 
 	public void keyUp() {
-		setPlayerMovementThroughWall(0, -1);
+		setPlayerMovementThroughObject(0, -1);
 	}
 
 	public void keyDown() {
-		setPlayerMovementThroughWall(0, 1);
+		setPlayerMovementThroughObject(0, 1);
 	}
 
 	public void setExit(boolean exit) {
