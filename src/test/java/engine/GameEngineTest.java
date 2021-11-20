@@ -17,6 +17,7 @@ public class GameEngineTest {
 
 	private static final int ZERO = 0;
 	private static final int ONE = 1;
+	private static final int FIVE = 5;
 
 	GameEngine gameEngine;
 
@@ -67,6 +68,12 @@ public class GameEngineTest {
 		int actualY = gameEngine.getPlayerYCoordinate();
 		assertThat(actualX, equalTo(ZERO));
 		assertThat(actualY, equalTo(ONE));
+	}
+
+	@Test
+	public void get_starting_player_health() {
+		int actualPlayerHealth = gameEngine.getPlayerHealth();
+		assertThat(actualPlayerHealth, equalTo(FIVE));
 	}
 
 	@Test

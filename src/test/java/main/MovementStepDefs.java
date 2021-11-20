@@ -17,12 +17,14 @@ import wrappers.ReaderWrapper;
 public class MovementStepDefs extends LevelCreationStepDefHelper {
 
 	private GameEngine gameEngine;
+	private int STARTING_HEALTH_POINTS;
 
 	@Given("^the level design is:$")
 	public void level_is(List<String> levelStrings) throws Throwable {
 		writeLevelFile(levelStrings);
 		gameEngine = new GameEngine(
 				new LevelCreator(TestingTunableParameters.FILE_LOCATION_PREFIX, new ReaderWrapper()));
+		STARTING_HEALTH_POINTS = gameEngine.getPlayerHealth();
 	}
 
 	@When("^the player moves left$")
@@ -51,8 +53,8 @@ public class MovementStepDefs extends LevelCreationStepDefHelper {
 		assertThat(gameEngine.getPlayerYCoordinate(), equalTo(playerY - COORDINATE_OFFSET));
 	}
 
-	@Then("^the player lost health$")
-	public void the_player_lost_health() throws Throwable {
-		assertThat(gameEngine.getPlayerHealth(), equalTo(4));
+	@Then("^the player lost (\\d+) health (?:point|points)$")
+	public void the_player_lost_health_points(int healthPointsLost) throws Throwable {
+		assertThat(gameEngine.getPlayerHealth(), equalTo(STARTING_HEALTH_POINTS - healthPointsLost));
 	}
 }
