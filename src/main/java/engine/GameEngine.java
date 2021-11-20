@@ -103,8 +103,12 @@ public class GameEngine {
 		if (attemptedTileToMoveTo.equals(TileType.PASSABLE)) {
 			setPlayer(xCoordinate, yCoordinate);
 		} else if (attemptedTileToMoveTo.equals(TileType.TRAP)) {
-			setPlayer(xCoordinate, yCoordinate);
-			setPlayerHealth(getPlayerHealth() - 1);
+			if (getPlayerHealth() > 1) {
+				setPlayer(xCoordinate, yCoordinate);
+				setPlayerHealth(getPlayerHealth() - 1);
+			} else {
+				setExit(true);
+			}
 		}
 	}
 

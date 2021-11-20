@@ -5,6 +5,8 @@ import static org.hamcrest.Matchers.equalTo;
 
 import java.util.List;
 
+import org.junit.Assert;
+
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -37,6 +39,13 @@ public class MovementStepDefs extends LevelCreationStepDefHelper {
 		gameEngine.keyRight();
 	}
 
+	@When("^the player moves right (\\d+) times$")
+	public void the_player_moves_right_several_times(int numberOfMoves) throws Throwable {
+		for (int currentMoveNumber = 1; currentMoveNumber <= numberOfMoves; currentMoveNumber++) {
+			gameEngine.keyRight();
+		}
+	}
+
 	@When("^the player moves up$")
 	public void the_player_moves_up() throws Throwable {
 		gameEngine.keyUp();
@@ -57,4 +66,10 @@ public class MovementStepDefs extends LevelCreationStepDefHelper {
 	public void the_player_lost_health_points(int healthPointsLost) throws Throwable {
 		assertThat(gameEngine.getPlayerHealth(), equalTo(STARTING_HEALTH_POINTS - healthPointsLost));
 	}
+
+	@Then("^the game is over$")
+	public void the_game_is_over() throws Throwable {
+		Assert.assertTrue(gameEngine.isExit());
+	}
+
 }
