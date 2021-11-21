@@ -18,6 +18,7 @@ public class GameEngine {
 	private int levelVerticalDimension;
 	private Point player;
 	private final int level;
+	private int playerInitialX, playerInitialY;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
@@ -36,6 +37,8 @@ public class GameEngine {
 		if (tileType.equals(TileType.PLAYER)) {
 			setPlayer(x, y);
 			tiles.put(new Point(x, y), TileType.PASSABLE);
+			playerInitialX = x;
+			playerInitialY = y;
 		} else {
 			tiles.put(new Point(x, y), tileType);
 		}
@@ -82,7 +85,12 @@ public class GameEngine {
 	}
 
 	public void keyUp() {
-		movePlayerVertically(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
+		TileType nextLocation = getTileFromCoordinates(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
+		if (nextLocation.equals(TileType.NOT_PASSABLE_BRIDGE)) {
+			bringPlayerBackToInitialPosition();
+		} else {
+			movePlayerVertically(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
+		}
 	}
 
 	public void keyDown() {
@@ -111,5 +119,9 @@ public class GameEngine {
 		if (nextLocation.equals(TileType.PASSABLE) || nextLocation.equals(TileType.DOOR)) {
 			setPlayer(x, y);
 		}
+	}
+
+	public void bringPlayerBackToInitialPosition() {
+		setPlayer(playerInitialX, playerInitialY);
 	}
 }

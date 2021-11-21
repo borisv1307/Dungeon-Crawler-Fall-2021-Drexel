@@ -17,6 +17,8 @@ public class GameEngineTest {
 
 	private static final int ZERO = 0;
 	private static final int ONE = 1;
+	private static final int TWO = 2;
+	private static final int THREE = 3;
 
 	GameEngine gameEngine;
 
@@ -97,5 +99,30 @@ public class GameEngineTest {
 		int actualY = gameEngine.getPlayerYCoordinate();
 		assertThat(actualX, equalTo(ONE));
 		assertThat(actualY, equalTo(ONE));
+	}
+
+	@Test
+	public void bring_player_back_to_initial_position() {
+		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
+		gameEngine.addTile(ONE, ONE, TileType.PASSABLE);
+		gameEngine.keyRight();
+		gameEngine.bringPlayerBackToInitialPosition();
+		int actualX = gameEngine.getPlayerXCoordinate();
+		int actualY = gameEngine.getPlayerYCoordinate();
+		assertThat(actualX, equalTo(ZERO));
+		assertThat(actualY, equalTo(ONE));
+	}
+
+	@Test
+	public void bring_player_back_to_initial_position_if_collision_with_e_tile() {
+		gameEngine.addTile(ZERO, ONE, TileType.NOT_PASSABLE_BRIDGE);
+		gameEngine.addTile(ZERO, TWO, TileType.PASSABLE);
+		gameEngine.addTile(ZERO, THREE, TileType.PLAYER);
+		gameEngine.keyUp();
+		gameEngine.keyUp();
+		int actualX = gameEngine.getPlayerXCoordinate();
+		int actualY = gameEngine.getPlayerYCoordinate();
+		assertThat(actualX, equalTo(ZERO));
+		assertThat(actualY, equalTo(THREE));
 	}
 }
