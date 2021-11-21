@@ -99,7 +99,7 @@ public class GameEngine {
 
 	private void movePlayerTo(int x, int y) {
 		TileType nextLocation = getTileFromCoordinates(x, y);
-		if (nextLocation.equals(TileType.PASSABLE)) {
+		if (nextLocation.equals(TileType.PASSABLE) || nextLocation.equals(TileType.DOOR)) {
 			setPlayer(x, y);
 		}
 	}
