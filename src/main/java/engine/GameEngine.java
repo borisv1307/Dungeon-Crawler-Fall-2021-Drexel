@@ -17,7 +17,8 @@ public class GameEngine {
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
-	private Point portal;
+	private Point portal1, portal2;
+	private Map<Point, Point> portalMap = new HashMap<>();
 	private final int level;
 
 	public GameEngine(LevelCreator levelCreator) {
@@ -70,7 +71,11 @@ public class GameEngine {
 	}
 
 	private void setPortal(int x, int y) {
-		portal = new Point(x, y);
+		portal1 = new Point(x, y);
+		portalMap.put(portal1, portal2);
+		portalMap.put(portal2, portal1);
+		portal2 = portal1;
+
 	}
 
 	public int getPlayerXCoordinate() {
@@ -81,20 +86,24 @@ public class GameEngine {
 		return (int) player.getY();
 	}
 
-	public int getPortalXCoordinate() {
-		return (int) portal.getX();
+	public int getPortalXCoordinate(Point portal) {
+		return (int) portalMap.get(portal).getX();
 	}
 
-	public int getPortalYCoordinate() {
-		return (int) portal.getY();
+	public int getPortalYCoordinate(Point portal) {
+		return (int) portalMap.get(portal).getY();
 	}
 
 	public void setPlayerMovementThroughObject(int x, int y) {
-		TileType attemptedLocation = getTileFromCoordinates(getPlayerXCoordinate() + x, getPlayerYCoordinate() + y);
+		int attemptedX = getPlayerXCoordinate() + x;
+		int attemptedY = getPlayerYCoordinate() + y;
+		Point point = new Point(attemptedX, attemptedY);
+		TileType attemptedLocation = getTileFromCoordinates(attemptedX, attemptedY);
+
 		if (attemptedLocation.equals(TileType.PASSABLE)) {
-			setPlayer(getPlayerXCoordinate() + x, getPlayerYCoordinate() + y);
+			setPlayer(attemptedX, attemptedY);
 		} else if (attemptedLocation.equals(TileType.PORTAL)) {
-			setPlayer(getPortalXCoordinate() + x, getPortalYCoordinate() + y);
+			setPlayer(getPortalXCoordinate(point) + x, getPortalYCoordinate(point) + y);
 		}
 	}
 
