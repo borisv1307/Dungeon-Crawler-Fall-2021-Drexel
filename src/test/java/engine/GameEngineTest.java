@@ -76,4 +76,26 @@ public class GameEngineTest {
 		boolean actual = gameEngine.isExit();
 		assertThat(actual, equalTo(exit));
 	}
+
+	@Test
+	public void move_up_to_passable_brige_tile() {
+		gameEngine.addTile(ONE, ZERO, TileType.PASSABLE_BRIDGE);
+		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
+		gameEngine.keyUp();
+		int actualX = gameEngine.getPlayerXCoordinate();
+		int actualY = gameEngine.getPlayerYCoordinate();
+		assertThat(actualX, equalTo(ONE));
+		assertThat(actualY, equalTo(ZERO));
+	}
+
+	@Test
+	public void move_down_to_passable_brige_tile() {
+		gameEngine.addTile(ONE, ZERO, TileType.PLAYER);
+		gameEngine.addTile(ONE, ONE, TileType.PASSABLE_BRIDGE);
+		gameEngine.keyDown();
+		int actualX = gameEngine.getPlayerXCoordinate();
+		int actualY = gameEngine.getPlayerYCoordinate();
+		assertThat(actualX, equalTo(ONE));
+		assertThat(actualY, equalTo(ONE));
+	}
 }

@@ -82,11 +82,11 @@ public class GameEngine {
 	}
 
 	public void keyUp() {
-		movePlayerTo(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
+		movePlayerVertically(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
 	}
 
 	public void keyDown() {
-		movePlayerTo(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
+		movePlayerVertically(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
 	}
 
 	public void setExit(boolean exit) {
@@ -95,6 +95,15 @@ public class GameEngine {
 
 	public boolean isExit() {
 		return exit;
+	}
+
+	private void movePlayerVertically(int x, int y) {
+		TileType nextLocation = getTileFromCoordinates(x, y);
+		if (nextLocation.equals(TileType.PASSABLE_BRIDGE)) {
+			setPlayer(x, y);
+		} else {
+			movePlayerTo(x, y);
+		}
 	}
 
 	private void movePlayerTo(int x, int y) {
