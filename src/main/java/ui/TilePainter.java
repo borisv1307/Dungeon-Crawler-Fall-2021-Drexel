@@ -26,18 +26,16 @@ public class TilePainter {
 	private void paintPlayerTile(Graphics graphics, int x, int y, int tileWidth, int tileHeight, GameEngine game) {
 		paintTile(graphics, tileWidth, tileHeight, x, y, TileType.PLAYER);
 
-		if (game != null) {
-			int maxPlayerHealth = game.getMaxPlayerHealth();
-			int currentPlayerHealth = game.getPlayerHealth();
-			int currentMissingPlayerHealth = maxPlayerHealth - currentPlayerHealth;
+		int maxPlayerHealth = game.getMaxPlayerHealth();
+		int currentPlayerHealth = game.getPlayerHealth();
+		int currentMissingPlayerHealth = maxPlayerHealth - currentPlayerHealth;
 
-			int tileSegmentWidth = tileWidth / maxPlayerHealth;
+		int tileSegmentWidth = tileWidth / maxPlayerHealth;
 
-			for (int currentHealthSegment = 1; currentHealthSegment <= currentMissingPlayerHealth; currentHealthSegment++) {
-				graphics.setColor(Color.RED);
-				int currentTileSegentWidth = tileSegmentWidth * currentHealthSegment;
-				graphics.fillRect(x * tileWidth, y * tileHeight, currentTileSegentWidth, tileHeight);
-			}
+		for (int currentHealthSegment = 1; currentHealthSegment <= currentMissingPlayerHealth; currentHealthSegment++) {
+			graphics.setColor(Color.RED);
+			int currentTileSegentWidth = tileSegmentWidth * currentHealthSegment;
+			graphics.fillRect(x * tileWidth, y * tileHeight, currentTileSegentWidth, tileHeight);
 		}
 	}
 

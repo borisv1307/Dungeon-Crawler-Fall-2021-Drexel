@@ -22,6 +22,9 @@ public class GamePanelTest {
 	int tileWidth = width / horizontalDimension;
 	int tileHeight = height / verticalDimension;
 
+	private final int MAX_PLAYER_HEALTH = 5;
+	private final int CURRENT_PLAYER_HEALTH = 3;
+
 	GamePanel gamePanel;
 	GameEngine gameEngine;
 	TilePainter tilePainter;
@@ -32,6 +35,9 @@ public class GamePanelTest {
 		tilePainter = Mockito.mock(TilePainter.class);
 		Mockito.when(gameEngine.getLevelHorizontalDimension()).thenReturn(horizontalDimension);
 		Mockito.when(gameEngine.getLevelVerticalDimension()).thenReturn(verticalDimension);
+		Mockito.when(gameEngine.getMaxPlayerHealth()).thenReturn(MAX_PLAYER_HEALTH);
+		Mockito.when(gameEngine.getPlayerHealth()).thenReturn(CURRENT_PLAYER_HEALTH);
+
 		gamePanel = new GamePanel(gameEngine, tilePainter);
 		gamePanel.setSize(width, height);
 		gamePanel.init();

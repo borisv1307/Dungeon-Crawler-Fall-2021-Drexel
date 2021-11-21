@@ -19,19 +19,22 @@ public class TilePainterTest {
 	private final int TILE_HEIGHT = 20;
 	private final int X = 2;
 	private final int Y = 3;
+	private final int MAX_PLAYER_HEALTH = 5;
+	private final int CURRENT_PLAYER_HEALTH = 3;
 
 	Graphics graphics;
+	GameEngine game;
 	TilePainter tilePainter;
 
 	@Before
 	public void setUp() {
 		tilePainter = new TilePainter();
 		graphics = Mockito.mock(Graphics.class);
+		game = Mockito.mock(GameEngine.class);
 	}
 
 	@Test
 	public void paint_tiles() {
-		GameEngine game = Mockito.mock(GameEngine.class);
 		Mockito.when(game.getLevelHorizontalDimension()).thenReturn(X);
 		Mockito.when(game.getLevelVerticalDimension()).thenReturn(Y);
 		Mockito.when(game.getTileFromCoordinates(1, 1)).thenReturn(TileType.NOT_PASSABLE);
@@ -54,8 +57,9 @@ public class TilePainterTest {
 
 	@Test
 	public void paint_player() {
-		tilePainter.paintPlayer(graphics, X, Y, null, TILE_WIDTH, TILE_HEIGHT, TileType.PLAYER);
-
+		Mockito.when(game.getMaxPlayerHealth()).thenReturn(MAX_PLAYER_HEALTH);
+		Mockito.when(game.getPlayerHealth()).thenReturn(MAX_PLAYER_HEALTH);
+		tilePainter.paintPlayer(graphics, X, Y, game, TILE_WIDTH, TILE_HEIGHT, TileType.PLAYER);
 		Mockito.verify(graphics).fillRect(20, 60, 10, 20);
 	}
 
