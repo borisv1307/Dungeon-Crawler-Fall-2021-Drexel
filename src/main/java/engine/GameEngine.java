@@ -17,7 +17,8 @@ public class GameEngine {
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
-	private int playerHealth = 5;
+	private final int MAX_PLAYER_HEALTH = 5;
+	private int playerHealth = MAX_PLAYER_HEALTH;
 	private final int level;
 
 	public GameEngine(LevelCreator levelCreator) {
@@ -114,6 +115,10 @@ public class GameEngine {
 
 	public int getPlayerHealth() {
 		return playerHealth;
+	}
+
+	public int getMaxPlayerHealth() {
+		return MAX_PLAYER_HEALTH;
 	}
 
 	public void setPlayerHealth(int playerHealth) {

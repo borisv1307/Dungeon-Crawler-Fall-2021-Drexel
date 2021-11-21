@@ -35,7 +35,7 @@ public class GamePanel extends Panel {
 		requestFocusInWindow();
 		tilePainter.paintTiles(graphics, gameEngine, tileWidth, tileHeight);
 		tilePainter.paintPlayer(graphics, gameEngine.getPlayerXCoordinate(), gameEngine.getPlayerYCoordinate(),
-				tileWidth, tileHeight, TileType.PLAYER);
+				gameEngine, tileWidth, tileHeight, TileType.PLAYER);
 	}
 
 	@Override

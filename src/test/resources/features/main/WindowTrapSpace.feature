@@ -1,5 +1,5 @@
-@IntegrationTest
-Feature: Move the player into a trap space until all health is lost
+@UITest
+Feature: Move the player into a trap space to test UI functions
 
   Background: 
     Given the level design is:
