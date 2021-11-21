@@ -21,4 +21,5 @@ public enum TileType {
 	private TileType(char asChar) {
 		this.asChar = asChar;
 	}
+
 }
