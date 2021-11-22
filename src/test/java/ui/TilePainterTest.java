@@ -36,12 +36,12 @@ public class TilePainterTest {
 		Mockito.when(game.getLevelVerticalDimension()).thenReturn(Y);
 		Mockito.when(game.getTileFromCoordinates(1, 1)).thenReturn(TileType.NOT_PASSABLE);
 		Mockito.when(game.getTileFromCoordinates(AdditionalMatchers.not(Matchers.eq(1)),
-				AdditionalMatchers.not(Matchers.eq(1)))).thenReturn(TileType.PASSABLE);
+				AdditionalMatchers.not(Matchers.eq(1)))).thenReturn(TileType.PASSABLE_LIT);
 
 		tilePainter.paintTiles(graphics, game, TILE_WIDTH, TILE_HEIGHT);
 
 		InOrder inOrder = Mockito.inOrder(graphics);
-		inOrder.verify(graphics).setColor(TileColorMap.get(TileType.PASSABLE));
+		inOrder.verify(graphics).setColor(TileColorMap.get(TileType.PASSABLE_LIT));
 		inOrder.verify(graphics).fillRect(0, 0, 10, 20);
 		inOrder.verify(graphics).fillRect(0, 20, 10, 20);
 		inOrder.verify(graphics).fillRect(0, 40, 10, 20);

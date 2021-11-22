@@ -11,6 +11,7 @@ import cucumber.api.java.en.When;
 import engine.GameEngine;
 import parser.LevelCreationStepDefHelper;
 import parser.LevelCreator;
+import tiles.TileType;
 import values.TestingTunableParameters;
 import wrappers.ReaderWrapper;
 
@@ -49,5 +50,11 @@ public class MovementStepDefs extends LevelCreationStepDefHelper {
 	public void the_player_is_located_at(int playerX, int playerY) throws Throwable {
 		assertThat(gameEngine.getPlayerXCoordinate(), equalTo(playerX - COORDINATE_OFFSET));
 		assertThat(gameEngine.getPlayerYCoordinate(), equalTo(playerY - COORDINATE_OFFSET));
+	}
+
+	@Then("^the tile located at \\((\\d+), (\\d+)\\) is lit$")
+	public void the_tile_located_at_is_lit(int x, int y) throws Throwable {
+		assertThat(gameEngine.getTileFromCoordinates(x - COORDINATE_OFFSET, y - COORDINATE_OFFSET),
+				equalTo(TileType.PASSABLE_LIT));
 	}
 }

@@ -35,7 +35,7 @@ public class GameEngine {
 	public void addTile(int x, int y, TileType tileType) {
 		if (tileType.equals(TileType.PLAYER)) {
 			setPlayer(x, y);
-			tiles.put(new Point(x, y), TileType.PASSABLE);
+			tiles.put(new Point(x, y), TileType.PASSABLE_LIT);
 		} else {
 			tiles.put(new Point(x, y), tileType);
 		}
@@ -91,8 +91,23 @@ public class GameEngine {
 
 	public void movePlayerIfPassable(int x, int y) {
 		TileType attemptedLocation = getTileFromCoordinates(x, y);
-		if (attemptedLocation.equals(TileType.PASSABLE)) {
+		if (attemptedLocation.equals(TileType.PASSABLE_LIT)) {
 			player.setLocation(x, y);
+			lightSurroundingTiles(x, y);
+		}
+	}
+
+	public void lightSurroundingTiles(int xCenter, int yCenter) {
+		int xCurrent;
+		int yCurrent;
+		for (int i = -1; i < 2; i++) {
+			for (int j = -1; j < 2; j++) {
+				xCurrent = xCenter + i;
+				yCurrent = yCenter + j;
+				if (getTileFromCoordinates(xCurrent, yCurrent) == TileType.PASSABLE_UNLIT) {
+					addTile(xCurrent, yCurrent, TileType.PASSABLE_LIT);
+				}
+			}
 		}
 	}
 
