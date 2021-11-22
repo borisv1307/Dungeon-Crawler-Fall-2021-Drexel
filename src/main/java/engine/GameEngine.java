@@ -103,7 +103,7 @@ public class GameEngine {
 	}
 
 	private boolean isPassableTile(TileType attemptedTile) {
-		return attemptedTile.equals(TileType.PASSABLE);
+		return attemptedTile.equals(TileType.PASSABLE) || attemptedTile.equals(TileType.FOOD);
 	}
 
 	public void setExit(boolean exit) {
