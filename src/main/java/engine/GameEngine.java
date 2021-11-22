@@ -98,8 +98,9 @@ public class GameEngine {
 		int xCoordinate = getPlayerXCoordinate() + direction[0];
 		int yCoordinate = getPlayerYCoordinate() + direction[1];
 		TileType attemptedTile = getTileFromCoordinates(xCoordinate, yCoordinate);
-		if (isPassableTile(attemptedTile))
-			setPlayer(xCoordinate, yCoordinate);
+		if (!isPassableTile(attemptedTile))
+			exit = true;
+		setPlayer(xCoordinate, yCoordinate);
 	}
 
 	private boolean isPassableTile(TileType attemptedTile) {

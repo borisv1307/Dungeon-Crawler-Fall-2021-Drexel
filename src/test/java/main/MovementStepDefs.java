@@ -50,4 +50,10 @@ public class MovementStepDefs extends LevelCreationStepDefHelper {
 		assertThat(gameEngine.getPlayerXCoordinate(), equalTo(playerX - COORDINATE_OFFSET));
 		assertThat(gameEngine.getPlayerYCoordinate(), equalTo(playerY - COORDINATE_OFFSET));
 	}
+
+	@Then("^exit$")
+	public void exit() throws Throwable {
+		assertThat(gameEngine.isExit(), equalTo(true));
+	}
+
 }
