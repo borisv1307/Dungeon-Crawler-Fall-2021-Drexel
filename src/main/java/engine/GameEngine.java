@@ -17,8 +17,7 @@ public class GameEngine {
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
-	private Point portal1, portal2;
-	private Map<Point, Point> portalMap = new HashMap<>();
+	private Point portalOne, portalTwo;
 	private final int level;
 
 	public GameEngine(LevelCreator levelCreator) {
@@ -39,8 +38,13 @@ public class GameEngine {
 			setPlayer(x, y);
 			tiles.put(new Point(x, y), TileType.PASSABLE);
 		} else if (tileType.equals(TileType.PORTAL)) {
-			setPortal(x, y);
-			tiles.put(new Point(x, y), TileType.PORTAL);
+			if (portalOne == null) {
+				setPortalOne(x, y);
+				tiles.put(new Point(x, y), TileType.PORTAL);
+			} else if (portalTwo == null) {
+				setPortalTwo(x, y);
+				tiles.put(new Point(x, y), TileType.PORTAL);
+			}
 		} else {
 			tiles.put(new Point(x, y), tileType);
 		}
@@ -70,12 +74,12 @@ public class GameEngine {
 		player = new Point(x, y);
 	}
 
-	private void setPortal(int x, int y) {
-		portal1 = new Point(x, y);
-		portalMap.put(portal1, portal2);
-		portalMap.put(portal2, portal1);
-		portal2 = portal1;
+	private void setPortalOne(int x, int y) {
+		portalOne = new Point(x, y);
+	}
 
+	private void setPortalTwo(int x, int y) {
+		portalTwo = new Point(x, y);
 	}
 
 	public int getPlayerXCoordinate() {
@@ -87,11 +91,19 @@ public class GameEngine {
 	}
 
 	public int getPortalXCoordinate(Point portal) {
-		return (int) portalMap.get(portal).getX();
+		if (portal.getX() == portalOne.getX() && portal.getX() == portalOne.getX()) {
+			return (int) portalTwo.getX();
+		} else {
+			return (int) portalOne.getX();
+		}
 	}
 
 	public int getPortalYCoordinate(Point portal) {
-		return (int) portalMap.get(portal).getY();
+		if (portal.getX() == portalOne.getX() && portal.getX() == portalOne.getX()) {
+			return (int) portalTwo.getY();
+		} else {
+			return (int) portalOne.getY();
+		}
 	}
 
 	public void setPlayerMovementThroughObject(int x, int y) {
