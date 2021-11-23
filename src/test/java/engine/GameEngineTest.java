@@ -73,28 +73,45 @@ public class GameEngineTest {
 
 	@Test
 	public void add_portal_pair_and_get_portal_two_coordinates() {
-		TileType tileType = TileType.PORTAL;
+		TileType tileType = TileType.PORTALONE;
 		gameEngine.addTile(ZERO, ONE, tileType);
 		gameEngine.addTile(TWO, ONE, tileType);
 		Point portalOnePoint = new Point(ZERO, ONE);
 
-		int actualX = gameEngine.getPortalXCoordinate(portalOnePoint);
-		int actualY = gameEngine.getPortalYCoordinate(portalOnePoint);
+		int actualX = gameEngine.getPortalXCoordinate(portalOnePoint, tileType);
+		int actualY = gameEngine.getPortalYCoordinate(portalOnePoint, tileType);
 		assertThat(actualX, equalTo(TWO));
 		assertThat(actualY, equalTo(ONE));
 	}
 
 	@Test
 	public void add_portal_pair_and_get_portal_one_coordinates() {
-		TileType tileType = TileType.PORTAL;
+		TileType tileType = TileType.PORTALONE;
 		gameEngine.addTile(ZERO, ONE, tileType);
 		gameEngine.addTile(TWO, ONE, tileType);
 		Point portalOnePoint = new Point(TWO, ONE);
 
-		int actualX = gameEngine.getPortalXCoordinate(portalOnePoint);
-		int actualY = gameEngine.getPortalYCoordinate(portalOnePoint);
+		int actualX = gameEngine.getPortalXCoordinate(portalOnePoint, tileType);
+		int actualY = gameEngine.getPortalYCoordinate(portalOnePoint, tileType);
 		assertThat(actualX, equalTo(ZERO));
 		assertThat(actualY, equalTo(ONE));
+	}
+
+	@Test
+	public void add_two_portal_pair_and_get_correct_portal_coordinates() {
+		TileType tileType = TileType.PORTALONE;
+		gameEngine.addTile(ZERO, ONE, tileType);
+		gameEngine.addTile(TWO, ONE, tileType);
+
+		TileType tileTypeTwo = TileType.PORTALTWO;
+		gameEngine.addTile(ZERO, TWO, tileTypeTwo);
+		gameEngine.addTile(TWO, TWO, tileTypeTwo);
+		Point portalOnePointTwo = new Point(ZERO, TWO);
+
+		int actualX = gameEngine.getPortalXCoordinate(portalOnePointTwo, tileTypeTwo);
+		int actualY = gameEngine.getPortalYCoordinate(portalOnePointTwo, tileTypeTwo);
+		assertThat(actualX, equalTo(TWO));
+		assertThat(actualY, equalTo(TWO));
 	}
 
 	@Test
