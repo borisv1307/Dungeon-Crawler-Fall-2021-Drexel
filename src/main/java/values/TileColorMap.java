@@ -15,7 +15,17 @@ public final class TileColorMap {
 		tileColors.put(TileType.PASSABLE, Color.WHITE);
 		tileColors.put(TileType.NOT_PASSABLE, Color.BLACK);
 		tileColors.put(TileType.PLAYER, Color.GREEN);
-		tileColors.put(TileType.PORTAL, Color.YELLOW);
+
+		tileColors.put(TileType.PORTALZERO, Color.RED);
+		tileColors.put(TileType.PORTALONE, Color.YELLOW);
+		tileColors.put(TileType.PORTALTWO, Color.PINK);
+		tileColors.put(TileType.PORTALTHREE, Color.ORANGE);
+		tileColors.put(TileType.PORTALFOUR, Color.CYAN);
+		tileColors.put(TileType.PORTALFIVE, Color.BLUE);
+		tileColors.put(TileType.PORTALSIX, Color.MAGENTA);
+		tileColors.put(TileType.PORTALSEVEN, Color.GRAY);
+		tileColors.put(TileType.PORTALEIGHT, Color.GREEN);
+		tileColors.put(TileType.PORTALNINE, Color.BLACK);
 	}
 
 	public static Color get(TileType key) {
