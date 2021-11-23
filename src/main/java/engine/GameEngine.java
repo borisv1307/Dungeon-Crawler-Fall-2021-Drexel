@@ -17,7 +17,7 @@ public class GameEngine {
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
-	private final int level;
+	private int level;
 	private int[] direction;
 
 	public GameEngine(LevelCreator levelCreator) {
@@ -101,6 +101,9 @@ public class GameEngine {
 		if (!isPassableTile(attemptedTile))
 			exit = true;
 		setPlayer(xCoordinate, yCoordinate);
+
+		if (attemptedTile.equals(TileType.FOOD))
+			level++;
 	}
 
 	private boolean isPassableTile(TileType attemptedTile) {
@@ -113,5 +116,9 @@ public class GameEngine {
 
 	public boolean isExit() {
 		return exit;
+	}
+
+	public int getLevel() {
+		return level;
 	}
 }
