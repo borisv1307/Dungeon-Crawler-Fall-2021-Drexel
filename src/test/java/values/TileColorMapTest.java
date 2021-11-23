@@ -17,12 +17,17 @@ public class TileColorMapTest {
 
 	@Test
 	public void not_passable() {
-		assertSame(Color.BLACK, TileColorMap.get(TileType.NOT_PASSABLE));
+		assertSame(Color.GRAY, TileColorMap.get(TileType.NOT_PASSABLE));
 	}
 
 	@Test
 	public void player() {
 		assertSame(Color.GREEN, TileColorMap.get(TileType.PLAYER));
+	}
+
+	@Test
+	public void unlit() {
+		assertSame(Color.BLACK, TileColorMap.get(TileType.UNLIT));
 	}
 
 }
