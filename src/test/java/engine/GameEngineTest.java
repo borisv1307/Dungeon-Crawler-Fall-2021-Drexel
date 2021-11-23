@@ -17,12 +17,14 @@ public class GameEngineTest {
 
 	private static final int ZERO = 0;
 	private static final int ONE = 1;
+	private static final int TWO = 2;
 
 	GameEngine gameEngine;
+	LevelCreator levelCreator;
 
 	@Before
 	public void setUp() throws Exception {
-		LevelCreator levelCreator = Mockito.mock(LevelCreator.class);
+		levelCreator = Mockito.mock(LevelCreator.class);
 		gameEngine = new GameEngine(levelCreator);
 		int level = 1;
 		Mockito.verify(levelCreator, Mockito.times(level)).createLevel(gameEngine, level);
@@ -83,7 +85,15 @@ public class GameEngineTest {
 		gameEngine.setLevel(level);
 		int actual = gameEngine.getLevel();
 		assertThat(actual, equalTo(level));
+	}
 
+	@Test
+	public void advance_level() {
+		int currentLevel = gameEngine.getLevel();
+		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
+		gameEngine.addTile(ZERO, TWO, TileType.FOOD);
+		gameEngine.keyDown();
+		assertThat(gameEngine.getLevel(), equalTo(currentLevel + 1));
 	}
 
 }
