@@ -103,14 +103,18 @@ public class GameEngine {
 		setPlayer(xCoordinate, yCoordinate);
 
 		if (attemptedTile.equals(TileType.FOOD)) {
-			level++;
-//			this.levelCreator.createLevel(this, level);
+			advanceLevel();
 		}
 
 	}
 
 	private boolean isPassableTile(TileType attemptedTile) {
 		return attemptedTile.equals(TileType.PASSABLE) || attemptedTile.equals(TileType.FOOD);
+	}
+
+	private void advanceLevel() {
+		level++;
+		this.levelCreator.createLevel(this, level);
 	}
 
 	public void setExit(boolean exit) {
