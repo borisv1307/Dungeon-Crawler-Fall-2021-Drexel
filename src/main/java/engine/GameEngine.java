@@ -21,8 +21,7 @@ public class GameEngine {
 	private int levelVerticalDimension;
 	private final int level;
 	private Point player;
-	private Point portalOne;
-	private Point portalTwo;
+
 	TileType[] portalArray = { TileType.PORTALZERO, TileType.PORTALONE, TileType.PORTALTWO, TileType.PORTALTHREE,
 			TileType.PORTALFOUR, TileType.PORTALFIVE, TileType.PORTALSIX, TileType.PORTALSEVEN, TileType.PORTALEIGHT,
 			TileType.PORTALNINE };
@@ -44,7 +43,7 @@ public class GameEngine {
 
 	public void addTile(int x, int y, TileType tileType) {
 		if (tileType.equals(TileType.PLAYER)) {
-			player = new Point(x, y);
+			setPlayer(x, y);
 			tiles.put(new Point(x, y), TileType.PASSABLE);
 		} else if (portalList.contains(tileType)) {
 			setPortal(x, y, tileType);
@@ -89,15 +88,13 @@ public class GameEngine {
 
 	private void setPortalOne(int x, int y, TileType tileType) {
 		List<Point> pointList = new ArrayList<>();
-		portalOne = new Point(x, y);
-		pointList.add(portalOne);
+		pointList.add(new Point(x, y));
 		portalMap.put(tileType, pointList);
 	}
 
 	private void setPortalTwo(int x, int y, TileType tileType) {
-		portalTwo = new Point(x, y);
 		List<Point> pointList = portalMap.get(tileType);
-		pointList.add(portalTwo);
+		pointList.add(new Point(x, y));
 		portalMap.put(tileType, pointList);
 	}
 
@@ -113,11 +110,7 @@ public class GameEngine {
 		double portalOneX = portalMap.get(tileType).get(0).getX();
 		double portalOneY = portalMap.get(tileType).get(0).getY();
 
-		if (portal.getX() == portalOneX && portal.getY() == portalOneY) {
-			return true;
-		} else {
-			return false;
-		}
+		return (portal.getX() == portalOneX && portal.getY() == portalOneY);
 	}
 
 	public int getPortalXCoordinate(Point portal, TileType tileType) {
