@@ -17,7 +17,8 @@ public class GameEngine {
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
-	private Point portalOne, portalTwo;
+	private Point portalOne;
+	private Point portalTwo;
 	private final int level;
 
 	public GameEngine(LevelCreator levelCreator) {
@@ -91,7 +92,7 @@ public class GameEngine {
 	}
 
 	public int getPortalXCoordinate(Point portal) {
-		if (portal.getX() == portalOne.getX() && portal.getX() == portalOne.getX()) {
+		if (portal.getX() == portalOne.getX() && portal.getY() == portalOne.getY()) {
 			return (int) portalTwo.getX();
 		} else {
 			return (int) portalOne.getX();
@@ -99,7 +100,7 @@ public class GameEngine {
 	}
 
 	public int getPortalYCoordinate(Point portal) {
-		if (portal.getX() == portalOne.getX() && portal.getX() == portalOne.getX()) {
+		if (portal.getX() == portalOne.getX() && portal.getY() == portalOne.getY()) {
 			return (int) portalTwo.getY();
 		} else {
 			return (int) portalOne.getY();
