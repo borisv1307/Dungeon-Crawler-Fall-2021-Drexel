@@ -102,8 +102,11 @@ public class GameEngine {
 			exit = true;
 		setPlayer(xCoordinate, yCoordinate);
 
-		if (attemptedTile.equals(TileType.FOOD))
+		if (attemptedTile.equals(TileType.FOOD)) {
 			level++;
+//			this.levelCreator.createLevel(this, level);
+		}
+
 	}
 
 	private boolean isPassableTile(TileType attemptedTile) {
@@ -116,6 +119,10 @@ public class GameEngine {
 
 	public boolean isExit() {
 		return exit;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 
 	public int getLevel() {

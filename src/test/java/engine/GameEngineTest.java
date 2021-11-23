@@ -77,4 +77,13 @@ public class GameEngineTest {
 		assertThat(actual, equalTo(exit));
 	}
 
+	@Test
+	public void set_and_get_level() {
+		int level = 1;
+		gameEngine.setLevel(level);
+		int actual = gameEngine.getLevel();
+		assertThat(actual, equalTo(level));
+
+	}
+
 }
