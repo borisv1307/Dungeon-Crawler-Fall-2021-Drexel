@@ -17,12 +17,14 @@ import wrappers.ReaderWrapper;
 public class MovementStepDefs extends LevelCreationStepDefHelper {
 
 	private GameEngine gameEngine;
+	private int level;
 
-	@Given("^the level design is:$")
-	public void level_is(List<String> levelStrings) throws Throwable {
+	@Given("^the level (\\d+) design is:$")
+	public void the_level_design_is(int level, List<String> levelStrings) throws Throwable {
 		writeLevelFile(levelStrings);
 		gameEngine = new GameEngine(
 				new LevelCreator(TestingTunableParameters.FILE_LOCATION_PREFIX, new ReaderWrapper()));
+		this.level = level;
 	}
 
 	@When("^the player moves left$")
@@ -54,6 +56,11 @@ public class MovementStepDefs extends LevelCreationStepDefHelper {
 	@Then("^exit$")
 	public void exit() throws Throwable {
 		assertThat(gameEngine.isExit(), equalTo(true));
+	}
+
+	@Then("^advance level$")
+	public void advance_level() throws Throwable {
+		assertThat(gameEngine.getLevel(), equalTo(this.level + 1));
 	}
 
 }
