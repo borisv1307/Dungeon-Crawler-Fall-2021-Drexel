@@ -39,8 +39,8 @@ public class GameEngineTest {
 
 	@Test
 	public void add_and_get_tile() {
-		TileType tileType = TileType.PASSABLE_LIT;
-		gameEngine.addTile(ZERO, ONE, TileType.PASSABLE_LIT);
+		TileType tileType = TileType.PASSABLE;
+		gameEngine.addTile(ZERO, ONE, TileType.PASSABLE);
 		TileType actual = gameEngine.getTileFromCoordinates(ZERO, ONE);
 		assertThat(actual, equalTo(tileType));
 	}

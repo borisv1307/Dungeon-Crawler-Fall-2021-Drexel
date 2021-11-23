@@ -12,9 +12,9 @@ public final class TileColorMap {
 	private static final EnumMap<TileType, Color> tileColors = new EnumMap<>(TileType.class);
 
 	static {
-		tileColors.put(TileType.PASSABLE_LIT, Color.WHITE);
-		tileColors.put(TileType.PASSABLE_UNLIT, Color.GRAY);
-		tileColors.put(TileType.NOT_PASSABLE, Color.BLACK);
+		tileColors.put(TileType.PASSABLE, Color.WHITE);
+		tileColors.put(TileType.UNLIT, Color.BLACK);
+		tileColors.put(TileType.NOT_PASSABLE, Color.GRAY);
 		tileColors.put(TileType.PLAYER, Color.GREEN);
 	}
 

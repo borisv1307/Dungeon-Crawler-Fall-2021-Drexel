@@ -45,6 +45,7 @@ public class LevelCreator {
 				y++;
 			}
 			gameEngine.setLevelVerticalDimension(y);
+			gameEngine.addVisibleTiles();
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, e.toString(), e);
 			gameEngine.setExit(true);

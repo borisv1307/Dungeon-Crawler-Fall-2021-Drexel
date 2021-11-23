@@ -13,13 +13,13 @@ public class TileTypeTest {
 
 	@Test
 	public void value_of() {
-		assertThat(TileType.valueOf(TileType.PASSABLE_LIT.name()), equalTo(TileType.PASSABLE_LIT));
+		assertThat(TileType.valueOf(TileType.PASSABLE.name()), equalTo(TileType.PASSABLE));
 	}
 
 	@Test
 	public void get_tile_type_by_char_valid_char() {
 		TileType actual = TileType.getTileTypeByChar(VALID_CHAR);
-		assertEquals(TileType.PASSABLE_LIT, actual);
+		assertEquals(TileType.PASSABLE, actual);
 	}
 
 	@Test

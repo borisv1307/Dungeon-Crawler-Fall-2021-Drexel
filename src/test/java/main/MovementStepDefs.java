@@ -54,7 +54,13 @@ public class MovementStepDefs extends LevelCreationStepDefHelper {
 
 	@Then("^the tile located at \\((\\d+), (\\d+)\\) is lit$")
 	public void the_tile_located_at_is_lit(int x, int y) throws Throwable {
-		assertThat(gameEngine.getTileFromCoordinates(x - COORDINATE_OFFSET, y - COORDINATE_OFFSET),
-				equalTo(TileType.PASSABLE_LIT));
+		assertThat(gameEngine.getVisibleTileFromCoordinates(x - COORDINATE_OFFSET, y - COORDINATE_OFFSET),
+				equalTo(TileType.PASSABLE));
+	}
+
+	@Then("^the tile located at \\((\\d+), (\\d+)\\) is unlit$")
+	public void the_tile_located_at_is_unlit(int x, int y) throws Throwable {
+		assertThat(gameEngine.getVisibleTileFromCoordinates(x - COORDINATE_OFFSET, y - COORDINATE_OFFSET),
+				equalTo(TileType.UNLIT));
 	}
 }

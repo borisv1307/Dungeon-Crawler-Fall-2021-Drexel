@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import parser.LevelCreator;
 import tiles.TileType;
@@ -14,9 +15,11 @@ public class GameEngine {
 	private boolean exit;
 	private final LevelCreator levelCreator;
 	private final Map<Point, TileType> tiles = new HashMap<>();
+	private final Map<Point, TileType> visibleTiles = new HashMap<>();
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
+	private int playerLightRadius = 1;
 	private final int level;
 
 	public GameEngine(LevelCreator levelCreator) {
@@ -35,7 +38,7 @@ public class GameEngine {
 	public void addTile(int x, int y, TileType tileType) {
 		if (tileType.equals(TileType.PLAYER)) {
 			setPlayer(x, y);
-			tiles.put(new Point(x, y), TileType.PASSABLE_LIT);
+			tiles.put(new Point(x, y), TileType.PASSABLE);
 		} else {
 			tiles.put(new Point(x, y), tileType);
 		}
@@ -59,6 +62,45 @@ public class GameEngine {
 
 	public TileType getTileFromCoordinates(int x, int y) {
 		return tiles.get(new Point(x, y));
+	}
+
+	public TileType getVisibleTileFromCoordinates(int x, int y) {
+		return visibleTiles.get(new Point(x, y));
+	}
+
+	public void addVisibleTiles() {
+		int playerX = getPlayerXCoordinate();
+		int playerY = getPlayerYCoordinate();
+		for (Entry<Point, TileType> entry : tiles.entrySet()) {
+			Point point = entry.getKey();
+			TileType tile = entry.getValue();
+			if (withinLightRadius(point.x, point.y, playerX, playerY, playerLightRadius)) {
+				visibleTiles.put(point, tile);
+			} else {
+				visibleTiles.put(point, TileType.UNLIT);
+			}
+		}
+	}
+
+	private void updateVisibleTiles() {
+		int playerX = getPlayerXCoordinate();
+		int playerY = getPlayerYCoordinate();
+		for (Entry<Point, TileType> entry : tiles.entrySet()) {
+			Point point = entry.getKey();
+			TileType tile = entry.getValue();
+			if (withinLightRadius(point.x, point.y, playerX, playerY, playerLightRadius)) {
+				visibleTiles.replace(point, tile);
+			} else {
+				visibleTiles.replace(point, TileType.UNLIT);
+			}
+		}
+	}
+
+	private boolean withinLightRadius(int tileX, int tileY, int lightX, int lightY, int lightRadius) {
+		if (Math.abs(tileX - lightX) <= lightRadius && Math.abs(tileY - lightY) <= lightRadius) {
+			return true;
+		}
+		return false;
 	}
 
 	private void setPlayer(int x, int y) {
@@ -91,23 +133,9 @@ public class GameEngine {
 
 	public void movePlayerIfPassable(int x, int y) {
 		TileType attemptedLocation = getTileFromCoordinates(x, y);
-		if (attemptedLocation.equals(TileType.PASSABLE_LIT)) {
+		if (attemptedLocation.equals(TileType.PASSABLE)) {
 			player.setLocation(x, y);
-			lightSurroundingTiles(x, y);
-		}
-	}
-
-	public void lightSurroundingTiles(int xCenter, int yCenter) {
-		int xCurrent;
-		int yCurrent;
-		for (int i = -1; i < 2; i++) {
-			for (int j = -1; j < 2; j++) {
-				xCurrent = xCenter + i;
-				yCurrent = yCenter + j;
-				if (getTileFromCoordinates(xCurrent, yCurrent) == TileType.PASSABLE_UNLIT) {
-					addTile(xCurrent, yCurrent, TileType.PASSABLE_LIT);
-				}
-			}
+			updateVisibleTiles();
 		}
 	}
 
