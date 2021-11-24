@@ -8,9 +8,9 @@ import java.util.Random;
 import tiles.TileType;
 
 public class LevelGenerator {
-	public final int MIN_DOOR_COUNT = 2;
-	public final int MAX_DOOR_COUNT = 2;
-	public final int COORDINATE_OFFSET = 1;
+	static public final int MIN_DOOR_COUNT = 2;
+	static public final int MAX_DOOR_COUNT = 2;
+	static public final int COORDINATE_OFFSET = 1;
 	private Map<Point, TileType> level;
 	Random random = new Random();
 
@@ -35,10 +35,7 @@ public class LevelGenerator {
 	}
 
 	private boolean isEdgeOfLevel(int x, int y, int width, int height) {
-		if (x == 0 || x == width - COORDINATE_OFFSET || y == 0 || y == height - COORDINATE_OFFSET) {
-			return true;
-		}
-		return false;
+		return (x == 0 || x == width - COORDINATE_OFFSET || y == 0 || y == height - COORDINATE_OFFSET);
 	}
 
 	private void addDoors(int width, int height) {
@@ -51,7 +48,6 @@ public class LevelGenerator {
 	private int findAccessibleWall(int length, Random random) {
 		// TODO: this currently only adds doors to the top and bottom of the level
 		// adjust to allow a door on any randomly selected accessible wall
-		random = new Random();
 		return random.nextInt(length - COORDINATE_OFFSET - 1) + COORDINATE_OFFSET; // TODO: refactor this
 	}
 }
