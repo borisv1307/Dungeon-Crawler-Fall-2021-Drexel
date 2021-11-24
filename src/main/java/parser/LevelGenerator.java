@@ -8,9 +8,9 @@ import java.util.Map;
 import tiles.TileType;
 
 public class LevelGenerator {
-	static public final int MIN_DOOR_COUNT = 2;
-	static public final int MAX_DOOR_COUNT = 2;
-	static public final int COORDINATE_OFFSET = 1;
+	public static final int MIN_DOOR_COUNT = 2;
+	public static final int MAX_DOOR_COUNT = 2;
+	public static final int COORDINATE_OFFSET = 1;
 	private Map<Point, TileType> level;
 	private SecureRandom random = new SecureRandom();
 

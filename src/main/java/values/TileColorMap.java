@@ -6,8 +6,8 @@ import java.util.EnumMap;
 import tiles.TileType;
 
 public final class TileColorMap {
-	public final static Color BROWN = new Color(70,40,0);
-	
+	public static final Color BROWN = new Color(70, 40, 0);
+
 	private TileColorMap() {
 	}
 
