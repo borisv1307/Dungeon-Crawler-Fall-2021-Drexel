@@ -31,6 +31,11 @@ public class TileColorMapTest {
 	}
 
 	@Test
+	public void deactivated_door() {
+		assertSame(Color.RED, TileColorMap.get(TileType.DEACTIVATED_DOOR));
+	}
+
+	@Test
 	public void passable_bridge() {
 		assertSame(Color.BLUE, TileColorMap.get(TileType.PASSABLE_BRIDGE));
 	}

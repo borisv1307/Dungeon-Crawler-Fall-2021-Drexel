@@ -62,21 +62,28 @@ public class TilePainterTest {
 
 	@Test
 	public void paint_door() {
-		tilePainter.paintDoor(graphics, Y, X, TILE_WIDTH, TILE_HEIGHT, TileType.DOOR);
+		tilePainter.paintDoorTiles(graphics, Y, X, TILE_WIDTH, TILE_HEIGHT, TileType.DOOR);
 
 		Mockito.verify(graphics).fillRect(30, 40, 10, 20);
 	}
 
 	@Test
+	public void paint_deactivated_door() {
+		tilePainter.paintDoorTiles(graphics, X, Y, TILE_WIDTH, TILE_HEIGHT, TileType.DEACTIVATED_DOOR);
+
+		Mockito.verify(graphics).fillRect(20, 60, 10, 20);
+	}
+
+	@Test
 	public void paint_passable_bridge_tile() {
-		tilePainter.paintPassableBridgeTile(graphics, X, Y, TILE_WIDTH, TILE_HEIGHT, TileType.PASSABLE_BRIDGE);
+		tilePainter.paintBridgeTiles(graphics, X, Y, TILE_WIDTH, TILE_HEIGHT, TileType.PASSABLE_BRIDGE);
 
 		Mockito.verify(graphics).fillRect(20, 60, 10, 20);
 	}
 
 	@Test
 	public void paint_not_passable_bridge_tile() {
-		tilePainter.paintNotPassableBridgeTile(graphics, Y, X, TILE_WIDTH, TILE_HEIGHT, TileType.NOT_PASSABLE_BRIDGE);
+		tilePainter.paintBridgeTiles(graphics, Y, X, TILE_WIDTH, TILE_HEIGHT, TileType.NOT_PASSABLE_BRIDGE);
 
 		Mockito.verify(graphics).fillRect(30, 40, 10, 20);
 	}

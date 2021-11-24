@@ -21,21 +21,12 @@ public class TilePainter {
 		paintTile(graphics, tileWidth, tileHeight, x, y, tileType);
 	}
 
-	void paintDoor(Graphics graphics, int x, int y, int tileWidth, int tileHeight, TileType door) {
-		paintTile(graphics, tileWidth, tileHeight, x, y, door);
-
+	void paintDoorTiles(Graphics graphics, int x, int y, int tileWidth, int tileHeight, TileType doorTileTypes) {
+		paintTile(graphics, tileWidth, tileHeight, x, y, doorTileTypes);
 	}
 
-	void paintPassableBridgeTile(Graphics graphics, int x, int y, int tileWidth, int tileHeight,
-			TileType passableBridge) {
-		paintTile(graphics, tileWidth, tileHeight, x, y, passableBridge);
-
-	}
-
-	void paintNotPassableBridgeTile(Graphics graphics, int x, int y, int tileWidth, int tileHeight,
-			TileType notPassableBridge) {
-		paintTile(graphics, tileWidth, tileHeight, x, y, notPassableBridge);
-
+	void paintBridgeTiles(Graphics graphics, int x, int y, int tileWidth, int tileHeight, TileType bridgeTileTypes) {
+		paintTile(graphics, tileWidth, tileHeight, x, y, bridgeTileTypes);
 	}
 
 	private void paintTile(Graphics graphics, int tileWidth, int tileHeight, int x, int y, TileType tileType) {
