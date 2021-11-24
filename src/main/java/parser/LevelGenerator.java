@@ -11,20 +11,22 @@ public class LevelGenerator {
 	public final int MIN_DOOR_COUNT = 2;
 	public final int MAX_DOOR_COUNT = 2;
 	public final int COORDINATE_OFFSET = 1;
+	private Map<Point, TileType> level;
+	Random random = new Random();
 
 	public Map<Point, TileType> generateLevel(int width, int height) {
-		Map<Point, TileType> level = new HashMap<>();
+		level = new HashMap<>();
 		// TODO: see if there is a way to refactor this
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				addTile(level, x, y, width, height);
+				addTile(x, y, width, height);
 			}
 		}
-		addDoors(level, width, height);
+		addDoors(width, height);
 		return level;
 	}
 
-	private void addTile(Map<Point, TileType> level, int x, int y, int width, int height) {
+	private void addTile(int x, int y, int width, int height) {
 		if (isEdgeOfLevel(x, y, width, height)) {
 			level.put(new Point(x, y), TileType.NOT_PASSABLE);
 		} else {
@@ -39,17 +41,17 @@ public class LevelGenerator {
 		return false;
 	}
 
-	private void addDoors(Map<Point, TileType> level, int width, int height) {
-		// TODO: this currently only adds doors to the top and bottom of the level
-		// adjust to allow a door on any randomly selected accessible wall
-		int offset = findAccessibleWall(width);
+	private void addDoors(int width, int height) {
+		int offset = findAccessibleWall(width, random);
 		level.replace(new Point(offset, 0), TileType.DOOR);
-		offset = findAccessibleWall(width);
+		offset = findAccessibleWall(width, random);
 		level.replace(new Point(offset, height - COORDINATE_OFFSET), TileType.DOOR);
 	}
 
-	private int findAccessibleWall(int width) {
-		Random random = new Random();
-		return random.nextInt(width - COORDINATE_OFFSET - 1) + COORDINATE_OFFSET;
+	private int findAccessibleWall(int length, Random random) {
+		// TODO: this currently only adds doors to the top and bottom of the level
+		// adjust to allow a door on any randomly selected accessible wall
+		random = new Random();
+		return random.nextInt(length - COORDINATE_OFFSET - 1) + COORDINATE_OFFSET; // TODO: refactor this
 	}
 }
