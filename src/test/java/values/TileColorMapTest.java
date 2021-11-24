@@ -29,5 +29,10 @@ public class TileColorMapTest {
 	public void unlit() {
 		assertSame(Color.BLACK, TileColorMap.get(TileType.UNLIT));
 	}
+	
+	@Test
+	public void door() {
+		assertSame(TileColorMap.BROWN, TileColorMap.get(TileType.DOOR));
+	}
 
 }

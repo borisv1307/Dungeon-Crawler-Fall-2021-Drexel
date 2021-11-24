@@ -2,7 +2,7 @@ package tiles;
 
 public enum TileType {
 
-	PASSABLE(' '), NOT_PASSABLE('X'), PLAYER('P'), UNLIT('=');
+	PASSABLE(' '), NOT_PASSABLE('X'), PLAYER('P'), UNLIT('='), DOOR('D');
 
 	static final String INVALID_CHARACTER_PROVIDED_MESSAGE = "Invalid character provided: ";
 
