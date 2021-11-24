@@ -1,9 +1,9 @@
 package parser;
 
 import java.awt.Point;
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import tiles.TileType;
 
@@ -12,7 +12,7 @@ public class LevelGenerator {
 	static public final int MAX_DOOR_COUNT = 2;
 	static public final int COORDINATE_OFFSET = 1;
 	private Map<Point, TileType> level;
-	Random random = new Random();
+	private SecureRandom random = new SecureRandom();
 
 	public Map<Point, TileType> generateLevel(int width, int height) {
 		level = new HashMap<>();
@@ -45,7 +45,7 @@ public class LevelGenerator {
 		level.replace(new Point(offset, height - COORDINATE_OFFSET), TileType.DOOR);
 	}
 
-	private int findAccessibleWall(int length, Random random) {
+	private int findAccessibleWall(int length, SecureRandom random) {
 		// TODO: this currently only adds doors to the top and bottom of the level
 		// adjust to allow a door on any randomly selected accessible wall
 		return random.nextInt(length - COORDINATE_OFFSET - 1) + COORDINATE_OFFSET; // TODO: refactor this
