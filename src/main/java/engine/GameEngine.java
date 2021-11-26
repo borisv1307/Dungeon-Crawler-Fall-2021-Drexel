@@ -18,7 +18,8 @@ public class GameEngine {
 	private int levelVerticalDimension;
 	private Point player;
 	private final int level;
-	private int playerInitialX, playerInitialY;
+	private int playerInitialX;
+	private int playerInitialY;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;

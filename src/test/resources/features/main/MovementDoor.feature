@@ -15,10 +15,6 @@ Feature: Move the player through a door
     When the player moves right
     Then the player is located at (3, 2)
 
-  Scenario: Move up into door
-    When the player moves up
-    Then the player is located at (2, 1)
-
   Scenario: Move down into door
     When the player moves down
     Then the player is located at (2, 3)

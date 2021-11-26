@@ -102,6 +102,17 @@ public class GameEngineTest {
 	}
 
 	@Test
+	public void move_up_to_door() {
+		gameEngine.addTile(ONE, ZERO, TileType.DOOR);
+		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
+		gameEngine.keyUp();
+		int actualX = gameEngine.getPlayerXCoordinate();
+		int actualY = gameEngine.getPlayerYCoordinate();
+		assertThat(actualX, equalTo(ONE));
+		assertThat(actualY, equalTo(ZERO));
+	}
+
+	@Test
 	public void bring_player_back_to_initial_position() {
 		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
 		gameEngine.addTile(ONE, ONE, TileType.PASSABLE);

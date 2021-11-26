@@ -24,6 +24,7 @@ public class LevelCreator {
 	}
 
 	public void createLevel(GameEngine gameEngine, int level) {
+		int doorCharCounter = 0;
 		BufferedReader reader;
 		try {
 			reader = readerWrapper.createBufferedReader(getFilePath(level));
@@ -38,7 +39,7 @@ public class LevelCreator {
 			while ((line = reader.readLine()) != null) {
 				int x = 0;
 				for (char ch : line.toCharArray()) {
-					gameEngine.addTile(x, y, TileType.getTileTypeByChar(ch));
+					doorCharCounter = addTilesDependingOnLevel(gameEngine, level, doorCharCounter, x, y, ch);
 					x++;
 				}
 				gameEngine.setLevelHorizontalDimension(x);
@@ -51,6 +52,27 @@ public class LevelCreator {
 		} finally {
 			closeBufferedReader(reader, gameEngine);
 		}
+	}
+
+	private int addTilesDependingOnLevel(GameEngine gameEngine, int level, int doorCharCounter, int x, int y, char ch) {
+		if (level == 1) {
+			doorCharCounter = deactivateLeftmostDoor(gameEngine, doorCharCounter, x, y, ch);
+		} else {
+			gameEngine.addTile(x, y, TileType.getTileTypeByChar(ch));
+		}
+		return doorCharCounter;
+	}
+
+	private int deactivateLeftmostDoor(GameEngine gameEngine, int doorCharCounter, int x, int y, char ch) {
+		if (doorCharCounter < 1 && ch == 'D') {
+			doorCharCounter++;
+			TileType door = TileType.getTileTypeByChar(ch);
+			TileType deactivatedDoor = door.deactivate();
+			gameEngine.addTile(x, y, deactivatedDoor);
+		} else {
+			gameEngine.addTile(x, y, TileType.getTileTypeByChar(ch));
+		}
+		return doorCharCounter;
 	}
 
 	private void closeBufferedReader(BufferedReader reader, GameEngine gameEngine) {

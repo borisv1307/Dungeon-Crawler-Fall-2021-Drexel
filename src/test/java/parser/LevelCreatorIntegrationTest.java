@@ -22,6 +22,18 @@ public class LevelCreatorIntegrationTest extends LevelCreatorITHelper {
 	}
 
 	@Test
+	public void create_level_with_doors() throws Throwable {
+		List<String> levelStrings = createLevelWithDoors();
+		writeLevelFile(levelStrings);
+		createLevel();
+
+		playerIsLocatedAt(2, 1);
+		levelStrings.set(0, "XQDX");
+		levelStrings.set(1, "X  X");
+		checkAllTiles(levelStrings);
+	}
+
+	@Test
 	public void invalid_level() throws Throwable {
 		List<String> levelStrings = createSimpleLevel();
 		levelStrings.set(1, "X&PX");

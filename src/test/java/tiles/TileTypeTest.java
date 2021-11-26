@@ -58,4 +58,11 @@ public class TileTypeTest {
 		TileType actual = TileType.getTileTypeByChar(NOT_PASSABLE_BRIDGE);
 		assertEquals(TileType.NOT_PASSABLE_BRIDGE, actual);
 	}
+
+	@Test
+	public void deactivate_door() {
+		TileType door = TileType.DOOR;
+		TileType deactivatedDoor = door.deactivate();
+		assertEquals(deactivatedDoor, TileType.DEACTIVATED_DOOR);
+	}
 }
