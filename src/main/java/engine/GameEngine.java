@@ -6,23 +6,28 @@ import java.util.Map;
 
 import parser.LevelCreator;
 import tiles.TileType;
+import timer.LevelTimer;
 import ui.GameFrame;
 
 public class GameEngine {
 
+	final static int PLAYER_TIME_LIMIT = 5;
 	private final LevelCreator levelCreator;
 	private final Map<Point, TileType> tiles = new HashMap<>();
 	private final int level;
+	public Thread countDownThread;
 	private boolean exit;
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
+	private boolean gameStarted = false;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
 		level = 1;
 		this.levelCreator = levelCreator;
 		this.levelCreator.createLevel(this, level);
+		countDownThread = new Thread(new LevelTimer(PLAYER_TIME_LIMIT));
 	}
 
 	public void run(GameFrame gameFrame) {
@@ -81,11 +86,23 @@ public class GameEngine {
 	}
 
 	public void keyRight() {
+		startGameIfPossible();
 		int newX = getPlayerXCoordinate() + 1;
 		int newY = getPlayerYCoordinate();
 		if (canMoveTo(newX, newY)) {
 			setPlayer(newX, newY);
 		}
+	}
+
+	private void startGameIfPossible() {
+		if (!gameStarted) {
+			startCountDown();
+			gameStarted = true;
+		}
+	}
+
+	private void stopGame() {
+		gameStarted = false;
 	}
 
 	public void keyUp() {
@@ -115,5 +132,9 @@ public class GameEngine {
 
 	public void setExit(boolean exit) {
 		this.exit = exit;
+	}
+
+	private void startCountDown() {
+		countDownThread.start();
 	}
 }
