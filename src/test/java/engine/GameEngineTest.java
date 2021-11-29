@@ -133,12 +133,28 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public void player_tile_should_turn_red_after_5_seconds() throws InterruptedException {
+	public void key_right_should_start_the_timer() {
 		GameFrame gameFrame = Mockito.mock(GameFrame.class);
 		Component component = Mockito.mock(Component.class);
 		Mockito.when(gameFrame.getComponents()).thenReturn(new Component[] { component });
 		gameEngine.run(gameFrame);
-		Thread.sleep(5000);
-		assertThat(TileColorMap.get(TileType.PLAYER), equalTo(Color.RED));
+
+		TileType tileType = TileType.PLAYER;
+		gameEngine.addTile(ZERO, ONE, tileType);
+		tileType = TileType.PASSABLE;
+		gameEngine.addTile(ONE, ONE, tileType);
+
+		gameEngine.keyRight();
+		assertThat(gameEngine.countDownThread.isAlive(), equalTo(true));
+	}
+
+	@Test
+	public void timer_should_not_start_before_first_key_right_is_called() {
+		GameFrame gameFrame = Mockito.mock(GameFrame.class);
+		Component component = Mockito.mock(Component.class);
+		Mockito.when(gameFrame.getComponents()).thenReturn(new Component[] { component });
+		gameEngine.run(gameFrame);
+
+		assertThat(gameEngine.countDownThread.isAlive(), equalTo(false));
 	}
 }
