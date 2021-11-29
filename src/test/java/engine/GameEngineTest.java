@@ -96,4 +96,18 @@ public class GameEngineTest {
 
 		assertThat(actualColor, equalTo(Color.RED));
 	}
+
+	@Test
+	public void reset_player_default_color() {
+		TileType tileType = TileType.PLAYER;
+		gameEngine.addTile(ZERO, ONE, tileType);
+
+		TileColorMap.changePlayerColor(Color.RED);
+		TileColorMap.resetPlayerColor();
+
+		tileType = gameEngine.getTileFromCoordinates(gameEngine.getPlayerXCoordinate(), gameEngine.getPlayerYCoordinate());
+		Color actualColor = TileColorMap.get(tileType);
+
+		assertThat(actualColor, equalTo(Color.GREEN));
+	}
 }
