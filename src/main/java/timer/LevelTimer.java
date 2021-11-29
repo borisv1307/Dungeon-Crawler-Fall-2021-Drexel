@@ -10,7 +10,7 @@ public class LevelTimer implements Runnable {
 	int PLAYER_TIME_LIMIT;
 	Timer timer = new Timer();
 
-	LevelTimer(int PLAYER_TIME_LIMIT) {
+	public LevelTimer(int PLAYER_TIME_LIMIT) {
 		this.PLAYER_TIME_LIMIT = PLAYER_TIME_LIMIT;
 	}
 
