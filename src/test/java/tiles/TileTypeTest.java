@@ -30,4 +30,11 @@ public class TileTypeTest {
 			assertEquals(exception.getMessage(), TileType.INVALID_CHARACTER_PROVIDED_MESSAGE + "Z");
 		}
 	}
+
+	@Test
+	public void get_target_tile_by_valid_char() {
+		TileType actual = TileType.getTileTypeByChar('#');
+		assertEquals(TileType.TARGET, actual);
+	}
+
 }
