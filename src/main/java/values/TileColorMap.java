@@ -20,4 +20,8 @@ public final class TileColorMap {
 	public static Color get(TileType key) {
 		return tileColors.get(key);
 	}
+
+	public static void changePlayerColor(Color color) {
+		tileColors.put(TileType.PLAYER, color);
+	}
 }
