@@ -131,4 +131,14 @@ public class GameEngineTest {
 		assertThat(actualY, equalTo(TWO));
 
 	}
+
+	@Test
+	public void player_tile_should_turn_red_after_5_seconds() throws InterruptedException {
+		GameFrame gameFrame = Mockito.mock(GameFrame.class);
+		Component component = Mockito.mock(Component.class);
+		Mockito.when(gameFrame.getComponents()).thenReturn(new Component[] { component });
+		gameEngine.run(gameFrame);
+		Thread.sleep(5000);
+		assertThat(TileColorMap.get(TileType.PLAYER), equalTo(Color.RED));
+	}
 }
