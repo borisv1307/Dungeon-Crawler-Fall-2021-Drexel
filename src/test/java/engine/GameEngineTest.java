@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 import parser.LevelCreator;
 import tiles.TileType;
 import ui.GameFrame;
+import values.TileColorMap;
 
 public class GameEngineTest {
 
@@ -75,5 +76,24 @@ public class GameEngineTest {
 		gameEngine.setExit(exit);
 		boolean actual = gameEngine.isExit();
 		assertThat(actual, equalTo(exit));
+	}
+
+	@Test
+	public void default_color_of_player_tile_is_green() {
+		Color actualColor = TileColorMap.get(TileType.PLAYER);
+		assertThat(actualColor, equalTo(Color.GREEN));
+	}
+
+	@Test
+	public void change_color_of_player_tile_to_red() {
+		TileType tileType = TileType.PLAYER;
+		gameEngine.addTile(ZERO, ONE, tileType);
+
+		TileColorMap.changePlayerColor(Color.RED);
+
+		tileType = gameEngine.getTileFromCoordinates(gameEngine.getPlayerXCoordinate(), gameEngine.getPlayerYCoordinate());
+		Color actualColor = TileColorMap.get(tileType);
+
+		assertThat(actualColor, equalTo(Color.RED));
 	}
 }
