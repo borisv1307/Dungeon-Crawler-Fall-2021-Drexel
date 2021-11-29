@@ -1,11 +1,11 @@
 package wrappers;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 public class RandomWrapper {
+	private SecureRandom random = new SecureRandom();
 
 	public int nextInt(int max) {
-		Random random = new Random();
 		return random.nextInt(max);
 	}
 }
