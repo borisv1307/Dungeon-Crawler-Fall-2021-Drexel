@@ -18,6 +18,7 @@ public class GameEngineTest {
 
 	private static final int ZERO = 0;
 	private static final int ONE = 1;
+	private static final int TWO = 2;
 
 	GameEngine gameEngine;
 
@@ -91,7 +92,8 @@ public class GameEngineTest {
 
 		TileColorMap.changePlayerColor(Color.RED);
 
-		tileType = gameEngine.getTileFromCoordinates(gameEngine.getPlayerXCoordinate(), gameEngine.getPlayerYCoordinate());
+		tileType = gameEngine.getTileFromCoordinates(gameEngine.getPlayerXCoordinate(),
+				gameEngine.getPlayerYCoordinate());
 		Color actualColor = TileColorMap.get(tileType);
 
 		assertThat(actualColor, equalTo(Color.RED));
@@ -105,9 +107,28 @@ public class GameEngineTest {
 		TileColorMap.changePlayerColor(Color.RED);
 		TileColorMap.resetPlayerColor();
 
-		tileType = gameEngine.getTileFromCoordinates(gameEngine.getPlayerXCoordinate(), gameEngine.getPlayerYCoordinate());
+		tileType = gameEngine.getTileFromCoordinates(gameEngine.getPlayerXCoordinate(),
+				gameEngine.getPlayerYCoordinate());
 		Color actualColor = TileColorMap.get(tileType);
 
 		assertThat(actualColor, equalTo(Color.GREEN));
+	}
+
+	@Test
+	public void target_tile_should_be_passable() {
+		TileType tileType = TileType.PLAYER;
+		gameEngine.addTile(ZERO, ONE, tileType);
+
+		tileType = TileType.TARGET;
+		gameEngine.addTile(ZERO, TWO, tileType);
+
+		gameEngine.keyDown();
+
+		int actualX = gameEngine.getPlayerXCoordinate();
+		int actualY = gameEngine.getPlayerYCoordinate();
+
+		assertThat(actualX, equalTo(ZERO));
+		assertThat(actualY, equalTo(TWO));
+
 	}
 }
