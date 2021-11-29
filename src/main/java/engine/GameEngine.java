@@ -21,13 +21,14 @@ public class GameEngine {
 	private int levelVerticalDimension;
 	private Point player;
 	private boolean gameStarted = false;
+	private boolean levelClear = true;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
 		level = 1;
 		this.levelCreator = levelCreator;
 		this.levelCreator.createLevel(this, level);
-		countDownThread = new Thread(new LevelTimer(PLAYER_TIME_LIMIT));
+		countDownThread = new Thread(new LevelTimer(PLAYER_TIME_LIMIT, this));
 	}
 
 	public void run(GameFrame gameFrame) {
@@ -101,10 +102,6 @@ public class GameEngine {
 		}
 	}
 
-	private void stopGame() {
-		gameStarted = false;
-	}
-
 	public void keyUp() {
 		int newX = getPlayerXCoordinate();
 		int newY = getPlayerYCoordinate() - 1;
@@ -121,9 +118,9 @@ public class GameEngine {
 		}
 	}
 
-	private boolean canMoveTo(int x, int y) {
+	public boolean canMoveTo(int x, int y) {
 		TileType attemptedLocation = getTileFromCoordinates(x, y);
-		return attemptedLocation.equals(TileType.PASSABLE) || attemptedLocation.equals(TileType.TARGET);
+		return levelClear && (attemptedLocation.equals(TileType.PASSABLE) || attemptedLocation.equals(TileType.TARGET));
 	}
 
 	public boolean isExit() {
@@ -136,5 +133,9 @@ public class GameEngine {
 
 	private void startCountDown() {
 		countDownThread.start();
+	}
+
+	public void timerRunsOut() {
+		levelClear = false;
 	}
 }
