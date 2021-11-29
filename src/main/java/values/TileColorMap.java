@@ -26,5 +26,6 @@ public final class TileColorMap {
 	}
 
 	public static void resetPlayerColor() {
+		tileColors.put(TileType.PLAYER, Color.GREEN);
 	}
 }
