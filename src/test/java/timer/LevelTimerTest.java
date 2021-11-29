@@ -8,11 +8,16 @@ import java.awt.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import engine.GameEngine;
+import parser.LevelCreator;
 import tiles.TileType;
 import values.TileColorMap;
+import values.TunableParameters;
+import wrappers.ReaderWrapper;
 
 public class LevelTimerTest {
-	LevelTimer levelTimer = new LevelTimer(5);
+	LevelTimer levelTimer = new LevelTimer(5,
+			new GameEngine(new LevelCreator(TunableParameters.FILE_LOCATION_PREFIX, new ReaderWrapper())));
 	Thread levelTimerThread = new Thread(levelTimer);
 
 	@Before
