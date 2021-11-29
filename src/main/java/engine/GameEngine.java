@@ -34,7 +34,7 @@ public class GameEngine {
 	public void addTile(int x, int y, TileType tileType) {
 		if (tileType.equals(TileType.PLAYER)) {
 			setPlayer(x, y);
-			tiles.put(new Point(x, y), TileType.PASSABLE);
+			tiles.put(new Point(x, y), TileType.PLAYER);
 		} else {
 			tiles.put(new Point(x, y), tileType);
 		}
