@@ -113,6 +113,39 @@ public class GameEngineTest {
 	}
 
 	@Test
+	public void move_down_to_door() {
+		gameEngine.addTile(ONE, ZERO, TileType.PLAYER);
+		gameEngine.addTile(ONE, ONE, TileType.DOOR);
+		gameEngine.keyDown();
+		int actualX = gameEngine.getPlayerXCoordinate();
+		int actualY = gameEngine.getPlayerYCoordinate();
+		assertThat(actualX, equalTo(ONE));
+		assertThat(actualY, equalTo(ONE));
+	}
+
+	@Test
+	public void move_left_to_door() {
+		gameEngine.addTile(ZERO, ONE, TileType.DOOR);
+		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
+		gameEngine.keyLeft();
+		int actualX = gameEngine.getPlayerXCoordinate();
+		int actualY = gameEngine.getPlayerYCoordinate();
+		assertThat(actualX, equalTo(ZERO));
+		assertThat(actualY, equalTo(ONE));
+	}
+
+	@Test
+	public void move_right_to_door() {
+		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
+		gameEngine.addTile(ONE, ONE, TileType.DOOR);
+		gameEngine.keyRight();
+		int actualX = gameEngine.getPlayerXCoordinate();
+		int actualY = gameEngine.getPlayerYCoordinate();
+		assertThat(actualX, equalTo(ONE));
+		assertThat(actualY, equalTo(ONE));
+	}
+
+	@Test
 	public void bring_player_back_to_initial_position() {
 		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
 		gameEngine.addTile(ONE, ONE, TileType.PASSABLE);

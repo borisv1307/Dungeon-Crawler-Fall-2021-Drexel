@@ -63,6 +63,6 @@ public class TileTypeTest {
 	public void deactivate_door() {
 		TileType door = TileType.DOOR;
 		TileType deactivatedDoor = door.deactivate();
-		assertEquals(deactivatedDoor, TileType.DEACTIVATED_DOOR);
+		assertEquals(TileType.DEACTIVATED_DOOR, deactivatedDoor);
 	}
 }

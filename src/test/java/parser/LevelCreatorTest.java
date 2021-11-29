@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 
 import engine.GameEngine;
 import values.TunableParameters;
+import wrappers.RandomWrapper;
 import wrappers.ReaderWrapper;
 
 public class LevelCreatorTest {
@@ -64,5 +65,12 @@ public class LevelCreatorTest {
 		Mockito.doThrow(exception).when(bufferedReader).close();
 		levelCreator.createLevel(gameEngine, LEVEL);
 		Mockito.verify(gameEngine).setExit(true);
+	}
+
+	@Test
+	public void choose_random_door_to_activate() {
+		RandomWrapper randomWrapper = Mockito.mock(RandomWrapper.class);
+		levelCreator.activateRandomDoor(randomWrapper);
+		Mockito.verify(randomWrapper).nextInt(3);
 	}
 }

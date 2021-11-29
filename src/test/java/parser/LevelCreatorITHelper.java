@@ -36,14 +36,6 @@ public class LevelCreatorITHelper {
 		return levelStrings;
 	}
 
-	protected List<String> createLevelWithDoors() {
-		List<String> levelStrings = new ArrayList<>();
-		levelStrings.add("XDDX");
-		levelStrings.add("X PX");
-		levelStrings.add("XXXX");
-		return levelStrings;
-	}
-
 	protected void writeLevelFile(List<String> levelStrings)
 			throws FileNotFoundException, UnsupportedEncodingException {
 		PrintWriter writer = new PrintWriter(getFilePath(), "UTF-8");

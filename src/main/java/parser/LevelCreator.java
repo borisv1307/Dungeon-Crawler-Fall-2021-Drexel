@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import engine.GameEngine;
 import tiles.TileType;
 import values.TunableParameters;
+import wrappers.RandomWrapper;
 import wrappers.ReaderWrapper;
 
 public class LevelCreator {
@@ -17,14 +18,17 @@ public class LevelCreator {
 	String fileLocationPrefix;
 	String fileNameSuffix = TunableParameters.FILE_NAME_SUFFIX;
 	ReaderWrapper readerWrapper;
+	RandomWrapper randomWrapper;
 
 	public LevelCreator(String fileLocationPrefix, ReaderWrapper readerWrapper) {
 		this.fileLocationPrefix = fileLocationPrefix;
 		this.readerWrapper = readerWrapper;
+		randomWrapper = new RandomWrapper();
 	}
 
 	public void createLevel(GameEngine gameEngine, int level) {
 		int doorCharCounter = 0;
+		int doorToDeactivate = activateRandomDoor(randomWrapper);
 		BufferedReader reader;
 		try {
 			reader = readerWrapper.createBufferedReader(getFilePath(level));
@@ -39,7 +43,8 @@ public class LevelCreator {
 			while ((line = reader.readLine()) != null) {
 				int x = 0;
 				for (char ch : line.toCharArray()) {
-					doorCharCounter = addTilesDependingOnLevel(gameEngine, level, doorCharCounter, x, y, ch);
+					doorCharCounter = addTilesDependingOnLevel(gameEngine, level, doorCharCounter, x, y, ch,
+							doorToDeactivate);
 					x++;
 				}
 				gameEngine.setLevelHorizontalDimension(x);
@@ -54,22 +59,35 @@ public class LevelCreator {
 		}
 	}
 
-	private int addTilesDependingOnLevel(GameEngine gameEngine, int level, int doorCharCounter, int x, int y, char ch) {
+	private int addTilesDependingOnLevel(GameEngine gameEngine, int level, int doorCharCounter, int x, int y, char ch,
+			int doorToDeactivate) {
 		if (level == 1) {
-			doorCharCounter = deactivateLeftmostDoor(gameEngine, doorCharCounter, x, y, ch);
+			doorCharCounter = deactivateAllDoorsButOne(gameEngine, doorCharCounter, x, y, ch, doorToDeactivate);
 		} else {
 			gameEngine.addTile(x, y, TileType.getTileTypeByChar(ch));
 		}
 		return doorCharCounter;
 	}
 
-	private int deactivateLeftmostDoor(GameEngine gameEngine, int doorCharCounter, int x, int y, char ch) {
-		if (doorCharCounter < 1 && ch == 'D') {
+	private int deactivateAllDoorsButOne(GameEngine gameEngine, int doorCharCounter, int x, int y, char ch,
+			int doorToDeactivate) {
+		if (ch == 'D') {
+			doorCharCounter = addDoorTiles(gameEngine, doorCharCounter, x, y, ch, doorToDeactivate);
+		} else {
+			gameEngine.addTile(x, y, TileType.getTileTypeByChar(ch));
+		}
+		return doorCharCounter;
+	}
+
+	private int addDoorTiles(GameEngine gameEngine, int doorCharCounter, int x, int y, char ch, int doorToDeactivate) {
+
+		if (doorCharCounter != doorToDeactivate) {
 			doorCharCounter++;
 			TileType door = TileType.getTileTypeByChar(ch);
 			TileType deactivatedDoor = door.deactivate();
 			gameEngine.addTile(x, y, deactivatedDoor);
 		} else {
+			doorCharCounter++;
 			gameEngine.addTile(x, y, TileType.getTileTypeByChar(ch));
 		}
 		return doorCharCounter;
@@ -86,5 +104,9 @@ public class LevelCreator {
 
 	String getFilePath(int level) {
 		return fileLocationPrefix + level + fileNameSuffix;
+	}
+
+	public int activateRandomDoor(RandomWrapper randomWrapper) {
+		return randomWrapper.nextInt(3);
 	}
 }
