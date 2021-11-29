@@ -157,4 +157,25 @@ public class GameEngineTest {
 
 		assertThat(gameEngine.countDownThread.isAlive(), equalTo(false));
 	}
+
+	@Test
+	public void player_cannot_move_when_timer_runs_out() throws InterruptedException {
+		GameFrame gameFrame = Mockito.mock(GameFrame.class);
+		Component component = Mockito.mock(Component.class);
+		Mockito.when(gameFrame.getComponents()).thenReturn(new Component[] { component });
+		gameEngine.run(gameFrame);
+
+		TileType tileType = TileType.PLAYER;
+		gameEngine.addTile(ZERO, ONE, tileType);
+		tileType = TileType.PASSABLE;
+		gameEngine.addTile(ONE, ONE, tileType);
+		tileType = TileType.PASSABLE;
+		gameEngine.addTile(ZERO, ONE, tileType);
+
+		gameEngine.keyRight();
+		assertThat(gameEngine.canMoveTo(ZERO, ONE), equalTo(true));
+		Thread.sleep(5000);
+		assertThat(gameEngine.canMoveTo(ZERO, ONE), equalTo(false));
+
+	}
 }
