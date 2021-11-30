@@ -18,6 +18,7 @@ public final class TileColorMap {
 		tileColors.put(TileType.NEXT_LEVEL, Color.RED);
 		tileColors.put(TileType.PREVIOUS_LEVEL, Color.BLUE);
 		tileColors.put(TileType.COIN, Color.YELLOW);
+		tileColors.put(TileType.OBSTACLE, Color.ORANGE);
 	}
 
 	public static Color get(TileType key) {

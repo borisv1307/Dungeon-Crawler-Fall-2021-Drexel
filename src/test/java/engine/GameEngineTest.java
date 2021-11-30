@@ -141,6 +141,16 @@ public class GameEngineTest {
 		assertThat(actualLevel, equalTo(level));
 	}
 
+	@Test
+	public void game_exits_on_obstacle() {
+		boolean exit = true;
+		gameEngine.addTile(ONE, ONE, TileType.OBSTACLE);
+		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
+		gameEngine.keyRight();
+		boolean actual = gameEngine.isExit();
+		assertThat(actual, equalTo(exit));
+	}
+
 //	@Test
 //	public void traverse_to_following_level() {
 //

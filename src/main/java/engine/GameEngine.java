@@ -87,13 +87,17 @@ public class GameEngine {
 
 	public void keyRight() {
 		TileType attemptedLocation = getTileFromCoordinates(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
-		if (attemptedLocation.equals(TileType.PASSABLE) | attemptedLocation.equals(TileType.NEXT_LEVEL)) {
+		if (attemptedLocation.equals(TileType.PASSABLE)) {
 			setPlayer(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
 		}
 		if (attemptedLocation.equals(TileType.NEXT_LEVEL)) {
 			increaseLevel();
 			this.levelCreator.createLevel(this, level);
-			System.out.println("Ran Code");
+			System.out.println("Changed Level");
+		}
+		if (attemptedLocation.equals(TileType.OBSTACLE)) {
+			setExit(true);
+			System.out.println("Exit Level");
 		}
 	}
 
