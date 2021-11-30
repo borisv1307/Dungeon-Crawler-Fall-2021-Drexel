@@ -17,7 +17,7 @@ public class GameEngine {
 	private final Map<Point, TileType> tiles = new HashMap<>();
 	public CountDownThread timerThread;
 	private boolean exit;
-	private int level = 1;
+	private int level = 0;
 	private int score = 0;
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
@@ -29,8 +29,8 @@ public class GameEngine {
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
 		this.levelCreator = levelCreator;
-		this.levelCreator.createLevel(this, level);
 		setUpCountDownTimer();
+		loadNextLevel();
 	}
 
 	private void setUpCountDownTimer() {
@@ -127,7 +127,7 @@ public class GameEngine {
 
 	private void startGameIfPossible() {
 		if (!levelStarted) {
-			timerThread.startCountDown();
+			startCountDown();
 			levelStarted = true;
 		}
 	}
@@ -148,17 +148,23 @@ public class GameEngine {
 
 	private void loadNextLevel() {
 		stopCountDown();
-		addScore();
 		this.levelCreator.createLevel(this, ++level);
-		levelStarted = false;
+		if (!exit) {
+			addScore();
+			levelStarted = false;
+			systemWrapper.println("Level " + level + ". Press Right-Arrow to start...");
+		} else {
+			systemWrapper.println("Game ends! You finished all levels. Total score: " + score);
+		}
 	}
 
 	private void addScore() {
-		score += 5;
+		score += TunableParameters.SCORE_PER_LEVEL;
 	}
 
 	public void timerRunsOut() {
 		levelCanBePlayed = false;
+		score -= TunableParameters.SCORE_PER_LEVEL;
 		systemWrapper.println("Timer ran out! Total score: " + score);
 	}
 
