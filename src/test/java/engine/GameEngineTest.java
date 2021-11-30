@@ -80,12 +80,6 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public void default_color_of_player_tile_is_green() {
-		Color actualColor = TileColorMap.get(TileType.PLAYER);
-		assertThat(actualColor, equalTo(Color.GREEN));
-	}
-
-	@Test
 	public void change_color_of_player_tile_to_red() {
 		TileColorMap.changePlayerColor(Color.RED);
 
