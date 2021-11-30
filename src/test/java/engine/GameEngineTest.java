@@ -145,7 +145,7 @@ public class GameEngineTest {
 		gameEngine.addTile(ONE, ONE, tileType);
 
 		gameEngine.keyRight();
-		assertThat(gameEngine.countDownThread.isAlive(), equalTo(true));
+		assertThat(gameEngine.timerThread.isAlive(), equalTo(true));
 	}
 
 	@Test
@@ -155,7 +155,7 @@ public class GameEngineTest {
 		Mockito.when(gameFrame.getComponents()).thenReturn(new Component[] { component });
 		gameEngine.run(gameFrame);
 
-		assertThat(gameEngine.countDownThread.isAlive(), equalTo(false));
+		assertThat(gameEngine.timerThread.isAlive(), equalTo(false));
 	}
 
 	@Test
