@@ -22,7 +22,7 @@ public class GameEngine {
 		exit = false;
 		level = 1;
 		this.levelCreator = levelCreator;
-		this.levelCreator.createLevel(this, level);
+		extracted();
 	}
 
 	public void run(GameFrame gameFrame) {
@@ -77,11 +77,7 @@ public class GameEngine {
 		if (attemptedLocation.equals(TileType.PASSABLE)) {
 			setPlayer(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
 		}
-		if (attemptedLocation.equals(TileType.PREVIOUS_LEVEL)) {
-			decreaseLevel();
-			this.levelCreator.createLevel(this, level);
-			System.out.println("Ran Code");
-		}
+		movingToTile(attemptedLocation);
 
 	}
 
@@ -90,15 +86,7 @@ public class GameEngine {
 		if (attemptedLocation.equals(TileType.PASSABLE)) {
 			setPlayer(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
 		}
-		if (attemptedLocation.equals(TileType.NEXT_LEVEL)) {
-			increaseLevel();
-			this.levelCreator.createLevel(this, level);
-			System.out.println("Changed Level");
-		}
-		if (attemptedLocation.equals(TileType.OBSTACLE)) {
-			setExit(true);
-			System.out.println("Exit Level");
-		}
+		movingToTile(attemptedLocation);
 	}
 
 	public void keyUp() {
@@ -106,6 +94,7 @@ public class GameEngine {
 		if (attemptedLocation.equals(TileType.PASSABLE)) {
 			setPlayer(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
 		}
+		movingToTile(attemptedLocation);
 	}
 
 	public void keyDown() {
@@ -113,6 +102,7 @@ public class GameEngine {
 		if (attemptedLocation.equals(TileType.PASSABLE)) {
 			setPlayer(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
 		}
+		movingToTile(attemptedLocation);
 	}
 
 	public void setExit(boolean exit) {
@@ -134,4 +124,25 @@ public class GameEngine {
 	public int getLevel() {
 		return this.level;
 	}
+
+	private void movingToTile(TileType attemptedLocation) {
+		if (attemptedLocation.equals(TileType.PREVIOUS_LEVEL)) {
+			decreaseLevel();
+			reloadLevel();
+		}
+
+		if (attemptedLocation.equals(TileType.NEXT_LEVEL)) {
+			increaseLevel();
+			reloadLevel();
+		}
+
+		if (attemptedLocation.equals(TileType.OBSTACLE)) {
+			setExit(true);
+		}
+	}
+
+	private void reloadLevel() {
+		this.levelCreator.createLevel(this, level);
+	}
+
 }
