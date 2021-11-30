@@ -114,13 +114,17 @@ public class GameEngine {
 		int newY = getPlayerYCoordinate() + deltaY;
 
 		TileType attemptedLocation = getTileFromCoordinates(newX, newY);
-		if (!attemptedLocation.equals(TileType.NOT_PASSABLE)) {
+		if (canMoveInto(attemptedLocation)) {
 			setPlayer(newX, newY);
 		}
 		if (isPowerUp(attemptedLocation)) {
 			playerPowerUps.add(attemptedLocation);
 			addTile(newX, newY, TileType.PASSABLE);
 		}
+	}
+
+	private boolean canMoveInto(TileType attemptedLocation) {
+		return !attemptedLocation.equals(TileType.NOT_PASSABLE) && !attemptedLocation.equals(TileType.BREAKABLE);
 	}
 
 	private boolean isPowerUp(TileType attemptedLocation) {
