@@ -2,9 +2,9 @@ package engine;
 
 import java.awt.Component;
 import java.awt.Point;
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import parser.LevelCreator;
 import tiles.TileType;
@@ -20,7 +20,7 @@ public class GameEngine {
 	private Point player;
 	private int level;
 	private int[] direction;
-	private Random rand;
+	private SecureRandom rand;
 	public Point food;
 	public int newFoodXCoordinate;
 	public int newFoodYCoordinate;
@@ -30,7 +30,7 @@ public class GameEngine {
 		level = 1;
 		this.levelCreator = levelCreator;
 		this.levelCreator.createLevel(this, level);
-		this.rand = new Random();
+		this.rand = new SecureRandom();
 	}
 
 	public void run(GameFrame gameFrame) {
