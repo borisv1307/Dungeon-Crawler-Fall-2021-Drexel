@@ -8,10 +8,10 @@ import parser.LevelCreator;
 import tiles.TileType;
 import timer.LevelTimer;
 import ui.GameFrame;
+import values.TunableParameters;
 
 public class GameEngine {
 
-	final static int PLAYER_TIME_LIMIT = 5;
 	private final LevelCreator levelCreator;
 	private final Map<Point, TileType> tiles = new HashMap<>();
 	public Thread countDownThread;
@@ -29,7 +29,7 @@ public class GameEngine {
 		level = 1;
 		this.levelCreator = levelCreator;
 		this.levelCreator.createLevel(this, level);
-		levelTimer = new LevelTimer(PLAYER_TIME_LIMIT, this);
+		levelTimer = new LevelTimer(TunableParameters.PLAYER_LIMIT_TIME, this);
 		countDownThread = new Thread(levelTimer);
 	}
 
@@ -148,7 +148,7 @@ public class GameEngine {
 	}
 
 	private void startCountDown() {
-		countDownThread.start();
+		countDownThread.run();
 	}
 
 	private void stopCountDown() {
