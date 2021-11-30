@@ -109,13 +109,34 @@ public class GameEngineTest {
 	@Test
 	public void set_new_food_location() {
 		gameEngine.setLevelHorizontalDimension(ONE);
-		gameEngine.setLevelVerticalDimension(THREE);
+		gameEngine.setLevelVerticalDimension(TWO);
+		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
+		gameEngine.addTile(ONE, TWO, TileType.FOOD);
+		gameEngine.keyDown();
+		assertThat(gameEngine.getFood(), equalTo(new Point(ONE, ONE)));
+	}
+
+	@Test
+	public void set_new_food_location_random() {
+		gameEngine.setLevelHorizontalDimension(THREE);
+		gameEngine.setLevelVerticalDimension(TWO);
 		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
 		gameEngine.addTile(ONE, TWO, TileType.FOOD);
 		gameEngine.addTile(ONE, THREE, TileType.PASSABLE);
 		gameEngine.keyDown();
 		assertThat(gameEngine.getFood(),
 				equalTo(new Point(gameEngine.getNewFoodXCoordinate(), gameEngine.getNewFoodYCoordinate())));
+	}
+
+	@Test
+	public void add_tail_to_snake() {
+		gameEngine.setLevelHorizontalDimension(ONE);
+		gameEngine.setLevelVerticalDimension(THREE);
+		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
+		gameEngine.addTile(ONE, TWO, TileType.FOOD);
+		gameEngine.keyDown();
+		assertThat(gameEngine.getTail(ZERO),
+				equalTo(new Point(gameEngine.getTailXCoordinate(ZERO), gameEngine.getTailYCoordinate(ZERO))));
 	}
 
 }

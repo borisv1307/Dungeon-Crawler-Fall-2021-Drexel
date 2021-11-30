@@ -3,6 +3,7 @@ package engine;
 import java.awt.Component;
 import java.awt.Point;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ public class GameEngine {
 	private final Map<Point, TileType> tiles = new HashMap<>();
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
+	private ArrayList<Point> snake;
 	private Point player;
 	private int level;
 	private int[] direction;
@@ -31,6 +33,7 @@ public class GameEngine {
 		this.levelCreator = levelCreator;
 		this.levelCreator.createLevel(this, level);
 		this.rand = new SecureRandom();
+		snake = new ArrayList<Point>(5);
 	}
 
 	public void run(GameFrame gameFrame) {
@@ -100,6 +103,22 @@ public class GameEngine {
 		return this.food;
 	}
 
+	private void addTail(int x, int y) {
+		snake.add(player);
+	}
+
+	public int getTailXCoordinate(int tailNumber) {
+		return (int) snake.get(tailNumber).getX();
+	}
+
+	public int getTailYCoordinate(int tailNumber) {
+		return (int) snake.get(tailNumber).getY();
+	}
+
+	public Point getTail(int tailNumber) {
+		return snake.get(tailNumber);
+	}
+
 	public int getNewFoodXCoordinate() {
 		return this.newFoodXCoordinate;
 	}
@@ -129,16 +148,20 @@ public class GameEngine {
 	}
 
 	private void attemptMove(int[] direction) {
-		int xCoordinate = getPlayerXCoordinate() + direction[0];
-		int yCoordinate = getPlayerYCoordinate() + direction[1];
-		TileType attemptedTile = getTileFromCoordinates(xCoordinate, yCoordinate);
+		int currentXCoordinate = getPlayerXCoordinate();
+		int currentYCoordinate = getPlayerYCoordinate();
+		int attemptedXCoordinate = currentXCoordinate + direction[0];
+		int attemptedYCoordinate = currentYCoordinate + direction[1];
+
+		TileType attemptedTile = getTileFromCoordinates(attemptedXCoordinate, attemptedYCoordinate);
 		if (!isPassableTile(attemptedTile))
 			exit = true;
 
-		setPlayer(xCoordinate, yCoordinate);
+		setPlayer(attemptedXCoordinate, attemptedYCoordinate);
 
 		if (attemptedTile.equals(TileType.FOOD)) {
 			setNewFoodLocation();
+			addTail(currentXCoordinate, currentYCoordinate);
 		}
 
 	}
