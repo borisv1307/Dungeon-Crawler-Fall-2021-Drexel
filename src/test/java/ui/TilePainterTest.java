@@ -68,10 +68,10 @@ public class TilePainterTest {
     @Test
     public void paint_portal() {
 
-        tilePainter.paintPortal(graphics, X, Y, TILE_WIDTH * 2, TILE_HEIGHT * 2,
+        tilePainter.paintPortal(graphics, X, Y, TILE_WIDTH, TILE_HEIGHT,
                 TileType.PORTAL);
 
-        Mockito.verify(graphics).fillRect(20, 60, 20, 40);
+        Mockito.verify(graphics).fillOval(20, 60, 2, 3);
     }
 
 }

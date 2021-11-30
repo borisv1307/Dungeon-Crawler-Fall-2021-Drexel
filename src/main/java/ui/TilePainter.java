@@ -13,7 +13,15 @@ public class TilePainter {
         for (int x = 0; x < game.getLevelHorizontalDimension(); x++) {
             for (int y = 0; y < game.getLevelVerticalDimension(); y++) {
                 TileType tileType = game.getTileFromCoordinates(x, y);
-                paintTile(graphics, tileWidth, tileHeight, x, y, tileType);
+
+                if (tileType.equals(TileType.PORTAL)) {
+                    paintPortal(graphics, tileWidth, tileHeight, x, y,
+                            tileType);
+                }
+                else {
+                    paintTile(graphics, tileWidth, tileHeight, x, y, tileType);
+                }
+
             }
         }
     }
@@ -33,10 +41,14 @@ public class TilePainter {
         graphics.setColor(TileColorMap.get(tileType));
     }
 
-    public void paintPortal(Graphics graphics, int x, int y, int i, int j,
-            TileType portal) {
+    public void paintPortal(Graphics graphics, int tileWidth, int tileHeight,
+            int x, int y, TileType tileType) {
         // TODO Auto-generated method stub
+        handleTile(graphics, tileType);
+        // graphics.fillRect(x * tileWidth, y * tileHeight, tileWidth,
+        // tileHeight);
 
+        graphics.fillOval(x * tileWidth, y * tileHeight, tileWidth, tileHeight);
     }
 
 }
