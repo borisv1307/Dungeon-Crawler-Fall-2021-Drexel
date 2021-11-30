@@ -1,7 +1,7 @@
 package main;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.isIn;
 import static org.hamcrest.Matchers.equalTo;
 
 import java.util.List;
@@ -56,11 +56,16 @@ public class MovementStepDefs extends LevelCreationStepDefHelper {
 
 	@And("^the players has \"([^\"]*)\" added to their power ups$")
 	public void thePlayersHasAddedToTheirPowerUps(char powerUpChar) throws Throwable {
-		assertThat(gameEngine.getPlayerPowerUps(), contains(TileType.getTileTypeByChar(powerUpChar)));
+		assertThat(TileType.getTileTypeByChar(powerUpChar), isIn(gameEngine.getPlayerPowerUps()));
 	}
 
 	@And("^power up at \\((\\d+), (\\d+)\\) is not longer there$")
 	public void powerUpAtIsNotLongerThere(int x, int y) {
 		assertThat(gameEngine.getTileFromCoordinates(x - COORDINATE_OFFSET, y - COORDINATE_OFFSET), equalTo(TileType.PASSABLE));
+	}
+
+	@Given("^the players already has \"([^\"]*)\" added to their power ups$")
+	public void thePlayersAlreadyHasAddedToTheirPowerUps(char powerUpChar) throws Throwable {
+		gameEngine.addPowerUp(TileType.getTileTypeByChar(powerUpChar));
 	}
 }

@@ -81,6 +81,10 @@ public class GameEngine {
 		return this.playerPowerUps;
 	}
 
+	public void addPowerUp(TileType powerUp) {
+		this.playerPowerUps.add(powerUp);
+	}
+
 	public void keyLeft() {
 		movePlayer(-1, 0);
 	}
