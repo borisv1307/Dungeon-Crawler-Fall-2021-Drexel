@@ -21,6 +21,10 @@ public class CountDownThread {
 	}
 
 	public boolean isAlive() {
-		return timerThread.isAlive();
+		if (timerThread == null) {
+			return false;
+		} else {
+			return timerThread.isAlive();
+		}
 	}
 }
