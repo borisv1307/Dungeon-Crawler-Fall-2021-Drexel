@@ -40,3 +40,11 @@ Feature: Bomb power up
     When player places a bomb
     Then player is located at (4, 2)
     And tile (3, 3) is " "
+
+  Scenario: Move then place bomb
+    Given player has bomb power up
+    And player moves up
+    When player moves left
+    And player places a bomb
+    Then player is located at (2, 2)
+    And tile (2, 2) is "O"
