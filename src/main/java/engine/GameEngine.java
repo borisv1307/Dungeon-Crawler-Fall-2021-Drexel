@@ -17,6 +17,7 @@ public class GameEngine {
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
+	private Point food;
 	private int level;
 	private int[] direction;
 
@@ -37,6 +38,10 @@ public class GameEngine {
 		if (tileType.equals(TileType.PLAYER)) {
 			setPlayer(x, y);
 			tiles.put(new Point(x, y), TileType.PASSABLE);
+		} else if (tileType.equals(TileType.FOOD)) {
+			setFood(x, y);
+			tiles.put(new Point(x, y), TileType.PASSABLE);
+
 		} else {
 			tiles.put(new Point(x, y), tileType);
 		}
@@ -72,6 +77,18 @@ public class GameEngine {
 
 	public int getPlayerYCoordinate() {
 		return (int) player.getY();
+	}
+
+	private void setFood(int x, int y) {
+		food = new Point(x, y);
+	}
+
+	public int getFoodXCoordinate() {
+		return (int) food.getX();
+	}
+
+	public int getFoodYCoordinate() {
+		return (int) food.getY();
 	}
 
 	public void keyLeft() {
@@ -132,4 +149,5 @@ public class GameEngine {
 	public int getLevel() {
 		return level;
 	}
+
 }
