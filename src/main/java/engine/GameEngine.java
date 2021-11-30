@@ -21,6 +21,7 @@ public class GameEngine {
 	private Point player;
 	private final int level;
 	private Set<TileType> playerPowerUps;
+	private Point bomb;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
@@ -101,6 +102,17 @@ public class GameEngine {
 		movePlayer(0, 1);
 	}
 
+	public void keyB() {
+		if (getPlayerPowerUps().contains(TileType.BOMB_POWER_UP)) {
+			if (bomb == null) {
+				addTile(getPlayerXCoordinate(), getPlayerYCoordinate(), TileType.BOMB);
+				bomb = new Point(getPlayerXCoordinate(), getPlayerYCoordinate());
+			} else {
+				detonateBomb();
+			}
+		}
+	}
+
 	public void setExit(boolean exit) {
 		this.exit = exit;
 	}
@@ -129,5 +141,10 @@ public class GameEngine {
 
 	private boolean isPowerUp(TileType attemptedLocation) {
 		return attemptedLocation.equals(TileType.BOMB_POWER_UP) || attemptedLocation.equals(TileType.FIRE_POWER_UP);
+	}
+
+	private void detonateBomb() {
+		addTile(bomb.x, bomb.y, TileType.PASSABLE);
+		bomb = null;
 	}
 }

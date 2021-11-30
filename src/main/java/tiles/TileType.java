@@ -7,7 +7,8 @@ public enum TileType {
 	PLAYER('P'),
 	BOMB_POWER_UP('B'),
 	FIRE_POWER_UP('F'),
-	BREAKABLE('K');
+	BREAKABLE('K'),
+	BOMB('O');
 
 	static final String INVALID_CHARACTER_PROVIDED_MESSAGE = "Invalid character provided: ";
 
