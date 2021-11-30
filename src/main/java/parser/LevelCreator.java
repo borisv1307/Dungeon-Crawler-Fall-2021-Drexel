@@ -3,7 +3,6 @@ package parser;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import engine.GameEngine;
@@ -28,7 +27,6 @@ public class LevelCreator {
 		try {
 			reader = readerWrapper.createBufferedReader(getFilePath(level));
 		} catch (FileNotFoundException e) {
-			LOGGER.log(Level.SEVERE, e.toString(), e);
 			gameEngine.setExit(true);
 			return;
 		}
@@ -46,7 +44,6 @@ public class LevelCreator {
 			}
 			gameEngine.setLevelVerticalDimension(y);
 		} catch (IOException e) {
-			LOGGER.log(Level.SEVERE, e.toString(), e);
 			gameEngine.setExit(true);
 		} finally {
 			closeBufferedReader(reader, gameEngine);
@@ -57,7 +54,6 @@ public class LevelCreator {
 		try {
 			reader.close();
 		} catch (IOException e) {
-			LOGGER.log(Level.SEVERE, e.toString(), e);
 			gameEngine.setExit(true);
 		}
 	}

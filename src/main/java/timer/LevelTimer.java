@@ -28,7 +28,6 @@ public class LevelTimer implements Runnable {
 			timer.cancel();
 			timer.purge();
 		} catch (NullPointerException e) {
-			e.printStackTrace();
 		}
 	}
 
