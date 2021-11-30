@@ -55,8 +55,8 @@ public class MovementStepDefs extends LevelCreationStepDefHelper {
 	}
 
 	@And("^the players has \"([^\"]*)\" added to their power ups$")
-	public void thePlayersHasAddedToTheirPowerUps(String arg0) throws Throwable {
-		assertThat(gameEngine.getPlayerPowerUps(), contains(TileType.BOMB_POWER_UP));
+	public void thePlayersHasAddedToTheirPowerUps(char powerUpChar) throws Throwable {
+		assertThat(gameEngine.getPlayerPowerUps(), contains(TileType.getTileTypeByChar(powerUpChar)));
 	}
 
 	@And("^power up at \\((\\d+), (\\d+)\\) is not longer there$")

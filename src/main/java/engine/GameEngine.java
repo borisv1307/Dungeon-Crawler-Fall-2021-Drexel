@@ -113,9 +113,13 @@ public class GameEngine {
 		if (!attemptedLocation.equals(TileType.NOT_PASSABLE)) {
 			setPlayer(newX, newY);
 		}
-		if (attemptedLocation.equals(TileType.BOMB_POWER_UP)) {
+		if (isPowerUp(attemptedLocation)) {
 			playerPowerUps.add(attemptedLocation);
 			addTile(newX, newY, TileType.PASSABLE);
 		}
+	}
+
+	private boolean isPowerUp(TileType attemptedLocation) {
+		return attemptedLocation.equals(TileType.BOMB_POWER_UP) || attemptedLocation.equals(TileType.FIRE_POWER_UP);
 	}
 }
