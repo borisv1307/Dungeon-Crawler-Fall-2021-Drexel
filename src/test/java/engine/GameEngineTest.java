@@ -114,7 +114,8 @@ public class GameEngineTest {
 		gameEngine.addTile(ONE, TWO, TileType.FOOD);
 		gameEngine.addTile(ONE, THREE, TileType.PASSABLE);
 		gameEngine.keyDown();
-		assertThat(gameEngine.food, equalTo(new Point(gameEngine.newFoodXCoordinate, gameEngine.newFoodYCoordinate)));
+		assertThat(gameEngine.getFood(),
+				equalTo(new Point(gameEngine.getNewFoodXCoordinate(), gameEngine.getNewFoodYCoordinate())));
 	}
 
 }

@@ -21,9 +21,9 @@ public class GameEngine {
 	private int level;
 	private int[] direction;
 	private SecureRandom rand;
-	public Point food;
-	public int newFoodXCoordinate;
-	public int newFoodYCoordinate;
+	private Point food;
+	private int newFoodXCoordinate;
+	private int newFoodYCoordinate;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
@@ -86,7 +86,6 @@ public class GameEngine {
 
 	private void setFood(int x, int y) {
 		food = new Point(x, y);
-
 	}
 
 	public int getFoodXCoordinate() {
@@ -95,6 +94,18 @@ public class GameEngine {
 
 	public int getFoodYCoordinate() {
 		return (int) food.getY();
+	}
+
+	public Point getFood() {
+		return this.food;
+	}
+
+	public int getNewFoodXCoordinate() {
+		return this.newFoodXCoordinate;
+	}
+
+	public int getNewFoodYCoordinate() {
+		return this.newFoodYCoordinate;
 	}
 
 	public void keyLeft() {
@@ -141,15 +152,8 @@ public class GameEngine {
 		newFoodYCoordinate = getFoodYCoordinate();
 
 		while (getTileFromCoordinates(newFoodXCoordinate, newFoodYCoordinate) != TileType.PASSABLE) {
-			if (levelHorizontalDimension == 1)
-				newFoodXCoordinate = 1;
-			else
-				newFoodXCoordinate = rand.nextInt(levelHorizontalDimension) + 1;
-			if (levelVerticalDimension == 1)
-				newFoodYCoordinate = 1;
-			else
-				newFoodYCoordinate = rand.nextInt(levelVerticalDimension) + 1;
-			continue;
+			newFoodXCoordinate = rand.nextInt(levelHorizontalDimension) + 1;
+			newFoodYCoordinate = rand.nextInt(levelVerticalDimension) + 1;
 		}
 
 		tiles.put(food, TileType.PASSABLE);
