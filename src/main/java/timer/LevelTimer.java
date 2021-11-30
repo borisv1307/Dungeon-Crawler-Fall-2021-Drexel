@@ -10,7 +10,7 @@ import values.TileColorMap;
 public class LevelTimer implements Runnable {
 	int PLAYER_TIME_LIMIT;
 	GameEngine gameEngine;
-	Timer timer = new Timer();
+	Timer timer;
 
 	public LevelTimer(int PLAYER_TIME_LIMIT, GameEngine gameEngine) {
 		this.PLAYER_TIME_LIMIT = PLAYER_TIME_LIMIT;
@@ -19,12 +19,17 @@ public class LevelTimer implements Runnable {
 
 	@Override
 	public void run() {
+		timer = new Timer();
 		timer.schedule(new CountDown(), 0, 1000);
 	}
 
 	public void stop() {
-		timer.cancel();
-		timer.purge();
+		try {
+			timer.cancel();
+			timer.purge();
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
 	}
 
 	class CountDown extends TimerTask {

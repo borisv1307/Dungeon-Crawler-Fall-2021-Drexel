@@ -15,6 +15,7 @@ public class GameEngine {
 	private final LevelCreator levelCreator;
 	private final Map<Point, TileType> tiles = new HashMap<>();
 	public Thread countDownThread;
+	private LevelTimer levelTimer;
 	private boolean exit;
 	private int level;
 	private int levelHorizontalDimension;
@@ -28,7 +29,8 @@ public class GameEngine {
 		level = 1;
 		this.levelCreator = levelCreator;
 		this.levelCreator.createLevel(this, level);
-		countDownThread = new Thread(new LevelTimer(PLAYER_TIME_LIMIT, this));
+		levelTimer = new LevelTimer(PLAYER_TIME_LIMIT, this);
+		countDownThread = new Thread(levelTimer);
 	}
 
 	public void run(GameFrame gameFrame) {
@@ -39,7 +41,7 @@ public class GameEngine {
 
 	public void addTile(int x, int y, TileType tileType) {
 		if (tileType.equals(TileType.PLAYER)) {
-			tiles.put(new Point(x, y), TileType.PLAYER);
+			tiles.put(new Point(x, y), TileType.PASSABLE);
 			setPlayer(x, y);
 		} else {
 			tiles.put(new Point(x, y), tileType);
@@ -140,6 +142,7 @@ public class GameEngine {
 	}
 
 	private void loadNextLevel() {
+		stopCountDown();
 		this.levelCreator.createLevel(this, ++level);
 		gameStarted = false;
 	}
@@ -149,7 +152,7 @@ public class GameEngine {
 	}
 
 	private void stopCountDown() {
-		countDownThread.interrupt();
+		levelTimer.stop();
 	}
 
 	public void timerRunsOut() {
