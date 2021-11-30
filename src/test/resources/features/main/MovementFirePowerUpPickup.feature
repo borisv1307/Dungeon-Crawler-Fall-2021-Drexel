@@ -47,3 +47,12 @@ Feature: Move the player into fire power up
     And power up at (4, 3) is not longer there
     And the players has "F" added to their power ups
     And the players has "B" added to their power ups
+
+  Scenario: Move up into fire power up with already both power ups added
+    Given the players already has "B" added to their power ups
+    Given the players already has "F" added to their power ups
+    When the player moves up
+    Then the player is located at (3, 2)
+    And power up at (3, 2) is not longer there
+    And the players has "F" added to their power ups
+    And the players has "B" added to their power ups
