@@ -37,4 +37,12 @@ public class LevelTimerTest {
 		Thread.sleep(3000);
 		assertThat(TileColorMap.get(TileType.PLAYER), equalTo(Color.GREEN));
 	}
+
+	@Test
+	public void stopped_thread_should_stop_the_count_down() throws InterruptedException {
+		Thread.sleep(1000);
+		levelTimer.stop();
+		Thread.sleep(6000);
+		assertThat(TileColorMap.get(TileType.PLAYER), equalTo(Color.GREEN));
+	}
 }

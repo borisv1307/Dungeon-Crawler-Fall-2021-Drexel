@@ -22,6 +22,11 @@ public class LevelTimer implements Runnable {
 		timer.schedule(new CountDown(), 0, 1000);
 	}
 
+	public void stop() {
+		timer.cancel();
+		timer.purge();
+	}
+
 	class CountDown extends TimerTask {
 		int countdown = PLAYER_TIME_LIMIT;
 
@@ -36,8 +41,7 @@ public class LevelTimer implements Runnable {
 		}
 
 		private void closeTimer() {
-			timer.cancel();
-			timer.purge();
+			stop();
 			gameEngine.timerRunsOut();
 		}
 	}
