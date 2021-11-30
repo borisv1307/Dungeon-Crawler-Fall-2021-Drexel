@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import parser.LevelCreator;
 import tiles.TileType;
@@ -17,15 +18,19 @@ public class GameEngine {
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
-	private Point food;
 	private int level;
 	private int[] direction;
+	private Random rand;
+	public Point food;
+	public int newFoodXCoordinate;
+	public int newFoodYCoordinate;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
 		level = 1;
 		this.levelCreator = levelCreator;
 		this.levelCreator.createLevel(this, level);
+		this.rand = new Random();
 	}
 
 	public void run(GameFrame gameFrame) {
@@ -81,6 +86,7 @@ public class GameEngine {
 
 	private void setFood(int x, int y) {
 		food = new Point(x, y);
+
 	}
 
 	public int getFoodXCoordinate() {
@@ -117,10 +123,11 @@ public class GameEngine {
 		TileType attemptedTile = getTileFromCoordinates(xCoordinate, yCoordinate);
 		if (!isPassableTile(attemptedTile))
 			exit = true;
+
 		setPlayer(xCoordinate, yCoordinate);
 
 		if (attemptedTile.equals(TileType.FOOD)) {
-			advanceLevel();
+			setNewFoodLocation();
 		}
 
 	}
@@ -129,9 +136,25 @@ public class GameEngine {
 		return attemptedTile.equals(TileType.PASSABLE) || attemptedTile.equals(TileType.FOOD);
 	}
 
-	private void advanceLevel() {
-		level++;
-		this.levelCreator.createLevel(this, level);
+	private void setNewFoodLocation() {
+		newFoodXCoordinate = getFoodXCoordinate();
+		newFoodYCoordinate = getFoodYCoordinate();
+
+		while (getTileFromCoordinates(newFoodXCoordinate, newFoodYCoordinate) != TileType.PASSABLE) {
+			if (levelHorizontalDimension == 1)
+				newFoodXCoordinate = 1;
+			else
+				newFoodXCoordinate = rand.nextInt(levelHorizontalDimension) + 1;
+			if (levelVerticalDimension == 1)
+				newFoodYCoordinate = 1;
+			else
+				newFoodYCoordinate = rand.nextInt(levelVerticalDimension) + 1;
+			continue;
+		}
+
+		tiles.put(food, TileType.PASSABLE);
+		setFood(newFoodXCoordinate, newFoodYCoordinate);
+		tiles.put(food, TileType.FOOD);
 	}
 
 	public void setExit(boolean exit) {

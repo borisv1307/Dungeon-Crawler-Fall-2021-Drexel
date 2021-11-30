@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 import java.awt.Component;
+import java.awt.Point;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +19,7 @@ public class GameEngineTest {
 	private static final int ZERO = 0;
 	private static final int ONE = 1;
 	private static final int TWO = 2;
+	private static final int THREE = 3;
 
 	GameEngine gameEngine;
 	LevelCreator levelCreator;
@@ -113,12 +115,14 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public void advance_level() {
-		int currentLevel = gameEngine.getLevel();
-		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
-		gameEngine.addTile(ZERO, TWO, TileType.FOOD);
+	public void set_new_food_location() {
+		gameEngine.setLevelHorizontalDimension(ONE);
+		gameEngine.setLevelVerticalDimension(THREE);
+		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
+		gameEngine.addTile(ONE, TWO, TileType.FOOD);
+		gameEngine.addTile(ONE, THREE, TileType.PASSABLE);
 		gameEngine.keyDown();
-		assertThat(gameEngine.getLevel(), equalTo(currentLevel + 1));
+		assertThat(gameEngine.food, equalTo(new Point(gameEngine.newFoodXCoordinate, gameEngine.newFoodYCoordinate)));
 	}
 
 }
