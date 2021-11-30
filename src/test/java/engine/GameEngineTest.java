@@ -107,14 +107,6 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public void set_and_get_level() {
-		int level = 1;
-		gameEngine.setLevel(level);
-		int actual = gameEngine.getLevel();
-		assertThat(actual, equalTo(level));
-	}
-
-	@Test
 	public void set_new_food_location() {
 		gameEngine.setLevelHorizontalDimension(ONE);
 		gameEngine.setLevelVerticalDimension(THREE);

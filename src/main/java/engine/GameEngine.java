@@ -165,12 +165,4 @@ public class GameEngine {
 		return exit;
 	}
 
-	public void setLevel(int level) {
-		this.level = level;
-	}
-
-	public int getLevel() {
-		return level;
-	}
-
 }
