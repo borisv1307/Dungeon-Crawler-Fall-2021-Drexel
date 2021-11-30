@@ -9,6 +9,7 @@ import thread.CountDownThread;
 import tiles.TileType;
 import ui.GameFrame;
 import values.TunableParameters;
+import wrappers.SystemWrapper;
 
 public class GameEngine {
 
@@ -17,11 +18,13 @@ public class GameEngine {
 	public CountDownThread timerThread;
 	private boolean exit;
 	private int level = 1;
+	private int score = 0;
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
-	private boolean gameStarted = false;
+	private boolean levelStarted = false;
 	private boolean levelCanBePlayed = true;
+	private SystemWrapper systemWrapper = new SystemWrapper();
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
@@ -123,9 +126,9 @@ public class GameEngine {
 	}
 
 	private void startGameIfPossible() {
-		if (!gameStarted) {
+		if (!levelStarted) {
 			timerThread.startCountDown();
-			gameStarted = true;
+			levelStarted = true;
 		}
 	}
 
@@ -144,16 +147,30 @@ public class GameEngine {
 	}
 
 	private void loadNextLevel() {
-		timerThread.stopCountDown();
+		stopCountDown();
+		addScore();
 		this.levelCreator.createLevel(this, ++level);
-		gameStarted = false;
+		levelStarted = false;
+	}
+
+	private void addScore() {
+		score += 5;
 	}
 
 	public void timerRunsOut() {
 		levelCanBePlayed = false;
+		systemWrapper.println("Timer ran out! Total score: " + score);
 	}
 
 	public int getLevel() {
 		return level;
+	}
+
+	private void stopCountDown() {
+		timerThread.stopCountDown();
+	}
+
+	private void startCountDown() {
+		timerThread.startCountDown();
 	}
 }
