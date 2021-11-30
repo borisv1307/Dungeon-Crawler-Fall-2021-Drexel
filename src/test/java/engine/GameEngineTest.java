@@ -72,6 +72,21 @@ public class GameEngineTest {
 	}
 
 	@Test
+	public void add_and_get_two_players_coordinates() {
+		TileType tileType = TileType.PLAYER;
+		gameEngine.addTile(ZERO, ONE, tileType);
+		int playerOneActualX = gameEngine.getPlayerXCoordinate();
+		int playerOneActualY = gameEngine.getPlayerYCoordinate();
+		gameEngine.addTile(ONE, TWO, tileType);
+		int playerTwoActualX = gameEngine.getPlayerXCoordinate();
+		int playerTwoActualY = gameEngine.getPlayerYCoordinate();
+		assertThat(playerOneActualX, equalTo(ZERO));
+		assertThat(playerOneActualY, equalTo(ONE));
+		assertThat(playerTwoActualX, equalTo(ONE));
+		assertThat(playerTwoActualY, equalTo(TWO));
+	}
+
+	@Test
 	public void add_and_get_food_coordinates() {
 		TileType tileType = TileType.FOOD;
 		gameEngine.addTile(ZERO, ONE, tileType);
