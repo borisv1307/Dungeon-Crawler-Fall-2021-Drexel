@@ -25,7 +25,7 @@ public class LevelTimerTest {
 		levelTimer = new LevelTimer(5,
 				new GameEngine(new LevelCreator(TunableParameters.FILE_LOCATION_PREFIX, new ReaderWrapper())));
 		levelTimerThread = new Thread(levelTimer);
-		levelTimerThread.start();
+		levelTimerThread.run();
 	}
 
 	@Test
@@ -42,9 +42,8 @@ public class LevelTimerTest {
 
 	@Test
 	public void stopped_thread_should_stop_the_count_down() throws InterruptedException {
-		Thread.sleep(1000);
+		Thread.sleep(2000);
 		levelTimer.stop();
-		Thread.sleep(6000);
 		assertThat(TileColorMap.get(TileType.PLAYER), equalTo(Color.GREEN));
 	}
 }

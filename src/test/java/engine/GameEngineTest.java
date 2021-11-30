@@ -87,29 +87,19 @@ public class GameEngineTest {
 
 	@Test
 	public void change_color_of_player_tile_to_red() {
-		TileType tileType = TileType.PLAYER;
-		gameEngine.addTile(ZERO, ONE, tileType);
-
 		TileColorMap.changePlayerColor(Color.RED);
 
-		tileType = gameEngine.getTileFromCoordinates(gameEngine.getPlayerXCoordinate(),
-				gameEngine.getPlayerYCoordinate());
-		Color actualColor = TileColorMap.get(tileType);
+		Color actualColor = TileColorMap.get(TileType.PLAYER);
 
 		assertThat(actualColor, equalTo(Color.RED));
 	}
 
 	@Test
 	public void reset_player_default_color() {
-		TileType tileType = TileType.PLAYER;
-		gameEngine.addTile(ZERO, ONE, tileType);
-
 		TileColorMap.changePlayerColor(Color.RED);
 		TileColorMap.resetPlayerColor();
 
-		tileType = gameEngine.getTileFromCoordinates(gameEngine.getPlayerXCoordinate(),
-				gameEngine.getPlayerYCoordinate());
-		Color actualColor = TileColorMap.get(tileType);
+		Color actualColor = TileColorMap.get(TileType.PLAYER);
 
 		assertThat(actualColor, equalTo(Color.GREEN));
 	}
@@ -130,22 +120,6 @@ public class GameEngineTest {
 		assertThat(actualX, equalTo(ZERO));
 		assertThat(actualY, equalTo(TWO));
 
-	}
-
-	@Test
-	public void key_right_should_start_the_timer() {
-		GameFrame gameFrame = Mockito.mock(GameFrame.class);
-		Component component = Mockito.mock(Component.class);
-		Mockito.when(gameFrame.getComponents()).thenReturn(new Component[] { component });
-		gameEngine.run(gameFrame);
-
-		TileType tileType = TileType.PLAYER;
-		gameEngine.addTile(ZERO, ONE, tileType);
-		tileType = TileType.PASSABLE;
-		gameEngine.addTile(ONE, ONE, tileType);
-
-		gameEngine.keyRight();
-		assertThat(gameEngine.timerThread.isAlive(), equalTo(true));
 	}
 
 	@Test
@@ -174,7 +148,7 @@ public class GameEngineTest {
 
 		gameEngine.keyRight();
 		assertThat(gameEngine.canMoveTo(ZERO, ONE), equalTo(true));
-		Thread.sleep(5000);
+		Thread.sleep(6000);
 		assertThat(gameEngine.canMoveTo(ZERO, ONE), equalTo(false));
 
 	}
