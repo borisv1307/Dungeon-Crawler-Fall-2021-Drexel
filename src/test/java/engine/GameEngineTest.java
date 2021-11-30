@@ -23,7 +23,7 @@ public class GameEngineTest {
 	GameEngine gameEngine;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		LevelCreator levelCreator = Mockito.mock(LevelCreator.class);
 		gameEngine = new GameEngine(levelCreator);
 		int level = 1;
@@ -137,7 +137,6 @@ public class GameEngineTest {
 		gameEngine.addTile(ZERO, ONE, tileType);
 		tileType = TileType.PASSABLE;
 		gameEngine.addTile(ONE, ONE, tileType);
-		tileType = TileType.PASSABLE;
 		gameEngine.addTile(ZERO, ONE, tileType);
 
 		gameEngine.keyRight();
