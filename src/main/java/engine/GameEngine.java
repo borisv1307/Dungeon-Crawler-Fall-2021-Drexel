@@ -22,7 +22,7 @@ public class GameEngine {
 		exit = false;
 		level = 1;
 		this.levelCreator = levelCreator;
-		extracted();
+		this.levelCreator.createLevel(this, level);
 	}
 
 	public void run(GameFrame gameFrame) {
@@ -78,7 +78,6 @@ public class GameEngine {
 			setPlayer(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
 		}
 		movingToTile(attemptedLocation);
-
 	}
 
 	public void keyRight() {
