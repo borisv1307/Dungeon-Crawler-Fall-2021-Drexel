@@ -79,25 +79,81 @@ public class GameEngineTest {
 
 	@Test
 	public void key_left() {
-		// TODO Should I start with this test?
+		gameEngine.addTile(ZERO, ONE, TileType.PASSABLE);
+		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
 		gameEngine.keyLeft();
+		int actualX = gameEngine.getPlayerXCoordinate();
+		int actualY = gameEngine.getPlayerYCoordinate();
+		assertThat(actualX, equalTo(ZERO));
+		assertThat(actualY, equalTo(ONE));
 	}
 
 	@Test
 	public void key_right() {
-		// TODO Should I start with this test?
+		gameEngine.addTile(ONE, ONE, TileType.PASSABLE);
+		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
 		gameEngine.keyRight();
+		int actualX = gameEngine.getPlayerXCoordinate();
+		int actualY = gameEngine.getPlayerYCoordinate();
+		assertThat(actualX, equalTo(ONE));
+		assertThat(actualY, equalTo(ONE));
 	}
 
 	@Test
 	public void key_up() {
-		// TODO Should I start with this test?
+		gameEngine.addTile(ZERO, ZERO, TileType.PASSABLE);
+		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
 		gameEngine.keyUp();
+		int actualX = gameEngine.getPlayerXCoordinate();
+		int actualY = gameEngine.getPlayerYCoordinate();
+		assertThat(actualX, equalTo(ZERO));
+		assertThat(actualY, equalTo(ZERO));
 	}
 
 	@Test
 	public void key_down() {
-		// TODO Should I start with this test?
+		gameEngine.addTile(ZERO, ONE, TileType.PASSABLE);
+		gameEngine.addTile(ZERO, ZERO, TileType.PLAYER);
 		gameEngine.keyDown();
+		int actualX = gameEngine.getPlayerXCoordinate();
+		int actualY = gameEngine.getPlayerYCoordinate();
+		assertThat(actualX, equalTo(ZERO));
+		assertThat(actualY, equalTo(ONE));
 	}
+
+	@Test
+	public void increase_level() {
+		gameEngine.addTile(ONE, ONE, TileType.NEXT_LEVEL);
+		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
+		gameEngine.keyRight();
+		int actualLevel = gameEngine.getLevel();
+		int level = 2;
+		assertThat(actualLevel, equalTo(level));
+	}
+
+	@Test
+	public void decrease_level() {
+		gameEngine.addTile(ZERO, ONE, TileType.PREVIOUS_LEVEL);
+		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
+		gameEngine.keyLeft();
+		int actualLevel = gameEngine.getLevel();
+		int level = 0;
+		assertThat(actualLevel, equalTo(level));
+	}
+
+	@Test
+	public void game_exits_on_obstacle() {
+		boolean exit = true;
+		gameEngine.addTile(ONE, ONE, TileType.OBSTACLE);
+		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
+		gameEngine.keyRight();
+		boolean actual = gameEngine.isExit();
+		assertThat(actual, equalTo(exit));
+	}
+
+//	@Test
+//	public void traverse_to_following_level() {
+//
+//	}
+
 }
