@@ -16,13 +16,15 @@ import values.TunableParameters;
 import wrappers.ReaderWrapper;
 
 public class LevelTimerTest {
-	LevelTimer levelTimer = new LevelTimer(5,
-			new GameEngine(new LevelCreator(TunableParameters.FILE_LOCATION_PREFIX, new ReaderWrapper())));
-	Thread levelTimerThread = new Thread(levelTimer);
+	LevelTimer levelTimer;
+	Thread levelTimerThread;
 
 	@Before
 	public void setUp() {
 		TileColorMap.resetPlayerColor();
+		levelTimer = new LevelTimer(5,
+				new GameEngine(new LevelCreator(TunableParameters.FILE_LOCATION_PREFIX, new ReaderWrapper())));
+		levelTimerThread = new Thread(levelTimer);
 		levelTimerThread.start();
 	}
 
