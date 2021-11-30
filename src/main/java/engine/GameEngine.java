@@ -159,7 +159,7 @@ public class GameEngine {
 		levelClear = false;
 	}
 
-	public int getCurrentLevel() {
+	public int getLevel() {
 		return level;
 	}
 }
