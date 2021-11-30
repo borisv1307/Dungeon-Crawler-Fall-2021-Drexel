@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import parser.LevelCreator;
+import thread.CountDownThread;
 import tiles.TileType;
-import timer.LevelTimer;
 import ui.GameFrame;
 import values.TunableParameters;
 
@@ -14,23 +14,24 @@ public class GameEngine {
 
 	private final LevelCreator levelCreator;
 	private final Map<Point, TileType> tiles = new HashMap<>();
-	public Thread countDownThread;
-	private LevelTimer levelTimer;
+	public CountDownThread timerThread;
 	private boolean exit;
-	private int level;
+	private int level = 1;
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
 	private boolean gameStarted = false;
-	private boolean levelClear = true;
+	private boolean levelCanBePlayed = true;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
-		level = 1;
 		this.levelCreator = levelCreator;
 		this.levelCreator.createLevel(this, level);
-		levelTimer = new LevelTimer(TunableParameters.PLAYER_LIMIT_TIME, this);
-		countDownThread = new Thread(levelTimer);
+		setUpCountDownTimer();
+	}
+
+	private void setUpCountDownTimer() {
+		timerThread = new CountDownThread(TunableParameters.PLAYER_LIMIT_TIME, this);
 	}
 
 	public void run(GameFrame gameFrame) {
@@ -105,13 +106,6 @@ public class GameEngine {
 		}
 	}
 
-	private void startGameIfPossible() {
-		if (!gameStarted) {
-			startCountDown();
-			gameStarted = true;
-		}
-	}
-
 	public void keyUp() {
 		int newX = getPlayerXCoordinate();
 		int newY = getPlayerYCoordinate() - 1;
@@ -128,9 +122,17 @@ public class GameEngine {
 		}
 	}
 
+	private void startGameIfPossible() {
+		if (!gameStarted) {
+			timerThread.startCountDown();
+			gameStarted = true;
+		}
+	}
+
 	public boolean canMoveTo(int x, int y) {
 		TileType attemptedLocation = getTileFromCoordinates(x, y);
-		return levelClear && (attemptedLocation.equals(TileType.PASSABLE) || attemptedLocation.equals(TileType.TARGET));
+		return levelCanBePlayed
+				&& (attemptedLocation.equals(TileType.PASSABLE) || attemptedLocation.equals(TileType.TARGET));
 	}
 
 	public boolean isExit() {
@@ -142,21 +144,13 @@ public class GameEngine {
 	}
 
 	private void loadNextLevel() {
-		stopCountDown();
+		timerThread.stopCountDown();
 		this.levelCreator.createLevel(this, ++level);
 		gameStarted = false;
 	}
 
-	private void startCountDown() {
-		countDownThread.run();
-	}
-
-	private void stopCountDown() {
-		levelTimer.stop();
-	}
-
 	public void timerRunsOut() {
-		levelClear = false;
+		levelCanBePlayed = false;
 	}
 
 	public int getLevel() {
