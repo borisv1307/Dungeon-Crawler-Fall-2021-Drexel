@@ -14,9 +14,9 @@ public class GameEngine {
 	final static int PLAYER_TIME_LIMIT = 5;
 	private final LevelCreator levelCreator;
 	private final Map<Point, TileType> tiles = new HashMap<>();
-	private final int level;
 	public Thread countDownThread;
 	private boolean exit;
+	private int level;
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
@@ -39,8 +39,8 @@ public class GameEngine {
 
 	public void addTile(int x, int y, TileType tileType) {
 		if (tileType.equals(TileType.PLAYER)) {
-			setPlayer(x, y);
 			tiles.put(new Point(x, y), TileType.PLAYER);
+			setPlayer(x, y);
 		} else {
 			tiles.put(new Point(x, y), tileType);
 		}
@@ -68,6 +68,14 @@ public class GameEngine {
 
 	private void setPlayer(int x, int y) {
 		player = new Point(x, y);
+		checkTargetReached(x, y);
+	}
+
+	private void checkTargetReached(int x, int y) {
+		TileType possibleTarget = getTileFromCoordinates(x, y);
+		if (possibleTarget.equals(TileType.TARGET)) {
+			loadNextLevel();
+		}
 	}
 
 	public int getPlayerXCoordinate() {
@@ -131,11 +139,24 @@ public class GameEngine {
 		this.exit = exit;
 	}
 
+	private void loadNextLevel() {
+		this.levelCreator.createLevel(this, ++level);
+		gameStarted = false;
+	}
+
 	private void startCountDown() {
 		countDownThread.start();
 	}
 
+	private void stopCountDown() {
+		countDownThread.interrupt();
+	}
+
 	public void timerRunsOut() {
 		levelClear = false;
+	}
+
+	public int getCurrentLevel() {
+		return level;
 	}
 }

@@ -178,4 +178,24 @@ public class GameEngineTest {
 		assertThat(gameEngine.canMoveTo(ZERO, ONE), equalTo(false));
 
 	}
+
+	@Test
+	public void level_should_increase_when_player_reaches_target_before_timer_runs_out() throws InterruptedException {
+		GameFrame gameFrame = Mockito.mock(GameFrame.class);
+		Component component = Mockito.mock(Component.class);
+		Mockito.when(gameFrame.getComponents()).thenReturn(new Component[] { component });
+		gameEngine.run(gameFrame);
+
+		TileType tileType = TileType.PLAYER;
+		gameEngine.addTile(ZERO, ONE, tileType);
+		tileType = TileType.PASSABLE;
+		gameEngine.addTile(ONE, ONE, tileType);
+		tileType = TileType.TARGET;
+		gameEngine.addTile(TWO, ONE, tileType);
+
+		gameEngine.keyRight();
+		Thread.sleep(3000);
+		gameEngine.keyRight();
+		assertThat(gameEngine.getCurrentLevel(), equalTo(2));
+	}
 }
