@@ -2,13 +2,18 @@ package values;
 
 import static org.junit.Assert.assertSame;
 
-import java.awt.Color;
+import java.awt.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import tiles.TileType;
 
 public class TileColorMapTest {
+	@Before
+	public void setUp() {
+		TileColorMap.resetPlayerColor();
+	}
 
 	@Test
 	public void passable() {
