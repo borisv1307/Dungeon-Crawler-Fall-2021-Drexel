@@ -123,7 +123,7 @@ public class GameEngineTest {
 		Mockito.when(gameFrame.getComponents()).thenReturn(new Component[] { component });
 		gameEngine.run(gameFrame);
 
-		assertThat(gameEngine.timerThread.isAlive(), equalTo(false));
+		assertThat(gameEngine.getTimerThread().isAlive(), equalTo(false));
 	}
 
 	@Test

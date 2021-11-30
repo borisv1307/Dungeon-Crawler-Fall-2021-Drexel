@@ -15,7 +15,7 @@ public class GameEngine {
 
 	private final LevelCreator levelCreator;
 	private final Map<Point, TileType> tiles = new HashMap<>();
-	public CountDownThread timerThread;
+	private CountDownThread timerThread;
 	private boolean exit;
 	private int level = 0;
 	private int score = 0;
@@ -168,15 +168,19 @@ public class GameEngine {
 		systemWrapper.println("Timer ran out! Total score: " + score);
 	}
 
-	public int getLevel() {
-		return level;
-	}
-
 	private void stopCountDown() {
 		timerThread.stopCountDown();
 	}
 
 	private void startCountDown() {
 		timerThread.startCountDown();
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public CountDownThread getTimerThread() {
+		return timerThread;
 	}
 }

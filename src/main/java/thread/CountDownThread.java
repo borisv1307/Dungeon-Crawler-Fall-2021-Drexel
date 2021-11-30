@@ -7,13 +7,13 @@ public class CountDownThread {
 	private LevelTimer levelTimer;
 	private Thread timerThread;
 
-	public CountDownThread(int PLAYER_TIME_LIMIT, GameEngine gameEngine) {
-		levelTimer = new LevelTimer(PLAYER_TIME_LIMIT, gameEngine);
+	public CountDownThread(int timeLimit, GameEngine gameEngine) {
+		levelTimer = new LevelTimer(timeLimit, gameEngine);
 		timerThread = new Thread(levelTimer);
 	}
 
 	public void startCountDown() {
-		timerThread.run();
+		timerThread.start();
 	}
 
 	public void stopCountDown() {
