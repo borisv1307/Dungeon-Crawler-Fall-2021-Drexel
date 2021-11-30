@@ -120,4 +120,30 @@ public class GameEngineTest {
 		assertThat(actualX, equalTo(ZERO));
 		assertThat(actualY, equalTo(ONE));
 	}
+
+	@Test
+	public void increase_level() {
+		gameEngine.addTile(ONE, ONE, TileType.NEXT_LEVEL);
+		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
+		gameEngine.keyRight();
+		int actualLevel = gameEngine.getLevel();
+		int level = 2;
+		assertThat(actualLevel, equalTo(level));
+	}
+
+	@Test
+	public void decrease_level() {
+		gameEngine.addTile(ZERO, ONE, TileType.PREVIOUS_LEVEL);
+		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
+		gameEngine.keyLeft();
+		int actualLevel = gameEngine.getLevel();
+		int level = 0;
+		assertThat(actualLevel, equalTo(level));
+	}
+
+//	@Test
+//	public void traverse_to_following_level() {
+//
+//	}
+
 }

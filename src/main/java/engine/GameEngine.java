@@ -10,14 +10,13 @@ import tiles.TileType;
 import ui.GameFrame;
 
 public class GameEngine {
-
 	private boolean exit;
 	private final LevelCreator levelCreator;
 	private final Map<Point, TileType> tiles = new HashMap<>();
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
-	private final int level;
+	private int level;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
@@ -78,12 +77,23 @@ public class GameEngine {
 		if (attemptedLocation.equals(TileType.PASSABLE)) {
 			setPlayer(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
 		}
+		if (attemptedLocation.equals(TileType.PREVIOUS_LEVEL)) {
+			decreaseLevel();
+			this.levelCreator.createLevel(this, level);
+			System.out.println("Ran Code");
+		}
+
 	}
 
 	public void keyRight() {
 		TileType attemptedLocation = getTileFromCoordinates(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
-		if (attemptedLocation.equals(TileType.PASSABLE)) {
+		if (attemptedLocation.equals(TileType.PASSABLE) | attemptedLocation.equals(TileType.NEXT_LEVEL)) {
 			setPlayer(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
+		}
+		if (attemptedLocation.equals(TileType.NEXT_LEVEL)) {
+			increaseLevel();
+			this.levelCreator.createLevel(this, level);
+			System.out.println("Ran Code");
 		}
 	}
 
@@ -107,5 +117,17 @@ public class GameEngine {
 
 	public boolean isExit() {
 		return exit;
+	}
+
+	public void increaseLevel() {
+		this.level++;
+	}
+
+	public void decreaseLevel() {
+		this.level--;
+	}
+
+	public int getLevel() {
+		return this.level;
 	}
 }

@@ -3,7 +3,7 @@ X                  X
 X         C C      X
 X                  X
 X                  X
-BP         	       N 
+B         	      PN 
 X                  X
 X          	       X
 X                  X
