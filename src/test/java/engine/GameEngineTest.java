@@ -210,4 +210,98 @@ public class GameEngineTest {
 		assertThat(actual, equalTo(exit));
 	}
 
+	@Test
+	public void increment_and_get_door_collision_counter() {
+		gameEngine.incrementDoorCollisionCounter();
+		int collisionCounter = gameEngine.getDoorCollisionCounter();
+		assertThat(collisionCounter, equalTo(ONE));
+	}
+
+	@Test
+	public void increment_and_get_bridge_collision_counter() {
+		gameEngine.incrementBridgeCollisionCounter();
+		int collisionCounter = gameEngine.getBridgeCollisionCounter();
+		assertThat(collisionCounter, equalTo(ONE));
+	}
+
+	@Test
+	public void increment_door_collision_counter_when_collision_with_deactivated_door() {
+		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
+		gameEngine.addTile(ONE, ONE, TileType.DEACTIVATED_DOOR);
+		gameEngine.keyRight();
+		int actual = gameEngine.getDoorCollisionCounter();
+		assertThat(actual, equalTo(ONE));
+	}
+
+	@Test
+	public void increment_bridge_collision_counter_when_collision_with_not_passable_bridge() {
+		gameEngine.addTile(ONE, ZERO, TileType.NOT_PASSABLE_BRIDGE);
+		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
+		gameEngine.keyUp();
+		int actual = gameEngine.getBridgeCollisionCounter();
+		assertThat(actual, equalTo(ONE));
+	}
+
+	@Test
+	public void exit_game_when_door_collison_counter_equals_two() {
+		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
+		gameEngine.addTile(ONE, ONE, TileType.DEACTIVATED_DOOR);
+		gameEngine.keyRight();
+		gameEngine.keyRight();
+		boolean actual = gameEngine.isExit();
+		assertThat(actual, equalTo(true));
+	}
+
+	@Test
+	public void exit_game_when_bridge_collison_counter_equals_three() {
+		gameEngine.addTile(ONE, ZERO, TileType.NOT_PASSABLE_BRIDGE);
+		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
+		gameEngine.keyUp();
+		gameEngine.keyUp();
+		gameEngine.keyUp();
+		boolean actual = gameEngine.isExit();
+		assertThat(actual, equalTo(true));
+	}
+
+	@Test
+	public void game_continues_when_bridge_collison_counter_equals_two() {
+		gameEngine.addTile(ONE, ZERO, TileType.NOT_PASSABLE_BRIDGE);
+		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
+		gameEngine.keyUp();
+		gameEngine.keyUp();
+		boolean actual = gameEngine.isExit();
+		int collisonCounter = gameEngine.getBridgeCollisionCounter();
+		assertThat(actual, equalTo(false));
+		assertThat(collisonCounter, equalTo(TWO));
+	}
+
+	@Test
+	public void reinitialize_collision_counters() {
+		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
+		gameEngine.addTile(ONE, ONE, TileType.DEACTIVATED_DOOR);
+		gameEngine.addTile(ZERO, ZERO, TileType.NOT_PASSABLE_BRIDGE);
+		gameEngine.keyRight();
+		gameEngine.keyUp();
+		gameEngine.reinitializeCollisionCounters();
+		int doorCollisionCounter = gameEngine.getDoorCollisionCounter();
+		int bridgeCollisionCounter = gameEngine.getBridgeCollisionCounter();
+		assertThat(doorCollisionCounter, equalTo(ZERO));
+		assertThat(bridgeCollisionCounter, equalTo(ZERO));
+	}
+
+	@Test
+	public void reinitialize_collision_counter_when_going_to_next_level() {
+		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
+		gameEngine.addTile(TWO, ONE, TileType.DEACTIVATED_DOOR);
+		gameEngine.addTile(ONE, ZERO, TileType.NOT_PASSABLE_BRIDGE);
+		gameEngine.addTile(ZERO, ONE, TileType.DOOR);
+		gameEngine.keyRight();
+		gameEngine.keyUp();
+		gameEngine.keyLeft();
+		gameEngine.goToNextLevel();
+		int doorCollisionCounter = gameEngine.getDoorCollisionCounter();
+		int bridgeCollisonCounter = gameEngine.getBridgeCollisionCounter();
+		assertThat(doorCollisionCounter, equalTo(ZERO));
+		assertThat(bridgeCollisonCounter, equalTo(ZERO));
+	}
 }

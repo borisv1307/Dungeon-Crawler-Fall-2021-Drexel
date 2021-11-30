@@ -20,6 +20,8 @@ public class GameEngine {
 	private int level;
 	private int playerInitialX;
 	private int playerInitialY;
+	private int doorCollisionCounter;
+	private int bridgeCollisionCounter;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
@@ -78,23 +80,31 @@ public class GameEngine {
 	}
 
 	public void keyLeft() {
+		TileType nextLocation = getTileFromCoordinates(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
+		countDoorCollisions(nextLocation);
 		movePlayerTo(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
 	}
 
 	public void keyRight() {
+		TileType nextLocation = getTileFromCoordinates(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
+		countDoorCollisions(nextLocation);
 		movePlayerTo(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
 	}
 
 	public void keyUp() {
 		TileType nextLocation = getTileFromCoordinates(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
 		if (nextLocation.equals(TileType.NOT_PASSABLE_BRIDGE)) {
+			incrementBridgeCollisionCounter();
 			bringPlayerBackToInitialPosition();
 		} else {
+			countDoorCollisions(nextLocation);
 			movePlayerVertically(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
 		}
 	}
 
 	public void keyDown() {
+		TileType nextLocation = getTileFromCoordinates(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
+		countDoorCollisions(nextLocation);
 		movePlayerVertically(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
 	}
 
@@ -127,6 +137,31 @@ public class GameEngine {
 		}
 	}
 
+	public void incrementDoorCollisionCounter() {
+		doorCollisionCounter++;
+		if (doorCollisionCounter == 2)
+			setExit(true);
+	}
+
+	public int getDoorCollisionCounter() {
+		return doorCollisionCounter;
+	}
+
+	public void incrementBridgeCollisionCounter() {
+		bridgeCollisionCounter++;
+		if (bridgeCollisionCounter == 3)
+			setExit(true);
+	}
+
+	public int getBridgeCollisionCounter() {
+		return bridgeCollisionCounter;
+	}
+
+	public void reinitializeCollisionCounters() {
+		doorCollisionCounter = 0;
+		bridgeCollisionCounter = 0;
+	}
+
 	private void movePlayerVertically(int x, int y) {
 		TileType nextLocation = getTileFromCoordinates(x, y);
 		if (nextLocation.equals(TileType.PASSABLE_BRIDGE)) {
@@ -145,6 +180,7 @@ public class GameEngine {
 
 	private void advanceIfValidLevel() {
 		if (level < 2) {
+			reinitializeCollisionCounters();
 			setLevel(level + 1);
 			levelCreator.createLevel(this, level);
 		} else {
@@ -152,4 +188,8 @@ public class GameEngine {
 		}
 	}
 
+	private void countDoorCollisions(TileType nextLocation) {
+		if (nextLocation.equals(TileType.DEACTIVATED_DOOR))
+			incrementDoorCollisionCounter();
+	}
 }
