@@ -9,10 +9,10 @@ public class CountDownThread {
 
 	public CountDownThread(int timeLimit, GameEngine gameEngine) {
 		levelTimer = new LevelTimer(timeLimit, gameEngine);
-		timerThread = new Thread(levelTimer);
 	}
 
 	public void startCountDown() {
+		timerThread = new Thread(levelTimer);
 		timerThread.start();
 	}
 
