@@ -169,4 +169,45 @@ public class GameEngineTest {
 		assertThat(actualX, equalTo(ZERO));
 		assertThat(actualY, equalTo(THREE));
 	}
+
+	@Test
+	public void set_and_get_level() {
+		int level = TWO;
+		gameEngine.setLevel(level);
+		int actual = gameEngine.getCurrentLevel();
+		assertThat(actual, equalTo(level));
+	}
+
+	@Test
+	public void player_goes_to_next_level_if_reaches_door() {
+		gameEngine.addTile(ZERO, ONE, TileType.DOOR);
+		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
+		gameEngine.keyLeft();
+		gameEngine.goToNextLevel();
+		int newLevel = gameEngine.getCurrentLevel();
+		assertThat(newLevel, equalTo(TWO));
+	}
+
+	@Test
+	public void player_does_not_go_to_next_level_if_tile_is_not_door() {
+		gameEngine.addTile(ZERO, ONE, TileType.PASSABLE);
+		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
+		gameEngine.keyLeft();
+		gameEngine.goToNextLevel();
+		int newLevel = gameEngine.getCurrentLevel();
+		assertThat(newLevel, equalTo(ONE));
+	}
+
+	@Test
+	public void player_cannot_go_to_an_invalid_level() {
+		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
+		gameEngine.addTile(ONE, ONE, TileType.DOOR);
+		gameEngine.setLevel(TWO);
+		gameEngine.keyRight();
+		gameEngine.goToNextLevel();
+		boolean exit = true;
+		boolean actual = gameEngine.isExit();
+		assertThat(actual, equalTo(exit));
+	}
+
 }

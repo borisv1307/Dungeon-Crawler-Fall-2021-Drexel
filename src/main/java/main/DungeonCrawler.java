@@ -55,6 +55,7 @@ public class DungeonCrawler implements Runnable {
 		if (framesPerSecondHandler.hasEnoughTimeElapsed()) {
 			framesPerSecondHandler.resetLastRunTimer();
 			gameEngine.run(gameFrame);
+			gameEngine.goToNextLevel();
 			threadWrapper.sleep(framesPerSecondHandler.calculateSleepDurationInMilliSeconds());
 		}
 	}

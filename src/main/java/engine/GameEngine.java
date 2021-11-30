@@ -17,7 +17,7 @@ public class GameEngine {
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
-	private final int level;
+	private int level;
 	private int playerInitialX;
 	private int playerInitialY;
 
@@ -106,6 +106,27 @@ public class GameEngine {
 		return exit;
 	}
 
+	public void bringPlayerBackToInitialPosition() {
+		setPlayer(playerInitialX, playerInitialY);
+	}
+
+	public int getCurrentLevel() {
+		return level;
+	}
+
+	public void setLevel(int newLevel) {
+		level = newLevel;
+	}
+
+	public void goToNextLevel() {
+		int playerX = getPlayerXCoordinate();
+		int playerY = getPlayerYCoordinate();
+		TileType potentialDoor = getTileFromCoordinates(playerX, playerY);
+		if (potentialDoor.equals(TileType.DOOR)) {
+			advanceIfValidLevel();
+		}
+	}
+
 	private void movePlayerVertically(int x, int y) {
 		TileType nextLocation = getTileFromCoordinates(x, y);
 		if (nextLocation.equals(TileType.PASSABLE_BRIDGE)) {
@@ -122,7 +143,13 @@ public class GameEngine {
 		}
 	}
 
-	public void bringPlayerBackToInitialPosition() {
-		setPlayer(playerInitialX, playerInitialY);
+	private void advanceIfValidLevel() {
+		if (level < 2) {
+			setLevel(level + 1);
+			levelCreator.createLevel(this, level);
+		} else {
+			setExit(true);
+		}
 	}
+
 }
