@@ -163,6 +163,6 @@ public class GameEngineTest {
 		gameEngine.keyRight();
 		Thread.sleep(3000);
 		gameEngine.keyRight();
-		assertThat(gameEngine.getLevel(), equalTo(2));
+		assertThat(gameEngine.gameStats.getLevel(), equalTo(2));
 	}
 }

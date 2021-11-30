@@ -46,7 +46,7 @@ public class LevelTimer implements Runnable {
 
 		private void closeTimer() {
 			stop();
-			gameEngine.timerRunsOut();
+			gameEngine.timerRunsOutCallBack();
 		}
 	}
 }

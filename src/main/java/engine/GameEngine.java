@@ -8,6 +8,8 @@ import parser.LevelCreator;
 import thread.CountDownThread;
 import tiles.TileType;
 import ui.GameFrame;
+import ui.WindowsDimension;
+import values.GameStats;
 import values.TunableParameters;
 import wrappers.SystemWrapper;
 
@@ -15,12 +17,10 @@ public class GameEngine {
 
 	private final LevelCreator levelCreator;
 	private final Map<Point, TileType> tiles = new HashMap<>();
+	public GameStats gameStats;
 	private CountDownThread timerThread;
 	private boolean exit;
-	private int level = 0;
-	private int score = 0;
-	private int levelHorizontalDimension;
-	private int levelVerticalDimension;
+	private WindowsDimension dimensions = new WindowsDimension();
 	private Point player;
 	private boolean levelStarted = false;
 	private boolean levelCanBePlayed = true;
@@ -28,9 +28,26 @@ public class GameEngine {
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
+		gameStats = new GameStats();
 		this.levelCreator = levelCreator;
 		setUpCountDownTimer();
 		loadNextLevel();
+	}
+
+	public int getLevelHorizontalDimension() {
+		return dimensions.getLevelHorizontalDimension();
+	}
+
+	public void setLevelHorizontalDimension(int levelHorizontalDimension) {
+		dimensions.setLevelHorizontalDimension(levelHorizontalDimension);
+	}
+
+	public int getLevelVerticalDimension() {
+		return dimensions.getLevelVerticalDimension();
+	}
+
+	public void setLevelVerticalDimension(int levelVerticalDimension) {
+		dimensions.setLevelVerticalDimension(levelVerticalDimension);
 	}
 
 	private void setUpCountDownTimer() {
@@ -50,22 +67,6 @@ public class GameEngine {
 		} else {
 			tiles.put(new Point(x, y), tileType);
 		}
-	}
-
-	public int getLevelHorizontalDimension() {
-		return levelHorizontalDimension;
-	}
-
-	public void setLevelHorizontalDimension(int levelHorizontalDimension) {
-		this.levelHorizontalDimension = levelHorizontalDimension;
-	}
-
-	public int getLevelVerticalDimension() {
-		return levelVerticalDimension;
-	}
-
-	public void setLevelVerticalDimension(int levelVerticalDimension) {
-		this.levelVerticalDimension = levelVerticalDimension;
 	}
 
 	public TileType getTileFromCoordinates(int x, int y) {
@@ -148,24 +149,27 @@ public class GameEngine {
 
 	private void loadNextLevel() {
 		stopCountDown();
-		this.levelCreator.createLevel(this, ++level);
+		this.levelCreator.createLevel(this, gameStats.increaseLevel());
 		if (!exit) {
-			addScore();
-			levelStarted = false;
-			systemWrapper.println("Level " + level + ". Press Right-Arrow to start...");
+			newLevelSetUp();
 		} else {
-			systemWrapper.println("Game ends! You finished all levels. Total score: " + score);
+			gameEnds();
 		}
 	}
 
-	private void addScore() {
-		score += TunableParameters.SCORE_PER_LEVEL;
+	private void newLevelSetUp() {
+		gameStats.addScore();
+		levelStarted = false;
+		systemWrapper.println("Level " + gameStats.getLevel() + ". Press Right-Arrow to start...");
 	}
 
-	public void timerRunsOut() {
+	private void gameEnds() {
+		systemWrapper.println("Game ends! You finished all levels. Total score: " + gameStats.getScore());
+	}
+
+	public void timerRunsOutCallBack() {
 		levelCanBePlayed = false;
-		score -= TunableParameters.SCORE_PER_LEVEL;
-		systemWrapper.println("Timer ran out! Total score: " + score);
+		systemWrapper.println("Timer ran out! Total score: " + gameStats.getScore());
 	}
 
 	private void stopCountDown() {
@@ -174,10 +178,6 @@ public class GameEngine {
 
 	private void startCountDown() {
 		timerThread.startCountDown();
-	}
-
-	public int getLevel() {
-		return level;
 	}
 
 	public CountDownThread getTimerThread() {
