@@ -136,7 +136,7 @@ public class GameEngine {
 	}
 
 	private boolean canMoveInto(TileType attemptedLocation) {
-		return !attemptedLocation.equals(TileType.NOT_PASSABLE) && !attemptedLocation.equals(TileType.BREAKABLE);
+		return attemptedLocation.equals(TileType.PASSABLE) || isPowerUp(attemptedLocation);
 	}
 
 	private boolean isPowerUp(TileType attemptedLocation) {
