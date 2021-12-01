@@ -26,6 +26,7 @@ public class GameEngine {
 	private Point food;
 	private int newFoodXCoordinate;
 	private int newFoodYCoordinate;
+	private int tailCounter;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
@@ -152,6 +153,8 @@ public class GameEngine {
 		int currentYCoordinate = getPlayerYCoordinate();
 		int attemptedXCoordinate = currentXCoordinate + direction[0];
 		int attemptedYCoordinate = currentYCoordinate + direction[1];
+		Point currentLeader = new Point(currentXCoordinate, currentYCoordinate);
+		Point previousLeader;
 
 		TileType attemptedTile = getTileFromCoordinates(attemptedXCoordinate, attemptedYCoordinate);
 		if (!isPassableTile(attemptedTile))
@@ -159,9 +162,24 @@ public class GameEngine {
 
 		setPlayer(attemptedXCoordinate, attemptedYCoordinate);
 
+		if (tailCounter > 0) {
+			for (int i = 0; i < tailCounter; i++) {
+				previousLeader = snake.get(i);
+				snake.set(i, currentLeader);
+				currentLeader = previousLeader;
+			}
+
+			for (Point tail : snake) {
+				System.out.println(tail.getX() + ", " + tail.getY());
+			}
+			System.out.println("--------------");
+
+		}
+
 		if (attemptedTile.equals(TileType.FOOD)) {
 			setNewFoodLocation();
 			addTail(currentXCoordinate, currentYCoordinate);
+			tailCounter++;
 		}
 
 	}
