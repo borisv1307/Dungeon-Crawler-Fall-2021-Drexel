@@ -135,8 +135,20 @@ public class GameEngineTest {
 		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
 		gameEngine.addTile(ONE, TWO, TileType.FOOD);
 		gameEngine.keyDown();
-		assertThat(gameEngine.getTail(ZERO),
-				equalTo(new Point(gameEngine.getTailXCoordinate(ZERO), gameEngine.getTailYCoordinate(ZERO))));
+		assertThat(gameEngine.getTail(ZERO), equalTo(new Point(ONE, TWO)));
+	}
+
+	@Test
+	public void one_tail_follows_player() {
+		gameEngine.setLevelHorizontalDimension(ONE);
+		gameEngine.setLevelVerticalDimension(THREE);
+		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
+		gameEngine.addTile(ONE, TWO, TileType.FOOD);
+		gameEngine.addTile(ONE, THREE, TileType.PASSABLE);
+		gameEngine.keyDown();
+		gameEngine.keyDown();
+		assertThat(gameEngine.getTileFromCoordinates(ONE, TWO), equalTo(TileType.PLAYER));
+		assertThat(gameEngine.getTileFromCoordinates(ONE, THREE), equalTo(TileType.PLAYER));
 	}
 
 }
