@@ -1,5 +1,5 @@
 @IntegrationTest
-Feature: Bomb-Wall interaction
+Feature: Bomb-Wall simple interaction
 
   Scenario: Bomb detonation with breakable walls immediately next to it
     Given level design is:
@@ -60,6 +60,50 @@ Feature: Bomb-Wall interaction
     And tile (8, 4) is " "
     And tile (6, 6) is " "
     And tile (4, 4) is " "
+
+  Scenario: Bomb detonation not at level's center with bomb power up tiles 1 tile away from it
+    Given level design is:
+      | XXXXXXXXX |
+      | X  BK   X |
+      | X       X |
+      | XB   B  X |
+      | XK  P  KX |
+      | X  B    X |
+      | X       X |
+      | X   K   X |
+      | XXXXXXXXX |
+    And player has bomb power up
+    And player moves up
+    And player moves left
+    And player places a bomb
+    When player places a bomb
+    Then tile (4, 4) is " "
+    And tile (4, 2) is " "
+    And tile (6, 4) is " "
+    And tile (4, 6) is " "
+    And tile (2, 4) is " "
+
+  Scenario: Bomb detonation not at level's center with bomb power up tiles 1 tile away from it
+    Given level design is:
+      | XXXXXXXXX |
+      | X   K   X |
+      | X       X |
+      | X  F    X |
+      | XK  P  KX |
+      | XF   F  X |
+      | X       X |
+      | X  FK   X |
+      | XXXXXXXXX |
+    And player has bomb power up
+    And player moves down
+    And player moves left
+    And player places a bomb
+    When player places a bomb
+    Then tile (4, 6) is " "
+    And tile (4, 4) is " "
+    And tile (6, 6) is " "
+    And tile (4, 8) is " "
+    And tile (2, 6) is " "
 
 
   Scenario: Bomb detonation with breakable walls 2 tiles away from it

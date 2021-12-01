@@ -172,11 +172,15 @@ public class GameEngine {
 			if (toBeDestroyed.equals(TileType.NOT_PASSABLE)) {
 				break;
 			}
-			if (toBeDestroyed.equals(TileType.BREAKABLE)) {
+			if (isDestroyable(toBeDestroyed)) {
 				addTile(x, y, TileType.PASSABLE);
 				break;
 			}
 		}
+	}
+
+	private boolean isDestroyable(TileType toBeDestroyed) {
+		return toBeDestroyed.equals(TileType.BREAKABLE) || isPowerUp(toBeDestroyed);
 	}
 
 	private void removeBomb() {

@@ -1,5 +1,5 @@
 @IntegrationTest
-Feature: Bomb-Wall Complex interaction
+Feature: Bomb-Wall complex interaction
 
   Scenario: Bomb placed where detonation fire range would reach out of the level's bounds
     Given level design is:
@@ -114,3 +114,47 @@ Feature: Bomb-Wall Complex interaction
     And tile (6, 4) is "X"
     And tile (4, 6) is "X"
     And tile (2, 4) is "X"
+
+  Scenario: Bomb detonation has bomb power up tile and then breakable wall in each direction
+    Given level design is:
+      | XXXXXXX |
+      | X  K  X |
+      | X  B  X |
+      | XKBPBKX |
+      | X  B  X |
+      | X  K  X |
+      | XXXXXXX |
+    And player has bomb power up
+    And player places a bomb
+    When player places a bomb
+    Then tile (4, 4) is " "
+    And tile (4, 3) is " "
+    And tile (5, 4) is " "
+    And tile (4, 5) is " "
+    And tile (3, 4) is " "
+    And tile (4, 2) is "K"
+    And tile (6, 4) is "K"
+    And tile (4, 6) is "K"
+    And tile (2, 4) is "K"
+
+  Scenario: Bomb detonation has fire power up tile and then bomb power up tile in each direction
+    Given level design is:
+      | XXXXXXX |
+      | X  B  X |
+      | X  F  X |
+      | XBFPFBX |
+      | X  F  X |
+      | X  B  X |
+      | XXXXXXX |
+    And player has bomb power up
+    And player places a bomb
+    When player places a bomb
+    Then tile (4, 4) is " "
+    And tile (4, 3) is " "
+    And tile (5, 4) is " "
+    And tile (4, 5) is " "
+    And tile (3, 4) is " "
+    And tile (4, 2) is "B"
+    And tile (6, 4) is "B"
+    And tile (4, 6) is "B"
+    And tile (2, 4) is "B"
