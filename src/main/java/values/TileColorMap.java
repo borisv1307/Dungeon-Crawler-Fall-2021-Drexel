@@ -15,10 +15,10 @@ public final class TileColorMap {
 		tileColors.put(TileType.PASSABLE, Color.WHITE);
 		tileColors.put(TileType.NOT_PASSABLE, Color.BLACK);
 		tileColors.put(TileType.PLAYER, Color.GREEN);
-		tileColors.put(TileType.NEXT_LEVEL, Color.RED);
-		tileColors.put(TileType.PREVIOUS_LEVEL, Color.BLUE);
+		tileColors.put(TileType.NEXT_LEVEL, Color.WHITE);
+		tileColors.put(TileType.PREVIOUS_LEVEL, Color.WHITE);
 		tileColors.put(TileType.COIN, Color.YELLOW);
-		tileColors.put(TileType.OBSTACLE, Color.ORANGE);
+		tileColors.put(TileType.OBSTACLE, Color.RED);
 	}
 
 	public static Color get(TileType key) {

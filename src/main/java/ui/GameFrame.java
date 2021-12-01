@@ -6,7 +6,6 @@ import java.awt.Frame;
 import values.TunableParameters;
 
 public class GameFrame extends Frame {
-
 	private static final long serialVersionUID = 1L;
 
 	public GameFrame(GamePanel gamePanel, WindowAdapterSystemExit windowAdapterSystemExit) {
@@ -18,4 +17,5 @@ public class GameFrame extends Frame {
 		gamePanel.init();
 		setVisible(true);
 	}
+
 }

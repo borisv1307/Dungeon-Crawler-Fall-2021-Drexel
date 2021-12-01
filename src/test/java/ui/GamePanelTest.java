@@ -21,7 +21,6 @@ public class GamePanelTest {
 	int verticalDimension = 6;
 	int tileWidth = width / horizontalDimension;
 	int tileHeight = height / verticalDimension;
-
 	GamePanel gamePanel;
 	GameEngine gameEngine;
 	TilePainter tilePainter;
@@ -38,16 +37,32 @@ public class GamePanelTest {
 	}
 
 	@Test
-	public void paint() {
+	public void paint_tiles() {
 		Graphics graphics = Mockito.mock(Graphics.class);
 		int playerXCoordinate = 2;
 		int playerYCoordinate = 3;
 		Mockito.when(gameEngine.getPlayerXCoordinate()).thenReturn(playerXCoordinate);
 		Mockito.when(gameEngine.getPlayerYCoordinate()).thenReturn(playerYCoordinate);
+		Mockito.when(gameEngine.getLevel()).thenReturn(0);
+		Mockito.when(gameEngine.getCoinCount()).thenReturn(0);
 		gamePanel.paint(graphics);
 		Mockito.verify(tilePainter).paintTiles(graphics, gameEngine, tileWidth, tileHeight);
 		Mockito.verify(tilePainter).paintPlayer(graphics, playerXCoordinate, playerYCoordinate, tileWidth, tileHeight,
 				TileType.PLAYER);
+	}
+
+	@Test
+	public void paint_text() {
+		Graphics graphics = Mockito.mock(Graphics.class);
+		int playerXCoordinate = 2;
+		int playerYCoordinate = 3;
+		gamePanel.paint(graphics);
+		Mockito.when(gameEngine.getPlayerXCoordinate()).thenReturn(playerXCoordinate);
+		Mockito.when(gameEngine.getPlayerYCoordinate()).thenReturn(playerYCoordinate);
+		Mockito.when(gameEngine.getLevel()).thenReturn(0);
+		Mockito.when(gameEngine.getCoinCount()).thenReturn(0);
+		Mockito.verify(tilePainter).paintText("Level: 0", graphics, tileWidth, tileHeight, 1, -5);
+		Mockito.verify(tilePainter).paintText("Coins: 0", graphics, tileWidth, tileHeight, 2, -5);
 	}
 
 	@Test

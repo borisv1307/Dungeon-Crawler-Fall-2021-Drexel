@@ -151,9 +151,34 @@ public class GameEngineTest {
 		assertThat(actual, equalTo(exit));
 	}
 
-//	@Test
-//	public void traverse_to_following_level() {
-//
-//	}
+	@Test
+	public void coin_counter_increases_when_moving_to_coin() {
+		gameEngine.addTile(ONE, ONE, TileType.COIN);
+		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
+		gameEngine.keyRight();
+		int actual = gameEngine.getCoinCount();
+		assertThat(actual, equalTo(ONE));
+	}
+
+	@Test
+	public void coin_tile_becomes_passable_tile_once_player_gathers_it() {
+		TileType tileType = TileType.PASSABLE;
+		gameEngine.addTile(ONE, ONE, TileType.COIN);
+		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
+		gameEngine.keyRight();
+		TileType actual = gameEngine.getTileFromCoordinates(ONE, ONE);
+		assertThat(actual, equalTo(tileType));
+	}
+
+	@Test
+	public void player_set_on_coin_tile_when_moving_to_it() {
+		gameEngine.addTile(ONE, ONE, TileType.COIN);
+		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
+		gameEngine.keyRight();
+		int actualX = gameEngine.getPlayerXCoordinate();
+		int actualY = gameEngine.getPlayerYCoordinate();
+		assertThat(actualX, equalTo(ONE));
+		assertThat(actualY, equalTo(ONE));
+	}
 
 }

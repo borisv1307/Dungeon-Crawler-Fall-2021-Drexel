@@ -14,11 +14,14 @@ import tiles.TileType;
 import values.TileColorMap;
 
 public class TilePainterTest {
-
+	private final int ZERO = 0;
 	private final int TILE_WIDTH = 10;
 	private final int TILE_HEIGHT = 20;
 	private final int X = 2;
 	private final int Y = 3;
+	private final int HORIZONTAL_POSITION = 1;
+	private final int VERTICAL_OFFSET = -1;
+	private final String PAINTED_TEXT = "test";
 
 	Graphics graphics;
 	TilePainter tilePainter;
@@ -56,8 +59,24 @@ public class TilePainterTest {
 	public void paint_player() {
 
 		tilePainter.paintPlayer(graphics, X, Y, TILE_WIDTH, TILE_HEIGHT, TileType.PLAYER);
-
 		Mockito.verify(graphics).fillRect(20, 60, 10, 20);
 	}
 
+	@Test
+	public void paint_text() {
+		tilePainter.paintText(PAINTED_TEXT, graphics, TILE_WIDTH, TILE_HEIGHT, ZERO, ZERO);
+		Mockito.verify(graphics).drawString("test", 0, 20);
+	}
+
+	@Test
+	public void paint_text_with_vertical_offset() {
+		tilePainter.paintText(PAINTED_TEXT, graphics, TILE_WIDTH, TILE_HEIGHT, ZERO, VERTICAL_OFFSET);
+		Mockito.verify(graphics).drawString("test", 0, 19);
+	}
+
+	@Test
+	public void paint_text_with_horizontal_position() {
+		tilePainter.paintText(PAINTED_TEXT, graphics, TILE_WIDTH, TILE_HEIGHT, HORIZONTAL_POSITION, ZERO);
+		Mockito.verify(graphics).drawString("test", 40, 20);
+	}
 }

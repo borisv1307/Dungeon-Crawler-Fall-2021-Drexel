@@ -12,7 +12,6 @@ public enum TileType {
 				return type;
 			}
 		}
-
 		throw new IllegalArgumentException(INVALID_CHARACTER_PROVIDED_MESSAGE + ch);
 	}
 

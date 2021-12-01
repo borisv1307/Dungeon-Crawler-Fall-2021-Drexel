@@ -36,6 +36,10 @@ public class GamePanel extends Panel {
 		tilePainter.paintTiles(graphics, gameEngine, tileWidth, tileHeight);
 		tilePainter.paintPlayer(graphics, gameEngine.getPlayerXCoordinate(), gameEngine.getPlayerYCoordinate(),
 				tileWidth, tileHeight, TileType.PLAYER);
+		String levelCount = "Level: " + gameEngine.getLevel();
+		tilePainter.paintText(levelCount, graphics, tileWidth, tileHeight, 1, -5);
+		String coinCount = "Coins: " + gameEngine.getCoinCount();
+		tilePainter.paintText(coinCount, graphics, tileWidth, tileHeight, 2, -5);
 	}
 
 	@Override
@@ -65,4 +69,5 @@ public class GamePanel extends Panel {
 
 		return true;
 	}
+
 }

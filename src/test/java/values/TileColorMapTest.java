@@ -27,12 +27,12 @@ public class TileColorMapTest {
 
 	@Test
 	public void next_level() {
-		assertSame(Color.RED, TileColorMap.get(TileType.NEXT_LEVEL));
+		assertSame(Color.WHITE, TileColorMap.get(TileType.NEXT_LEVEL));
 	}
 
 	@Test
 	public void previous_level() {
-		assertSame(Color.BLUE, TileColorMap.get(TileType.PREVIOUS_LEVEL));
+		assertSame(Color.WHITE, TileColorMap.get(TileType.PREVIOUS_LEVEL));
 	}
 
 	@Test
@@ -42,7 +42,7 @@ public class TileColorMapTest {
 
 	@Test
 	public void obstacle() {
-		assertSame(Color.ORANGE, TileColorMap.get(TileType.OBSTACLE));
+		assertSame(Color.RED, TileColorMap.get(TileType.OBSTACLE));
 	}
 
 }
