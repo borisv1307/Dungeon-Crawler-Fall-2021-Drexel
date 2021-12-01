@@ -1,7 +1,7 @@
 @IntegrationTest
 Feature: Bomb-Wall interaction
 
-  Scenario: Bomb detonation breaks breakable walls immediately next to it
+  Scenario: Bomb detonation with breakable walls immediately next to it
     Given level design is:
       | XXXXXXX |
       | X     X |
@@ -19,7 +19,7 @@ Feature: Bomb-Wall interaction
     And tile (4, 5) is " "
     And tile (3, 4) is " "
 
-  Scenario: Bomb detonation breaks breakable walls 1 tile away from it
+  Scenario: Bomb detonation with breakable walls 1 tile away from it
     Given level design is:
       | XXXXXXX |
       | X  K  X |
@@ -39,7 +39,7 @@ Feature: Bomb-Wall interaction
     And tile (4, 6) is " "
     And tile (2, 4) is " "
 
-  Scenario: Bomb detonation not at level's center breaks breakable walls 1 tile away from it
+  Scenario: Bomb detonation not at level's center with breakable walls 1 tile away from it
     Given level design is:
       | XXXXXXXXX |
       | X   KK  X |
@@ -62,7 +62,7 @@ Feature: Bomb-Wall interaction
     And tile (4, 4) is " "
 
 
-  Scenario: Bomb detonation does not break breakable walls 2 tiles away from it (default fire range is 2)
+  Scenario: Bomb detonation with breakable walls 2 tiles away from it
     Given level design is:
       | XXXXXXXXX |
       | X   K   X |
@@ -84,7 +84,7 @@ Feature: Bomb-Wall interaction
     And tile (5, 8) is "K"
     And tile (2, 5) is "K"
 
-  Scenario: Bomb detonation does not break unbreakable walls immediately next to it
+  Scenario: Bomb detonation with unbreakable walls immediately next to it
     Given level design is:
       | XXXXX |
       | X X X |
@@ -100,7 +100,7 @@ Feature: Bomb-Wall interaction
     And tile (3, 4) is "X"
     And tile (2, 3) is "X"
 
-  Scenario: Bomb detonation does not break unbreakable walls 1 tile away from it
+  Scenario: Bomb detonation with unbreakable walls 1 tile away from it
     Given level design is:
       | XXXXX |
       | X   X |

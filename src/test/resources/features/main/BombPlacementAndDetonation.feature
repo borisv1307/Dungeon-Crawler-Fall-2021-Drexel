@@ -1,5 +1,5 @@
 @IntegrationTest
-Feature: Bomb power up
+Feature: Bomb placement and detonation
 
   Background:
     Given level design is:
