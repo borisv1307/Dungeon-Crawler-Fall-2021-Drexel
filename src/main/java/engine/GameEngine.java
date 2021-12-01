@@ -169,8 +169,12 @@ public class GameEngine {
 			int y = bomb.y + yDelta;
 
 			TileType toBeDestroyed = getTileFromCoordinates(x, y);
+			if (toBeDestroyed.equals(TileType.NOT_PASSABLE)) {
+				break;
+			}
 			if (toBeDestroyed.equals(TileType.BREAKABLE)) {
 				addTile(x, y, TileType.PASSABLE);
+				break;
 			}
 		}
 	}
