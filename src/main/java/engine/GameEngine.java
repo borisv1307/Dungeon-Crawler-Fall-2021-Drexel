@@ -165,7 +165,13 @@ public class GameEngine {
 			int xDelta = xDirection * delta;
 			int yDelta = yDirection * delta;
 
-			addTile(bomb.x + xDelta, bomb.y + yDelta, TileType.PASSABLE);
+			int x = bomb.x + xDelta;
+			int y = bomb.y + yDelta;
+
+			TileType toBeDestroyed = getTileFromCoordinates(x, y);
+			if (toBeDestroyed.equals(TileType.BREAKABLE)) {
+				addTile(x, y, TileType.PASSABLE);
+			}
 		}
 	}
 

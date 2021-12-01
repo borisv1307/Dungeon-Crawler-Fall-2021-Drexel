@@ -83,3 +83,35 @@ Feature: Bomb-Wall interaction
     And tile (8, 5) is "K"
     And tile (5, 8) is "K"
     And tile (2, 5) is "K"
+
+  Scenario: Bomb detonation does not break unbreakable walls immediately next to it
+    Given level design is:
+      | XXXXX |
+      | X X X |
+      | XXPXX |
+      | X X X |
+      | XXXXX |
+    And player has bomb power up
+    And player places a bomb
+    When player places a bomb
+    Then tile (3, 3) is " "
+    And tile (3, 2) is "X"
+    And tile (4, 3) is "X"
+    And tile (3, 4) is "X"
+    And tile (2, 3) is "X"
+
+  Scenario: Bomb detonation does not break unbreakable walls 1 tile away from it
+    Given level design is:
+      | XXXXX |
+      | X   X |
+      | X P X |
+      | X   X |
+      | XXXXX |
+    And player has bomb power up
+    And player places a bomb
+    When player places a bomb
+    Then tile (3, 3) is " "
+    And tile (3, 1) is "X"
+    And tile (5, 3) is "X"
+    And tile (3, 5) is "X"
+    And tile (1, 3) is "X"
