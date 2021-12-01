@@ -83,11 +83,12 @@ public class GameEngineTest {
         assertThat(actualY, equalTo(ONE));
     }
 
+    // Better naming convention needed
     @Test
-    public void get_closest_coordinates_after_portal() {
+    public void get_closets_coordinates_after_portal_one() {
         Point pointOne = new Point(0, 1);
-        Point pointTwo = new Point(0, 4);
-        Point pointThree = new Point(0, 5);
+        Point pointTwo = new Point(0, 2);
+        Point pointThree = new Point(0, 3);
 
         gameEngine.portals.put(pointOne, TileType.PORTAL);
         gameEngine.portals.put(pointTwo, TileType.PORTAL);
@@ -97,6 +98,91 @@ public class GameEngineTest {
         System.out.println(closetPoint);
 
         assertEquals(closetPoint, pointTwo);
+    }
+
+    // Better naming convention needed
+    @Test
+    public void get_coordinates_after_portal_two() {
+        Point pointOne = new Point(1, 0);
+        Point pointTwo = new Point(2, 0);
+        Point pointThree = new Point(3, 0);
+
+        gameEngine.portals.put(pointOne, TileType.PORTAL);
+        gameEngine.portals.put(pointTwo, TileType.PORTAL);
+        gameEngine.portals.put(pointThree, TileType.PORTAL);
+
+        Point closetPoint = gameEngine.closestPortal(3, 0);
+        System.out.println(closetPoint);
+
+        assertEquals(closetPoint, pointTwo);
+    }
+
+    // Better naming convention needed
+    @Test
+    public void get_coordinates_after_portal_three() {
+        Point pointOne = new Point(1, 1);
+        Point pointTwo = new Point(2, 2);
+        Point pointThree = new Point(3, 3);
+
+        gameEngine.portals.put(pointOne, TileType.PORTAL);
+        gameEngine.portals.put(pointTwo, TileType.PORTAL);
+        gameEngine.portals.put(pointThree, TileType.PORTAL);
+
+        Point closetPoint = gameEngine.closestPortal(3, 0);
+        // System.out.println(closetPoint);
+
+        assertEquals(closetPoint, pointOne);
+    }
+
+    // Better naming convention needed
+    @Test
+    public void get_coordinates_after_portal_four() {
+        Point pointOne = new Point(1, 1);
+        Point pointTwo = new Point(2, 2);
+        Point pointThree = new Point(3, 3);
+
+        gameEngine.portals.put(pointOne, TileType.PORTAL);
+        gameEngine.portals.put(pointTwo, TileType.PORTAL);
+        gameEngine.portals.put(pointThree, TileType.PORTAL);
+
+        Point closetPoint = gameEngine.closestPortal(0, 3);
+        System.out.println(closetPoint);
+
+        assertEquals(closetPoint, pointOne);
+    }
+
+    // Better naming convention needed
+    @Test
+    public void get_coordinates_after_portal_five() {
+        Point pointOne = new Point(4, 1);
+        Point pointTwo = new Point(4, 2);
+        Point pointThree = new Point(4, 3);
+
+        gameEngine.portals.put(pointOne, TileType.PORTAL);
+        gameEngine.portals.put(pointTwo, TileType.PORTAL);
+        gameEngine.portals.put(pointThree, TileType.PORTAL);
+
+        Point closetPoint = gameEngine.closestPortal(0, 3);
+        System.out.println(closetPoint);
+
+        assertEquals(closetPoint, pointThree);
+    }
+
+    // Better naming convention needed
+    @Test
+    public void get_coordinates_after_portal_six() {
+        Point pointOne = new Point(1, 4);
+        Point pointTwo = new Point(2, 4);
+        Point pointThree = new Point(3, 4);
+
+        gameEngine.portals.put(pointOne, TileType.PORTAL);
+        gameEngine.portals.put(pointTwo, TileType.PORTAL);
+        gameEngine.portals.put(pointThree, TileType.PORTAL);
+
+        Point closetPoint = gameEngine.closestPortal(0, 3);
+        System.out.println(closetPoint);
+
+        assertEquals(closetPoint, pointOne);
     }
 
     @Test

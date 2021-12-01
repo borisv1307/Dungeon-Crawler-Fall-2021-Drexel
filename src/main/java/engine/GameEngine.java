@@ -138,7 +138,6 @@ public class GameEngine {
             Set<Point> portal = portals.keySet();
             Object[] locations = portal.toArray();
             point = (Point) locations[i];
-            System.out.println(point);
 
             if (xCoordinate == point.getX() && yCoordinate == point.getY()) {
 
