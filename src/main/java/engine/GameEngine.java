@@ -12,6 +12,7 @@ import tiles.TileType;
 import ui.GameFrame;
 
 public class GameEngine {
+	private final int BOMB_DEFAULT_RANGE = 2;
 
 	private boolean exit;
 	private final LevelCreator levelCreator;
@@ -144,6 +145,31 @@ public class GameEngine {
 	}
 
 	private void detonateBomb() {
+		breakWallsInFourDirections();
+		removeBomb();
+	}
+
+	private void breakWallsInFourDirections() {
+		int[][] directions = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+
+		for (int i = 0; i < 4; i++) {
+			int xDirection = directions[i][0];
+			int yDirection = directions[i][1];
+
+			breakWallsInDirection(xDirection, yDirection);
+		}
+	}
+
+	private void breakWallsInDirection(int xDirection, int yDirection) {
+		for (int delta = 0; delta <= BOMB_DEFAULT_RANGE; delta++) {
+			int xDelta = xDirection * delta;
+			int yDelta = yDirection * delta;
+
+			addTile(bomb.x + xDelta, bomb.y + yDelta, TileType.PASSABLE);
+		}
+	}
+
+	private void removeBomb() {
 		addTile(bomb.x, bomb.y, TileType.PASSABLE);
 		bomb = null;
 	}
