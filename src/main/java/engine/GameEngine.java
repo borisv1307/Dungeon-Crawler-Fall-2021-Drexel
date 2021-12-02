@@ -12,7 +12,7 @@ import tiles.TileType;
 import ui.GameFrame;
 
 public class GameEngine {
-	private final int BOMB_DEFAULT_RANGE = 2;
+	private final static int BOMB_DEFAULT_RANGE = 2;
 
 	private boolean exit;
 	private final LevelCreator levelCreator;
@@ -162,7 +162,7 @@ public class GameEngine {
 
 	private void breakWallsInDirection(int xDirection, int yDirection) {
 		int range = getPlayerPowerUps().contains(TileType.FIRE_POWER_UP) ? BOMB_DEFAULT_RANGE + 1 : BOMB_DEFAULT_RANGE;
-		for (int delta = 0; delta <= range; delta++) {
+		for (int delta = 1; delta <= range; delta++) {
 			int xDelta = xDirection * delta;
 			int yDelta = yDirection * delta;
 
@@ -170,11 +170,10 @@ public class GameEngine {
 			int y = bomb.y + yDelta;
 
 			TileType toBeDestroyed = getTileFromCoordinates(x, y);
-			if (toBeDestroyed.equals(TileType.NOT_PASSABLE)) {
-				break;
-			}
-			if (isDestroyable(toBeDestroyed)) {
-				removeTile(x, y);
+			if (!toBeDestroyed.equals(TileType.PASSABLE)) {
+				if (isDestroyable(toBeDestroyed)) {
+					removeTile(x, y);
+				}
 				break;
 			}
 		}
