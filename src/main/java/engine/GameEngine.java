@@ -67,6 +67,15 @@ public class GameEngine {
 		player = new Point(x, y);
 	}
 
+	private void setPlayerAndDeductHealthOrQuit(int xCoordinate, int yCoordinate) {
+		if (getPlayerHealth() > 1) {
+			setPlayer(xCoordinate, yCoordinate);
+			setPlayerHealth(getPlayerHealth() - 1);
+		} else {
+			setExit(true);
+		}
+	}
+
 	public int getPlayerXCoordinate() {
 		return (int) player.getX();
 	}
@@ -104,12 +113,7 @@ public class GameEngine {
 		if (attemptedTileToMoveTo.equals(TileType.PASSABLE)) {
 			setPlayer(xCoordinate, yCoordinate);
 		} else if (attemptedTileToMoveTo.equals(TileType.TRAP)) {
-			if (getPlayerHealth() > 1) {
-				setPlayer(xCoordinate, yCoordinate);
-				setPlayerHealth(getPlayerHealth() - 1);
-			} else {
-				setExit(true);
-			}
+			setPlayerAndDeductHealthOrQuit(xCoordinate, yCoordinate);
 		}
 	}
 
