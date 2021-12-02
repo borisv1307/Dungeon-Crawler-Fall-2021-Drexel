@@ -161,7 +161,8 @@ public class GameEngine {
 	}
 
 	private void breakWallsInDirection(int xDirection, int yDirection) {
-		for (int delta = 0; delta <= BOMB_DEFAULT_RANGE; delta++) {
+		int range = getPlayerPowerUps().contains(TileType.FIRE_POWER_UP) ? BOMB_DEFAULT_RANGE + 1 : BOMB_DEFAULT_RANGE;
+		for (int delta = 0; delta <= range; delta++) {
 			int xDelta = xDirection * delta;
 			int yDelta = yDirection * delta;
 

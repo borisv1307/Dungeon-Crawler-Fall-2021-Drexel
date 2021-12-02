@@ -71,4 +71,9 @@ public class BombsStepDefs extends LevelCreationStepDefHelper {
 	public void player_moves_down() throws Throwable {
 		gameEngine.keyDown();
 	}
+
+	@And("^player has fire power up$")
+	public void playerHasFirePowerUp() {
+		gameEngine.addPowerUp(TileType.FIRE_POWER_UP);
+	}
 }
