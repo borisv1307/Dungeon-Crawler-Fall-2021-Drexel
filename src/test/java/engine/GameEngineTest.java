@@ -140,7 +140,7 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public void first_move_after_food_spawns_tail() {
+	public void moving_into_food_spawns_tail() {
 		gameEngine.setLevelHorizontalDimension(ONE);
 		gameEngine.setLevelVerticalDimension(THREE);
 		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
