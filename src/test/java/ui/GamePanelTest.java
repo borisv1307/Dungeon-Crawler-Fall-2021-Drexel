@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import engine.GameEngine;
-import tiles.TileType;
 
 public class GamePanelTest {
 
@@ -53,7 +52,7 @@ public class GamePanelTest {
 		gamePanel.paint(graphics);
 		Mockito.verify(tilePainter).paintTiles(graphics, gameEngine, tileWidth, tileHeight);
 		Mockito.verify(tilePainter).paintPlayer(graphics, playerXCoordinate, playerYCoordinate, gameEngine, tileWidth,
-				tileHeight, TileType.PLAYER);
+				tileHeight);
 	}
 
 	@Test

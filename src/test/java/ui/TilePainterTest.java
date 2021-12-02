@@ -59,7 +59,7 @@ public class TilePainterTest {
 	public void paint_player() {
 		Mockito.when(game.getMaxPlayerHealth()).thenReturn(MAX_PLAYER_HEALTH);
 		Mockito.when(game.getPlayerHealth()).thenReturn(MAX_PLAYER_HEALTH);
-		tilePainter.paintPlayer(graphics, X, Y, game, TILE_WIDTH, TILE_HEIGHT, TileType.PLAYER);
+		tilePainter.paintPlayer(graphics, X, Y, game, TILE_WIDTH, TILE_HEIGHT);
 		Mockito.verify(graphics).fillRect(20, 60, 10, 20);
 	}
 
