@@ -132,7 +132,7 @@ public class GameEngine {
 		}
 		if (isPowerUp(attemptedLocation)) {
 			playerPowerUps.add(attemptedLocation);
-			addTile(newX, newY, TileType.PASSABLE);
+			removeTile(newX, newY);
 		}
 	}
 
@@ -174,7 +174,7 @@ public class GameEngine {
 				break;
 			}
 			if (isDestroyable(toBeDestroyed)) {
-				addTile(x, y, TileType.PASSABLE);
+				removeTile(x, y);
 				break;
 			}
 		}
@@ -185,7 +185,11 @@ public class GameEngine {
 	}
 
 	private void removeBomb() {
-		addTile(bomb.x, bomb.y, TileType.PASSABLE);
+		removeTile(bomb.x, bomb.y);
 		bomb = null;
+	}
+
+	private void removeTile(int x, int y) {
+		addTile(x, y, TileType.PASSABLE);
 	}
 }
