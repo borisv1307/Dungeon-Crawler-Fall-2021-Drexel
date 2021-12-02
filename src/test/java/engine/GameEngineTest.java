@@ -20,6 +20,7 @@ public class GameEngineTest {
 	private static final int ONE = 1;
 	private static final int TWO = 2;
 	private static final int THREE = 3;
+	private static final int FOUR = 4;
 
 	GameEngine gameEngine;
 	LevelCreator levelCreator;
@@ -139,7 +140,7 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public void one_tail_follows_player() {
+	public void first_move_after_food_spawns_tail() {
 		gameEngine.setLevelHorizontalDimension(ONE);
 		gameEngine.setLevelVerticalDimension(THREE);
 		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
@@ -148,7 +149,39 @@ public class GameEngineTest {
 		gameEngine.keyDown();
 		gameEngine.keyDown();
 		assertThat(gameEngine.getTileFromCoordinates(ONE, TWO), equalTo(TileType.PLAYER));
+	}
+
+	@Test
+	public void tail_follows_player_two_moves() {
+		gameEngine.setLevelHorizontalDimension(ONE);
+		gameEngine.setLevelVerticalDimension(FOUR);
+		gameEngine.addTile(ONE, ONE, TileType.PASSABLE);
+		gameEngine.addTile(ONE, TWO, TileType.PLAYER);
+		gameEngine.addTile(ONE, THREE, TileType.PASSABLE);
+		gameEngine.addTile(ONE, FOUR, TileType.PASSABLE);
+		gameEngine.setSnake(new Point(ONE, ONE));
+		gameEngine.keyDown();
+		gameEngine.keyDown();
 		assertThat(gameEngine.getTileFromCoordinates(ONE, THREE), equalTo(TileType.PLAYER));
+	}
+
+	@Test
+	public void tail_follows_player_around_turns() {
+		gameEngine.setLevelHorizontalDimension(TWO);
+		gameEngine.setLevelVerticalDimension(FOUR);
+		gameEngine.addTile(ONE, ONE, TileType.PASSABLE);
+		gameEngine.addTile(ONE, TWO, TileType.PLAYER);
+		gameEngine.addTile(ONE, THREE, TileType.PASSABLE);
+		gameEngine.addTile(ONE, FOUR, TileType.PASSABLE);
+		gameEngine.addTile(TWO, ONE, TileType.PASSABLE);
+		gameEngine.addTile(TWO, TWO, TileType.PASSABLE);
+		gameEngine.addTile(TWO, THREE, TileType.PASSABLE);
+		gameEngine.addTile(TWO, FOUR, TileType.PASSABLE);
+		gameEngine.setSnake(new Point(ONE, ONE));
+		gameEngine.keyDown();
+		gameEngine.keyRight();
+		gameEngine.keyDown();
+		assertThat(gameEngine.getTileFromCoordinates(TWO, THREE), equalTo(TileType.PLAYER));
 	}
 
 }
