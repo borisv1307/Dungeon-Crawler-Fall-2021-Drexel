@@ -158,3 +158,28 @@ Feature: Bomb-Wall complex interaction
     And tile (6, 4) is "B"
     And tile (4, 6) is "B"
     And tile (2, 4) is "B"
+
+  Scenario: Bomb detonation with varied distanced destroyable and non-destroyable blocks
+    Given level design is:
+      | XXXXXXXXX |
+      | X   K   X |
+      | X       X |
+      | X       X |
+      | X  FPXKFX |
+      | X       X |
+      | X   B   X |
+      | X   K   X |
+      | XXXXXXXXX |
+    And player has bomb power up
+    And player places a bomb
+    And player moves down
+    And player moves left
+    When player places a bomb
+    Then tile (5, 5) is " "
+    And tile (5, 2) is "K"
+    And tile (6, 5) is "X"
+    And tile (7, 5) is "K"
+    And tile (8, 5) is "F"
+    And tile (5, 7) is " "
+    And tile (5, 8) is "K"
+    And tile (4, 5) is " "
