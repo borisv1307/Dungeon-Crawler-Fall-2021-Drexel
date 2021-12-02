@@ -153,8 +153,9 @@ public class GameEngine {
 		int attemptedYCoordinate = (int) currentPoint.getY() + direction[1];
 
 		TileType attemptedTileType = getTileFromCoordinates(attemptedXCoordinate, attemptedYCoordinate);
-		if (!isPassableTile(attemptedTileType))
+		if (!isPassableTile(attemptedTileType)) {
 			exit = true;
+		}
 
 		setPlayer(attemptedXCoordinate, attemptedYCoordinate);
 
