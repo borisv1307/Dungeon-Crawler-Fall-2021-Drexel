@@ -136,7 +136,7 @@ public class GameEngineTest {
 		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
 		gameEngine.addTile(ONE, TWO, TileType.FOOD);
 		gameEngine.keyDown();
-		assertThat(gameEngine.getTail(ZERO), equalTo(new Point(ONE, TWO)));
+		assertThat(gameEngine.getTail(ZERO), equalTo(new Point(ONE, ONE)));
 	}
 
 	@Test

@@ -26,7 +26,7 @@ public class GameEngine {
 	private Point food;
 	private int newFoodXCoordinate;
 	private int newFoodYCoordinate;
-	private boolean firstMoveAfterFood;
+	private Point currentPoint;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
@@ -34,7 +34,7 @@ public class GameEngine {
 		this.levelCreator = levelCreator;
 		this.levelCreator.createLevel(this, level);
 		this.rand = new SecureRandom();
-		snake = new ArrayList<Point>();
+		snake = new ArrayList<>();
 	}
 
 	public void run(GameFrame gameFrame) {
@@ -50,7 +50,6 @@ public class GameEngine {
 		} else if (tileType.equals(TileType.FOOD)) {
 			setFood(x, y);
 			tiles.put(new Point(x, y), TileType.FOOD);
-
 		} else {
 			tiles.put(new Point(x, y), tileType);
 		}
@@ -149,40 +148,40 @@ public class GameEngine {
 	}
 
 	private void attemptMove(int[] direction) {
-		int currentXCoordinate = getPlayerXCoordinate();
-		int currentYCoordinate = getPlayerYCoordinate();
-		int attemptedXCoordinate = currentXCoordinate + direction[0];
-		int attemptedYCoordinate = currentYCoordinate + direction[1];
-		Point currentPoint = new Point(currentXCoordinate, currentYCoordinate);
-		Point attemptedPoint = new Point(attemptedXCoordinate, attemptedYCoordinate);
+		currentPoint = new Point(getPlayerXCoordinate(), getPlayerYCoordinate());
+		int attemptedXCoordinate = (int) currentPoint.getX() + direction[0];
+		int attemptedYCoordinate = (int) currentPoint.getY() + direction[1];
 
 		TileType attemptedTileType = getTileFromCoordinates(attemptedXCoordinate, attemptedYCoordinate);
 		if (!isPassableTile(attemptedTileType))
 			exit = true;
 
 		setPlayer(attemptedXCoordinate, attemptedYCoordinate);
-		if (firstMoveAfterFood) {
-			tiles.put(snake.get(0), TileType.PLAYER);
-			firstMoveAfterFood = false;
-		} else {
-			for (int i = 0; i < snake.size(); i++) {
-				attemptedPoint = currentPoint;
-				currentPoint = snake.get(i);
-				snake.set(i, attemptedPoint);
-				tiles.put(attemptedPoint, TileType.PLAYER);
-				tiles.put(currentPoint, TileType.PASSABLE);
-			}
-		}
 
 		if (attemptedTileType.equals(TileType.FOOD)) {
-			setNewFoodLocation();
-			addTail(attemptedXCoordinate, attemptedYCoordinate);
-			firstMoveAfterFood = true;
-		}
+			eatFood();
+		} else
+			updateSnake();
 	}
 
 	private boolean isPassableTile(TileType attemptedTile) {
 		return attemptedTile.equals(TileType.PASSABLE) || attemptedTile.equals(TileType.FOOD);
+	}
+
+	private void updateSnake() {
+		for (int i = 0; i < snake.size(); i++) {
+			Point attemptedPoint = currentPoint;
+			currentPoint = snake.get(i);
+			snake.set(i, attemptedPoint);
+			tiles.put(attemptedPoint, TileType.PLAYER);
+			tiles.put(currentPoint, TileType.PASSABLE);
+		}
+	}
+
+	private void eatFood() {
+		setNewFoodLocation();
+		addTail((int) currentPoint.getX(), (int) currentPoint.getY());
+		tiles.put(snake.get(0), TileType.PLAYER);
 	}
 
 	private void setNewFoodLocation() {
@@ -207,7 +206,6 @@ public class GameEngine {
 
 	public void setSnake(Point point) {
 		this.snake.add(point);
-
 	}
 
 }
