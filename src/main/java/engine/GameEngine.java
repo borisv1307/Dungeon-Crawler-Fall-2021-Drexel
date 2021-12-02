@@ -12,7 +12,7 @@ import tiles.TileType;
 import ui.GameFrame;
 
 public class GameEngine {
-	private final static int BOMB_DEFAULT_RANGE = 2;
+	private static final int BOMB_DEFAULT_RANGE = 2;
 
 	private boolean exit;
 	private final LevelCreator levelCreator;
