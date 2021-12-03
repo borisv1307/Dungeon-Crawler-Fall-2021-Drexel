@@ -42,7 +42,7 @@ public class TileTypeTest {
 	@Test
 	public void get_obstacle_by_char_d() {
 		TileType actual = TileType.getTileTypeByChar(OBSTACLE_CHAR);
-		asserEquals(TileType.OBSTACLE, actual);
+		assertEquals(TileType.OBSTACLE, actual);
 	}
 
 }
