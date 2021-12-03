@@ -10,14 +10,14 @@ import tiles.TileType;
 import ui.GameFrame;
 
 public class GameEngine {
-
+	private int coinCount = 0;
 	private boolean exit;
 	private final LevelCreator levelCreator;
 	private final Map<Point, TileType> tiles = new HashMap<>();
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
-	private final int level;
+	private int level;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
@@ -74,19 +74,19 @@ public class GameEngine {
 	}
 
 	public void keyLeft() {
-		// TODO Implement movement logic here
+		movingToTile(getPlayerXCoordinate(), getPlayerYCoordinate(), -1, 0);
 	}
 
 	public void keyRight() {
-		// TODO Implement movement logic here
+		movingToTile(getPlayerXCoordinate(), getPlayerYCoordinate(), 1, 0);
 	}
 
 	public void keyUp() {
-		// TODO Implement movement logic here
+		movingToTile(getPlayerXCoordinate(), getPlayerYCoordinate(), 0, -1);
 	}
 
 	public void keyDown() {
-		// TODO Implement movement logic here
+		movingToTile(getPlayerXCoordinate(), getPlayerYCoordinate(), 0, 1);
 	}
 
 	public void setExit(boolean exit) {
@@ -96,4 +96,54 @@ public class GameEngine {
 	public boolean isExit() {
 		return exit;
 	}
+
+	public void increaseLevel() {
+		this.level++;
+	}
+
+	public void decreaseLevel() {
+		this.level--;
+	}
+
+	public int getLevel() {
+		return this.level;
+	}
+
+	private void movingToTile(int playerXCoordinate, int playerYCoordinate, int xOffset, int yOffset) {
+		int xCoordinate = playerXCoordinate + xOffset;
+		int yCoordinate = playerYCoordinate + yOffset;
+		TileType attemptedLocation = getTileFromCoordinates(xCoordinate, yCoordinate);
+		if (attemptedLocation.equals(TileType.PASSABLE)) {
+			setPlayer(xCoordinate, yCoordinate);
+		}
+		if (attemptedLocation.equals(TileType.PREVIOUS_LEVEL)) {
+			decreaseLevel();
+			reloadLevel();
+		}
+		if (attemptedLocation.equals(TileType.NEXT_LEVEL)) {
+			increaseLevel();
+			reloadLevel();
+		}
+		if (attemptedLocation.equals(TileType.OBSTACLE)) {
+			setExit(true);
+		}
+		if (attemptedLocation.equals(TileType.COIN)) {
+			increaseCoinCount();
+			setPlayer(xCoordinate, yCoordinate);
+			tiles.put(new Point(xCoordinate, yCoordinate), TileType.PASSABLE);
+		}
+	}
+
+	private void reloadLevel() {
+		this.levelCreator.createLevel(this, level);
+	}
+
+	public int getCoinCount() {
+		return coinCount;
+	}
+
+	public void increaseCoinCount() {
+		coinCount++;
+	}
+
 }
