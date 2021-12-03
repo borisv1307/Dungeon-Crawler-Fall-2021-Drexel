@@ -2,7 +2,10 @@ package engine;
 
 import java.awt.Component;
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import parser.LevelCreator;
@@ -16,8 +19,14 @@ public class GameEngine {
 	private final Map<Point, TileType> tiles = new HashMap<>();
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
-	private Point player;
 	private final int level;
+	private Point player;
+
+	TileType[] portalArray = { TileType.PORTAL_ZERO, TileType.PORTAL_ONE, TileType.PORTAL_TWO, TileType.PORTAL_THREE,
+			TileType.PORTAL_FOUR, TileType.PORTAL_FIVE, TileType.PORTAL_SIX, TileType.PORTAL_SEVEN,
+			TileType.PORTAL_EIGHT, TileType.PORTAL_NINE };
+	List<TileType> portalList = new ArrayList<>(Arrays.asList(portalArray));
+	private Map<TileType, List<Point>> portalMap = new HashMap<>();
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
@@ -36,6 +45,8 @@ public class GameEngine {
 		if (tileType.equals(TileType.PLAYER)) {
 			setPlayer(x, y);
 			tiles.put(new Point(x, y), TileType.PASSABLE);
+		} else if (portalList.contains(tileType)) {
+			setPortal(x, y, tileType);
 		} else {
 			tiles.put(new Point(x, y), tileType);
 		}
@@ -65,6 +76,28 @@ public class GameEngine {
 		player = new Point(x, y);
 	}
 
+	private void setPortal(int x, int y, TileType tileType) {
+		if (!portalMap.containsKey(tileType)) {
+			setFirstOfAPortalSet(x, y, tileType);
+			tiles.put(new Point(x, y), tileType);
+		} else {
+			setSecondOfAPortalSet(x, y, tileType);
+			tiles.put(new Point(x, y), tileType);
+		}
+	}
+
+	private void setFirstOfAPortalSet(int x, int y, TileType tileType) {
+		List<Point> pointList = new ArrayList<>();
+		pointList.add(new Point(x, y));
+		portalMap.put(tileType, pointList);
+	}
+
+	private void setSecondOfAPortalSet(int x, int y, TileType tileType) {
+		List<Point> pointList = portalMap.get(tileType);
+		pointList.add(new Point(x, y));
+		portalMap.put(tileType, pointList);
+	}
+
 	public int getPlayerXCoordinate() {
 		return (int) player.getX();
 	}
@@ -73,20 +106,63 @@ public class GameEngine {
 		return (int) player.getY();
 	}
 
+	public boolean isPortalOne(Point portal, TileType tileType) {
+		double portalOneX = portalMap.get(tileType).get(0).getX();
+		double portalOneY = portalMap.get(tileType).get(0).getY();
+
+		return (portal.getX() == portalOneX && portal.getY() == portalOneY);
+	}
+
+	public int getPortalXCoordinate(Point portal, TileType tileType) {
+		double portalOneX = portalMap.get(tileType).get(0).getX();
+		double portalTwoX = portalMap.get(tileType).get(1).getX();
+
+		if (isPortalOne(portal, tileType)) {
+			return (int) portalTwoX;
+		} else {
+			return (int) portalOneX;
+		}
+	}
+
+	public int getPortalYCoordinate(Point portal, TileType tileType) {
+		double portalOneY = portalMap.get(tileType).get(0).getY();
+		double portalTwoY = portalMap.get(tileType).get(1).getY();
+
+		if (isPortalOne(portal, tileType)) {
+			return (int) portalTwoY;
+		} else {
+			return (int) portalOneY;
+		}
+	}
+
+	public void setPlayerMovementThroughObject(int x, int y) {
+		int attemptedX = getPlayerXCoordinate() + x;
+		int attemptedY = getPlayerYCoordinate() + y;
+		Point point = new Point(attemptedX, attemptedY);
+		TileType attemptedLocation = getTileFromCoordinates(attemptedX, attemptedY);
+
+		if (attemptedLocation.equals(TileType.PASSABLE)) {
+			setPlayer(attemptedX, attemptedY);
+		} else if (portalList.contains(attemptedLocation)) {
+			setPlayer(getPortalXCoordinate(point, attemptedLocation) + x,
+					getPortalYCoordinate(point, attemptedLocation) + y);
+		}
+	}
+
 	public void keyLeft() {
-		// TODO Implement movement logic here
+		setPlayerMovementThroughObject(-1, 0);
 	}
 
 	public void keyRight() {
-		// TODO Implement movement logic here
+		setPlayerMovementThroughObject(1, 0);
 	}
 
 	public void keyUp() {
-		// TODO Implement movement logic here
+		setPlayerMovementThroughObject(0, -1);
 	}
 
 	public void keyDown() {
-		// TODO Implement movement logic here
+		setPlayerMovementThroughObject(0, 1);
 	}
 
 	public void setExit(boolean exit) {

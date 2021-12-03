@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 import java.awt.Component;
+import java.awt.Point;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +18,7 @@ public class GameEngineTest {
 
 	private static final int ZERO = 0;
 	private static final int ONE = 1;
+	private static final int TWO = 2;
 
 	GameEngine gameEngine;
 
@@ -70,34 +72,53 @@ public class GameEngineTest {
 	}
 
 	@Test
+	public void add_portal_pair_and_get_portal_two_coordinates() {
+		TileType tileType = TileType.PORTAL_ONE;
+		gameEngine.addTile(ZERO, ONE, tileType);
+		gameEngine.addTile(TWO, ONE, tileType);
+		Point portalOnePoint = new Point(ZERO, ONE);
+
+		int actualX = gameEngine.getPortalXCoordinate(portalOnePoint, tileType);
+		int actualY = gameEngine.getPortalYCoordinate(portalOnePoint, tileType);
+		assertThat(actualX, equalTo(TWO));
+		assertThat(actualY, equalTo(ONE));
+	}
+
+	@Test
+	public void add_portal_pair_and_get_portal_one_coordinates() {
+		TileType tileType = TileType.PORTAL_ONE;
+		gameEngine.addTile(ZERO, ONE, tileType);
+		gameEngine.addTile(TWO, ONE, tileType);
+		Point portalOnePoint = new Point(TWO, ONE);
+
+		int actualX = gameEngine.getPortalXCoordinate(portalOnePoint, tileType);
+		int actualY = gameEngine.getPortalYCoordinate(portalOnePoint, tileType);
+		assertThat(actualX, equalTo(ZERO));
+		assertThat(actualY, equalTo(ONE));
+	}
+
+	@Test
+	public void add_two_portal_pair_and_get_correct_portal_coordinates() {
+		TileType tileType = TileType.PORTAL_ONE;
+		gameEngine.addTile(ZERO, ONE, tileType);
+		gameEngine.addTile(TWO, ONE, tileType);
+
+		TileType tileTypeTwo = TileType.PORTAL_TWO;
+		gameEngine.addTile(ZERO, TWO, tileTypeTwo);
+		gameEngine.addTile(TWO, TWO, tileTypeTwo);
+		Point portalOnePointTwo = new Point(ZERO, TWO);
+
+		int actualX = gameEngine.getPortalXCoordinate(portalOnePointTwo, tileTypeTwo);
+		int actualY = gameEngine.getPortalYCoordinate(portalOnePointTwo, tileTypeTwo);
+		assertThat(actualX, equalTo(TWO));
+		assertThat(actualY, equalTo(TWO));
+	}
+
+	@Test
 	public void set_and_get_exit() {
 		boolean exit = true;
 		gameEngine.setExit(exit);
 		boolean actual = gameEngine.isExit();
 		assertThat(actual, equalTo(exit));
-	}
-
-	@Test
-	public void key_left() {
-		// TODO Should I start with this test?
-		gameEngine.keyLeft();
-	}
-
-	@Test
-	public void key_right() {
-		// TODO Should I start with this test?
-		gameEngine.keyRight();
-	}
-
-	@Test
-	public void key_up() {
-		// TODO Should I start with this test?
-		gameEngine.keyUp();
-	}
-
-	@Test
-	public void key_down() {
-		// TODO Should I start with this test?
-		gameEngine.keyDown();
 	}
 }
