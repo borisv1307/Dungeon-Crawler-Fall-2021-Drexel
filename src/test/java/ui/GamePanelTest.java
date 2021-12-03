@@ -21,6 +21,7 @@ public class GamePanelTest {
 	int verticalDimension = 6;
 	int tileWidth = width / horizontalDimension;
 	int tileHeight = height / verticalDimension;
+	String PAINTED_TEXT = "text";
 
 	GamePanel gamePanel;
 	GameEngine gameEngine;
@@ -48,6 +49,7 @@ public class GamePanelTest {
 		Mockito.verify(tilePainter).paintTiles(graphics, gameEngine, tileWidth, tileHeight);
 		Mockito.verify(tilePainter).paintPlayer(graphics, playerXCoordinate, playerYCoordinate, tileWidth, tileHeight,
 				TileType.PLAYER);
+//		Mockito.verify(tilePainter).paintText(graphics, playerXCoordinate, playerYCoordinate, PAINTED_TEXT);
 	}
 
 	@Test
@@ -101,5 +103,14 @@ public class GamePanelTest {
 	public void key_escape() {
 		boolean actual = gamePanel.keyDown(null, Event.ESCAPE);
 		assertSame(true, actual);
+	}
+
+	@Test
+	public void paint_text() {
+		Graphics graphics = Mockito.mock(Graphics.class);
+		int xCoordinate = tileWidth;
+		int yCoordinate = tileHeight;
+		gamePanel.paint(graphics);
+		Mockito.verify(tilePainter).paintText(graphics, xCoordinate, yCoordinate, PAINTED_TEXT);
 	}
 }
