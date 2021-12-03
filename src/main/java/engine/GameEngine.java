@@ -18,16 +18,15 @@ public class GameEngine {
 	private int levelVerticalDimension;
 	private Point player;
 	private int level;
-	private int playerInitialX;
-	private int playerInitialY;
-	private int doorCollisionCounter;
-	private int bridgeCollisionCounter;
+	private Point playerInitialPosition;
+	private CollisionCounter collisionCounter;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
 		level = 1;
 		this.levelCreator = levelCreator;
 		this.levelCreator.createLevel(this, level);
+		collisionCounter = new CollisionCounter(this);
 	}
 
 	public void run(GameFrame gameFrame) {
@@ -40,8 +39,7 @@ public class GameEngine {
 		if (tileType.equals(TileType.PLAYER)) {
 			setPlayer(x, y);
 			tiles.put(new Point(x, y), TileType.PASSABLE);
-			playerInitialX = x;
-			playerInitialY = y;
+			playerInitialPosition = new Point(x, y);
 		} else {
 			tiles.put(new Point(x, y), tileType);
 		}
@@ -67,7 +65,7 @@ public class GameEngine {
 		return tiles.get(new Point(x, y));
 	}
 
-	private void setPlayer(int x, int y) {
+	void setPlayer(int x, int y) {
 		player = new Point(x, y);
 	}
 
@@ -81,30 +79,30 @@ public class GameEngine {
 
 	public void keyLeft() {
 		TileType nextLocation = getTileFromCoordinates(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
-		countDoorCollisions(nextLocation);
+		collisionCounter.countDoorCollisions(nextLocation);
 		movePlayerTo(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
 	}
 
 	public void keyRight() {
 		TileType nextLocation = getTileFromCoordinates(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
-		countDoorCollisions(nextLocation);
+		collisionCounter.countDoorCollisions(nextLocation);
 		movePlayerTo(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
 	}
 
 	public void keyUp() {
 		TileType nextLocation = getTileFromCoordinates(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
 		if (nextLocation.equals(TileType.NOT_PASSABLE_BRIDGE)) {
-			incrementBridgeCollisionCounter();
+			collisionCounter.incrementBridgeCollisionCounter();
 			bringPlayerBackToInitialPosition();
 		} else {
-			countDoorCollisions(nextLocation);
+			collisionCounter.countDoorCollisions(nextLocation);
 			movePlayerVertically(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
 		}
 	}
 
 	public void keyDown() {
 		TileType nextLocation = getTileFromCoordinates(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
-		countDoorCollisions(nextLocation);
+		collisionCounter.countDoorCollisions(nextLocation);
 		movePlayerVertically(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
 	}
 
@@ -117,6 +115,8 @@ public class GameEngine {
 	}
 
 	public void bringPlayerBackToInitialPosition() {
+		int playerInitialX = (int) playerInitialPosition.getX();
+		int playerInitialY = (int) playerInitialPosition.getY();
 		setPlayer(playerInitialX, playerInitialY);
 	}
 
@@ -137,31 +137,6 @@ public class GameEngine {
 		}
 	}
 
-	public void incrementDoorCollisionCounter() {
-		doorCollisionCounter++;
-		if (doorCollisionCounter == 2)
-			setExit(true);
-	}
-
-	public int getDoorCollisionCounter() {
-		return doorCollisionCounter;
-	}
-
-	public void incrementBridgeCollisionCounter() {
-		bridgeCollisionCounter++;
-		if (bridgeCollisionCounter == 3)
-			setExit(true);
-	}
-
-	public int getBridgeCollisionCounter() {
-		return bridgeCollisionCounter;
-	}
-
-	public void reinitializeCollisionCounters() {
-		doorCollisionCounter = 0;
-		bridgeCollisionCounter = 0;
-	}
-
 	private void movePlayerVertically(int x, int y) {
 		TileType nextLocation = getTileFromCoordinates(x, y);
 		if (nextLocation.equals(TileType.PASSABLE_BRIDGE)) {
@@ -180,16 +155,11 @@ public class GameEngine {
 
 	private void advanceIfValidLevel() {
 		if (level < 2) {
-			reinitializeCollisionCounters();
+			collisionCounter.reinitializeCollisionCounters();
 			setLevel(level + 1);
 			levelCreator.createLevel(this, level);
 		} else {
 			setExit(true);
 		}
-	}
-
-	private void countDoorCollisions(TileType nextLocation) {
-		if (nextLocation.equals(TileType.DEACTIVATED_DOOR))
-			incrementDoorCollisionCounter();
 	}
 }
