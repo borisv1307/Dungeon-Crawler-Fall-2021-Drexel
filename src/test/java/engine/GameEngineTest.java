@@ -73,7 +73,7 @@ public class GameEngineTest {
 
 	@Test
 	public void add_portal_pair_and_get_portal_two_coordinates() {
-		TileType tileType = TileType.PORTALONE;
+		TileType tileType = TileType.PORTAL_ONE;
 		gameEngine.addTile(ZERO, ONE, tileType);
 		gameEngine.addTile(TWO, ONE, tileType);
 		Point portalOnePoint = new Point(ZERO, ONE);
@@ -86,7 +86,7 @@ public class GameEngineTest {
 
 	@Test
 	public void add_portal_pair_and_get_portal_one_coordinates() {
-		TileType tileType = TileType.PORTALONE;
+		TileType tileType = TileType.PORTAL_ONE;
 		gameEngine.addTile(ZERO, ONE, tileType);
 		gameEngine.addTile(TWO, ONE, tileType);
 		Point portalOnePoint = new Point(TWO, ONE);
@@ -99,11 +99,11 @@ public class GameEngineTest {
 
 	@Test
 	public void add_two_portal_pair_and_get_correct_portal_coordinates() {
-		TileType tileType = TileType.PORTALONE;
+		TileType tileType = TileType.PORTAL_ONE;
 		gameEngine.addTile(ZERO, ONE, tileType);
 		gameEngine.addTile(TWO, ONE, tileType);
 
-		TileType tileTypeTwo = TileType.PORTALTWO;
+		TileType tileTypeTwo = TileType.PORTAL_TWO;
 		gameEngine.addTile(ZERO, TWO, tileTypeTwo);
 		gameEngine.addTile(TWO, TWO, tileTypeTwo);
 		Point portalOnePointTwo = new Point(ZERO, TWO);

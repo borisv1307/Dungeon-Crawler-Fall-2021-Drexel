@@ -22,9 +22,9 @@ public class GameEngine {
 	private final int level;
 	private Point player;
 
-	TileType[] portalArray = { TileType.PORTALZERO, TileType.PORTALONE, TileType.PORTALTWO, TileType.PORTALTHREE,
-			TileType.PORTALFOUR, TileType.PORTALFIVE, TileType.PORTALSIX, TileType.PORTALSEVEN, TileType.PORTALEIGHT,
-			TileType.PORTALNINE };
+	TileType[] portalArray = { TileType.PORTAL_ZERO, TileType.PORTAL_ONE, TileType.PORTAL_TWO, TileType.PORTAL_THREE,
+			TileType.PORTAL_FOUR, TileType.PORTAL_FIVE, TileType.PORTAL_SIX, TileType.PORTAL_SEVEN,
+			TileType.PORTAL_EIGHT, TileType.PORTAL_NINE };
 	List<TileType> portalList = new ArrayList<>(Arrays.asList(portalArray));
 	private Map<TileType, List<Point>> portalMap = new HashMap<>();
 
@@ -78,21 +78,21 @@ public class GameEngine {
 
 	private void setPortal(int x, int y, TileType tileType) {
 		if (!portalMap.containsKey(tileType)) {
-			setPortalOne(x, y, tileType);
+			setFirstOfAPortalSet(x, y, tileType);
 			tiles.put(new Point(x, y), tileType);
 		} else {
-			setPortalTwo(x, y, tileType);
+			setSecondOfAPortalSet(x, y, tileType);
 			tiles.put(new Point(x, y), tileType);
 		}
 	}
 
-	private void setPortalOne(int x, int y, TileType tileType) {
+	private void setFirstOfAPortalSet(int x, int y, TileType tileType) {
 		List<Point> pointList = new ArrayList<>();
 		pointList.add(new Point(x, y));
 		portalMap.put(tileType, pointList);
 	}
 
-	private void setPortalTwo(int x, int y, TileType tileType) {
+	private void setSecondOfAPortalSet(int x, int y, TileType tileType) {
 		List<Point> pointList = portalMap.get(tileType);
 		pointList.add(new Point(x, y));
 		portalMap.put(tileType, pointList);

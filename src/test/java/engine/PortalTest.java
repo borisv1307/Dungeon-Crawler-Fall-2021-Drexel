@@ -25,13 +25,13 @@ public class PortalTest {
 		LevelCreator levelCreator = Mockito.mock(LevelCreator.class);
 		gameEngine = new GameEngine(levelCreator);
 
-		gameEngine.addTile(ONE, ONE, TileType.PORTALONE);
+		gameEngine.addTile(ONE, ONE, TileType.PORTAL_ONE);
 		gameEngine.addTile(ZERO, ONE, TileType.PASSABLE);
 		gameEngine.addTile(TWO, ONE, TileType.PASSABLE);
 		gameEngine.addTile(ONE, ZERO, TileType.PASSABLE);
 		gameEngine.addTile(ONE, TWO, TileType.PASSABLE);
 
-		gameEngine.addTile(FOUR, ONE, TileType.PORTALONE);
+		gameEngine.addTile(FOUR, ONE, TileType.PORTAL_ONE);
 		gameEngine.addTile(THREE, ONE, TileType.PASSABLE);
 		gameEngine.addTile(FIVE, ONE, TileType.PASSABLE);
 		gameEngine.addTile(ONE, ZERO, TileType.PASSABLE);
