@@ -17,7 +17,7 @@ public class GameEngine {
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
-	private final int level;
+	private int level;
 	private int coinCount = 0;
 
 	public GameEngine(LevelCreator levelCreator) {
@@ -123,6 +123,18 @@ public class GameEngine {
 
 	public int getCoinCount() {
 		return this.coinCount;
+	}
+
+	public int getLevel() {
+		return this.level;
+	}
+
+	public void increaseLevel() {
+		this.level++;
+	}
+
+	public void decreaseLevel() {
+		this.level--;
 	}
 
 }
