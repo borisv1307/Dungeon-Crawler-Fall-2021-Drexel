@@ -9,7 +9,8 @@ import org.junit.Test;
 public class TileTypeTest {
 
 	private static final char INVALID_CHAR = 'Z';
-	private static final char VALID_CHAR = ' ';
+	private static final char PASSABLE_CHAR = ' ';
+	private static final char COIN_CHAR = 'C';
 
 	@Test
 	public void value_of() {
@@ -18,8 +19,14 @@ public class TileTypeTest {
 
 	@Test
 	public void get_tile_type_by_char_valid_char() {
-		TileType actual = TileType.getTileTypeByChar(VALID_CHAR);
+		TileType actual = TileType.getTileTypeByChar(PASSABLE_CHAR);
 		assertEquals(TileType.PASSABLE, actual);
+	}
+
+	@Test
+	public void get_coin_tile_type_by_char() {
+		TileType actual = TileType.getTileTypeByChar(COIN_CHAR);
+		assertEquals(TileType.COIN, actual);
 	}
 
 	@Test
