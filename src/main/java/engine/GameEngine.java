@@ -109,9 +109,11 @@ public class GameEngine {
 		}
 		if (attemptedLocation.equals(TileType.NEXT_LEVEL)) {
 			increaseLevel();
+			loadLevel();
 		}
 		if (attemptedLocation.equals(TileType.PREVIOUS_LEVEL)) {
 			decreaseLevel();
+			loadLevel();
 		}
 	}
 
@@ -141,6 +143,10 @@ public class GameEngine {
 
 	public void decreaseLevel() {
 		this.level--;
+	}
+
+	private void loadLevel() {
+		this.levelCreator.createLevel(this, level);
 	}
 
 }
