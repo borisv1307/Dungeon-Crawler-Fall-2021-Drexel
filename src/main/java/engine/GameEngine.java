@@ -2,6 +2,7 @@ package engine;
 
 import java.awt.Component;
 import java.awt.Point;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,6 +83,7 @@ public class GameEngine {
 		collisionCounter.countObstacleCollisions(nextLocation);
 		changeObstacleToPassable(nextLocation, getPlayerXCoordinate() - 1, getPlayerYCoordinate());
 		movePlayerTo(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
+		finishGame(nextLocation);
 	}
 
 	public void keyRight() {
@@ -90,6 +92,7 @@ public class GameEngine {
 		collisionCounter.countObstacleCollisions(nextLocation);
 		changeObstacleToPassable(nextLocation, getPlayerXCoordinate() + 1, getPlayerYCoordinate());
 		movePlayerTo(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
+		finishGame(nextLocation);
 	}
 
 	public void keyUp() {
@@ -102,6 +105,7 @@ public class GameEngine {
 			collisionCounter.countObstacleCollisions(nextLocation);
 			changeObstacleToPassable(nextLocation, getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
 			movePlayerVertically(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
+			finishGame(nextLocation);
 		}
 	}
 
@@ -111,6 +115,7 @@ public class GameEngine {
 		collisionCounter.countObstacleCollisions(nextLocation);
 		changeObstacleToPassable(nextLocation, getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
 		movePlayerVertically(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
+		finishGame(nextLocation);
 	}
 
 	public void setExit(boolean exit) {
@@ -176,5 +181,28 @@ public class GameEngine {
 			tile = TileType.PASSABLE;
 			addTile(x, y, tile);
 		}
+	}
+
+	public boolean checkIfNoObstacles() {
+		Collection<TileType> potentialObstacles = tiles.values();
+		int obstacle = 0;
+		for (TileType tile : potentialObstacles) {
+			if (tile.equals(TileType.OBSTACLE)) {
+				obstacle++;
+			}
+		}
+		return obstacle == 0;
+	}
+
+	public void finishGame(TileType tile) {
+		boolean noObstacle = checkIfNoObstacles();
+		if (isEndOfGame(tile, noObstacle)) {
+			System.out.println("YAY! YOU ESCAPED THE DUNGEON!");
+			setExit(true);
+		}
+	}
+
+	private boolean isEndOfGame(TileType tile, boolean noObstacle) {
+		return level == 3 && tile.equals(TileType.DEACTIVATED_DOOR) && noObstacle;
 	}
 }

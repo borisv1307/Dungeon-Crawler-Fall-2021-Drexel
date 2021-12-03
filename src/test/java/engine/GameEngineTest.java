@@ -272,4 +272,58 @@ public class GameEngineTest {
 		assertThat(actualObstacleOne, equalTo(TileType.PASSABLE));
 		assertThat(actualObstacleTwo, equalTo(TileType.PASSABLE));
 	}
+
+	@Test
+	public void check_for_obstacle_tiles_one_obstacle() {
+		gameEngine.addTile(ZERO, ONE, TileType.OBSTACLE);
+		boolean noObstacle = gameEngine.checkIfNoObstacles();
+		assertThat(noObstacle, equalTo(false));
+	}
+
+	@Test
+	public void check_for_obstacle_tiles_zero_obstacle() {
+		gameEngine.addTile(ZERO, ONE, TileType.PASSABLE);
+		boolean noObstacle = gameEngine.checkIfNoObstacles();
+		assertThat(noObstacle, equalTo(true));
+	}
+
+	@Test
+	public void door_still_deactivated_if_there_are_still_obstacles_and_level_is_three() {
+		gameEngine.setLevel(THREE);
+		gameEngine.addTile(ZERO, ZERO, TileType.OBSTACLE);
+		gameEngine.addTile(ONE, ZERO, TileType.PLAYER);
+		TileType door = TileType.DEACTIVATED_DOOR;
+		gameEngine.addTile(TWO, ZERO, door);
+		gameEngine.keyRight();
+		gameEngine.finishGame(door);
+		boolean exit = gameEngine.isExit();
+		assertThat(exit, equalTo(false));
+
+	}
+
+	@Test
+	public void finish_game_when_zero_obstacles_and_player_reaches_door_and_level_is_three() {
+		gameEngine.setLevel(THREE);
+		gameEngine.addTile(ZERO, ZERO, TileType.PASSABLE);
+		gameEngine.addTile(ONE, ZERO, TileType.PLAYER);
+		TileType door = TileType.DEACTIVATED_DOOR;
+		gameEngine.addTile(TWO, ZERO, door);
+		gameEngine.keyRight();
+		gameEngine.finishGame(door);
+		boolean exit = gameEngine.isExit();
+		assertThat(exit, equalTo(true));
+	}
+
+	@Test
+	public void do_not_finish_game_if_level_is_not_three() {
+		gameEngine.addTile(ZERO, ZERO, TileType.PASSABLE);
+		gameEngine.addTile(ONE, ZERO, TileType.PLAYER);
+		TileType door = TileType.DEACTIVATED_DOOR;
+		gameEngine.addTile(TWO, ZERO, door);
+		gameEngine.keyRight();
+		gameEngine.finishGame(door);
+		boolean exit = gameEngine.isExit();
+		assertThat(exit, equalTo(false));
+	}
+
 }
