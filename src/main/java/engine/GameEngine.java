@@ -11,89 +11,106 @@ import ui.GameFrame;
 
 public class GameEngine {
 
-	private boolean exit;
-	private final LevelCreator levelCreator;
-	private final Map<Point, TileType> tiles = new HashMap<>();
-	private int levelHorizontalDimension;
-	private int levelVerticalDimension;
-	private Point player;
-	private final int level;
+    private boolean exit;
+    private final LevelCreator levelCreator;
+    private final Map<Point, TileType> tiles = new HashMap<>();
+    private int levelHorizontalDimension;
+    private int levelVerticalDimension;
+    private Point player;
+    private final int level;
 
-	public GameEngine(LevelCreator levelCreator) {
-		exit = false;
-		level = 1;
-		this.levelCreator = levelCreator;
-		this.levelCreator.createLevel(this, level);
-	}
+    public GameEngine(LevelCreator levelCreator) {
+        exit = false;
+        level = 1;
+        this.levelCreator = levelCreator;
+        this.levelCreator.createLevel(this, level);
+    }
 
-	public void run(GameFrame gameFrame) {
-		for (Component component : gameFrame.getComponents()) {
-			component.repaint();
-		}
-	}
+    public void run(GameFrame gameFrame) {
+        for (Component component : gameFrame.getComponents()) {
+            component.repaint();
+        }
+    }
 
-	public void addTile(int x, int y, TileType tileType) {
-		if (tileType.equals(TileType.PLAYER)) {
-			setPlayer(x, y);
-			tiles.put(new Point(x, y), TileType.PASSABLE);
-		} else {
-			tiles.put(new Point(x, y), tileType);
-		}
-	}
+    public void addTile(int x, int y, TileType tileType) {
+        if (tileType.equals(TileType.PLAYER)) {
+            setPlayer(x, y);
+            tiles.put(new Point(x, y), TileType.PASSABLE);
+        }
+        else {
+            tiles.put(new Point(x, y), tileType);
+        }
+    }
 
-	public void setLevelHorizontalDimension(int levelHorizontalDimension) {
-		this.levelHorizontalDimension = levelHorizontalDimension;
-	}
+    public void setLevelHorizontalDimension(int levelHorizontalDimension) {
+        this.levelHorizontalDimension = levelHorizontalDimension;
+    }
 
-	public void setLevelVerticalDimension(int levelVerticalDimension) {
-		this.levelVerticalDimension = levelVerticalDimension;
-	}
+    public void setLevelVerticalDimension(int levelVerticalDimension) {
+        this.levelVerticalDimension = levelVerticalDimension;
+    }
 
-	public int getLevelHorizontalDimension() {
-		return levelHorizontalDimension;
-	}
+    public int getLevelHorizontalDimension() {
+        return levelHorizontalDimension;
+    }
 
-	public int getLevelVerticalDimension() {
-		return levelVerticalDimension;
-	}
+    public int getLevelVerticalDimension() {
+        return levelVerticalDimension;
+    }
 
-	public TileType getTileFromCoordinates(int x, int y) {
-		return tiles.get(new Point(x, y));
-	}
+    public TileType getTileFromCoordinates(int x, int y) {
+        return tiles.get(new Point(x, y));
+    }
 
-	private void setPlayer(int x, int y) {
-		player = new Point(x, y);
-	}
+    private void setPlayer(int x, int y) {
+        player = new Point(x, y);
+    }
 
-	public int getPlayerXCoordinate() {
-		return (int) player.getX();
-	}
+    public int getPlayerXCoordinate() {
+        return (int) player.getX();
+    }
 
-	public int getPlayerYCoordinate() {
-		return (int) player.getY();
-	}
+    public int getPlayerYCoordinate() {
+        return (int) player.getY();
+    }
 
-	public void keyLeft() {
-		// TODO Implement movement logic here
-	}
+    public void keyLeft() {
+        movePlayerIfPassable(getPlayerXCoordinate() - 1,
+                getPlayerYCoordinate());
 
-	public void keyRight() {
-		// TODO Implement movement logic here
-	}
+    }
 
-	public void keyUp() {
-		// TODO Implement movement logic here
-	}
+    public void keyRight() {
+        movePlayerIfPassable(getPlayerXCoordinate() + 1,
+                getPlayerYCoordinate());
 
-	public void keyDown() {
-		// TODO Implement movement logic here
-	}
+    }
 
-	public void setExit(boolean exit) {
-		this.exit = exit;
-	}
+    public void keyUp() {
+        movePlayerIfPassable(getPlayerXCoordinate(),
+                getPlayerYCoordinate() - 1);
 
-	public boolean isExit() {
-		return exit;
-	}
+    }
+
+    public void keyDown() {
+        movePlayerIfPassable(getPlayerXCoordinate(),
+                getPlayerYCoordinate() + 1);
+
+    }
+
+    public void movePlayerIfPassable(int xCoordinate, int yCoordinate) {
+        TileType nextLocation = getTileFromCoordinates(xCoordinate,
+                yCoordinate);
+        if (nextLocation.equals(TileType.PASSABLE)) {
+            setPlayer(xCoordinate, yCoordinate);
+        }
+    }
+
+    public void setExit(boolean exit) {
+        this.exit = exit;
+    }
+
+    public boolean isExit() {
+        return exit;
+    }
 }
