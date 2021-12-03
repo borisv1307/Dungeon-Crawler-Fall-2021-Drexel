@@ -104,6 +104,9 @@ public class GameEngine {
 			increaseCoinCount();
 			tiles.put(new Point(xCoordinate, yCoordinate), TileType.PASSABLE);
 		}
+		if (attemptedLocation.equals(TileType.OBSTACLE)) {
+			setExit(true);
+		}
 	}
 
 	private void increaseCoinCount() {
