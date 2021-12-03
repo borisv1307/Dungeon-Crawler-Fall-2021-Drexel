@@ -38,4 +38,8 @@ public class TilePainter {
 		graphics.setColor(TileColorMap.get(tileType));
 	}
 
+	public void paintObstacleTile(Graphics graphics, int x, int y, int tileWidth, int tileHeight, TileType obstacle) {
+		paintTile(graphics, tileWidth, tileHeight, x, y, obstacle);
+	}
+
 }

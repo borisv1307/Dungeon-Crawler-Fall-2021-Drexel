@@ -202,7 +202,7 @@ public class GameEngineTest {
 	public void player_cannot_go_to_an_invalid_level() {
 		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
 		gameEngine.addTile(ONE, ONE, TileType.DOOR);
-		gameEngine.setLevel(TWO);
+		gameEngine.setLevel(THREE);
 		gameEngine.keyRight();
 		gameEngine.goToNextLevel();
 		boolean exit = true;

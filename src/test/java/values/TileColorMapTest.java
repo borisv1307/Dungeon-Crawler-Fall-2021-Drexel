@@ -45,4 +45,9 @@ public class TileColorMapTest {
 		assertSame(Color.BLUE, TileColorMap.get(TileType.NOT_PASSABLE_BRIDGE));
 	}
 
+	@Test
+	public void obstacle() {
+		assertSame(Color.YELLOW, TileColorMap.get(TileType.OBSTACLE));
+	}
+
 }

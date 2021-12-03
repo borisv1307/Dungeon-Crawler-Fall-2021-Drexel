@@ -88,4 +88,11 @@ public class TilePainterTest {
 		Mockito.verify(graphics).fillRect(30, 40, 10, 20);
 	}
 
+	@Test
+	public void paint_obstacle_tile() {
+		tilePainter.paintObstacleTile(graphics, X, Y, TILE_WIDTH, TILE_HEIGHT, TileType.OBSTACLE);
+
+		Mockito.verify(graphics).fillRect(20, 60, 10, 20);
+	}
+
 }

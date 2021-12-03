@@ -154,7 +154,7 @@ public class GameEngine {
 	}
 
 	private void advanceIfValidLevel() {
-		if (level < 2) {
+		if (level < 3) {
 			collisionCounter.reinitializeCollisionCounters();
 			setLevel(level + 1);
 			levelCreator.createLevel(this, level);

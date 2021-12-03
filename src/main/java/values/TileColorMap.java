@@ -19,6 +19,7 @@ public final class TileColorMap {
 		tileColors.put(TileType.DEACTIVATED_DOOR, Color.RED);
 		tileColors.put(TileType.PASSABLE_BRIDGE, Color.BLUE);
 		tileColors.put(TileType.NOT_PASSABLE_BRIDGE, Color.BLUE);
+		tileColors.put(TileType.OBSTACLE, Color.YELLOW);
 	}
 
 	public static Color get(TileType key) {
