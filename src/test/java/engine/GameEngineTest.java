@@ -178,7 +178,7 @@ public class GameEngineTest {
 	@Test
 	public void increase_level() {
 		int level = 2;
-		increaseLevel();
+		gameEngine.increaseLevel();
 		int actual = gameEngine.getLevel();
 		assertThat(actual, equalTo(level));
 	}
@@ -186,7 +186,7 @@ public class GameEngineTest {
 	@Test
 	void decrease_level() {
 		int level = 0;
-		decreaseLevel();
+		gameEngine.decreaseLevel();
 		int actual = gameEngine.getLevel();
 		assertThat(actual, equalTo(level));
 	}
