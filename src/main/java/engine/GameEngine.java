@@ -101,9 +101,13 @@ public class GameEngine {
 		}
 		if (attemptedLocation.equals(TileType.COIN)) {
 			setPlayer(xCoordinate, yCoordinate);
-			this.coinCount++;
+			increaseCoinCount();
 			tiles.put(new Point(xCoordinate, yCoordinate), TileType.PASSABLE);
 		}
+	}
+
+	private void increaseCoinCount() {
+		this.coinCount++;
 	}
 
 	public void setExit(boolean exit) {
