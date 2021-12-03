@@ -21,7 +21,7 @@ public class GamePanelTest {
 	int verticalDimension = 6;
 	int tileWidth = width / horizontalDimension;
 	int tileHeight = height / verticalDimension;
-	String PAINTED_TEXT = "text";
+	String PAINTED_TEXT = "Coins: 0";
 
 	GamePanel gamePanel;
 	GameEngine gameEngine;
@@ -49,7 +49,6 @@ public class GamePanelTest {
 		Mockito.verify(tilePainter).paintTiles(graphics, gameEngine, tileWidth, tileHeight);
 		Mockito.verify(tilePainter).paintPlayer(graphics, playerXCoordinate, playerYCoordinate, tileWidth, tileHeight,
 				TileType.PLAYER);
-//		Mockito.verify(tilePainter).paintText(graphics, playerXCoordinate, playerYCoordinate, PAINTED_TEXT);
 	}
 
 	@Test
