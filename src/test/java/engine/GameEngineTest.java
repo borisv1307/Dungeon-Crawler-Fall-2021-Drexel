@@ -17,6 +17,8 @@ public class GameEngineTest {
 
 	private static final int ZERO = 0;
 	private static final int ONE = 1;
+	private static final int TWO = 2;
+	private static final int THREE = 2;
 
 	GameEngine gameEngine;
 
@@ -76,4 +78,101 @@ public class GameEngineTest {
 		boolean actual = gameEngine.isExit();
 		assertThat(actual, equalTo(exit));
 	}
+
+	@Test
+	public void key_left() {
+		TileType tileType = TileType.PLAYER;
+		gameEngine.addTile(ONE, ONE, tileType);
+		gameEngine.addTile(ZERO, ONE, TileType.PASSABLE);
+		int actualX = gameEngine.getPlayerXCoordinate();
+		gameEngine.keyLeft();
+		assertThat(actualX, equalTo(gameEngine.getPlayerXCoordinate() + 1));
+	}
+
+	@Test
+	public void key_right() {
+		TileType tileType = TileType.PLAYER;
+		gameEngine.addTile(ZERO, ONE, tileType);
+		gameEngine.addTile(ONE, ONE, TileType.PASSABLE);
+		int actualX = gameEngine.getPlayerXCoordinate();
+		gameEngine.keyRight();
+		assertThat(actualX, equalTo(gameEngine.getPlayerXCoordinate() - 1));
+	}
+
+	@Test
+	public void accept_passable() {
+		TileType tileType = TileType.PLAYER;
+		gameEngine.addTile(ONE, ONE, tileType);
+		gameEngine.addTile(ZERO, ONE, TileType.PASSABLE);
+		TileType loc = gameEngine.attemptedTiles(ZERO, ONE);
+		boolean tF = gameEngine.acceptPassable(loc);
+		assertThat(tF, equalTo(true));
+	}
+
+	@Test
+	public void accept_finish() {
+		TileType tileType = TileType.PLAYER;
+		gameEngine.addTile(ONE, ONE, tileType);
+		gameEngine.addTile(ZERO, ONE, TileType.FINISH);
+		TileType loc = gameEngine.attemptedTiles(ZERO, ONE);
+		boolean tF = gameEngine.acceptFinish(loc);
+		assertThat(tF, equalTo(true));
+	}
+
+	@Test
+	public void accept_key1() {
+		TileType tileType = TileType.PLAYER;
+		gameEngine.addTile(ONE, ONE, tileType);
+		gameEngine.addTile(ZERO, ONE, TileType.KEY1);
+		TileType loc = gameEngine.attemptedTiles(ZERO, ONE);
+		boolean tF = gameEngine.acceptKey1(loc);
+		assertThat(tF, equalTo(true));
+	}
+
+	@Test
+	public void accept_key2() {
+		TileType tileType = TileType.PLAYER;
+		gameEngine.addTile(ONE, ONE, tileType);
+		gameEngine.addTile(ZERO, ONE, TileType.KEY2);
+		TileType loc = gameEngine.attemptedTiles(ZERO, ONE);
+		boolean tF = gameEngine.acceptKey2(loc);
+		assertThat(tF, equalTo(true));
+	}
+
+	@Test
+	public void accept_key3() {
+		TileType tileType = TileType.PLAYER;
+		gameEngine.addTile(ONE, ONE, tileType);
+		gameEngine.addTile(ZERO, ONE, TileType.KEY3);
+		TileType loc = gameEngine.attemptedTiles(ZERO, ONE);
+		boolean tF = gameEngine.acceptKey3(loc);
+		assertThat(tF, equalTo(true));
+	}
+
+	@Test
+	public void level_five() {
+		TileType tileType = TileType.PLAYER;
+		gameEngine.addTile(ONE, ONE, tileType);
+		gameEngine.addTile(ZERO, ONE, TileType.KEY1);
+		TileType loc = gameEngine.attemptedTiles(ZERO, ONE);
+		gameEngine.levelFive(loc, ZERO, ONE);
+		int actualX = gameEngine.getPlayerXCoordinate();
+		int actualY = gameEngine.getPlayerYCoordinate();
+		assertThat(actualX, equalTo(ZERO));
+		assertThat(actualY, equalTo(ONE));
+	}
+
+	@Test
+	public void level_six() {
+		TileType tileType = TileType.PLAYER;
+		gameEngine.addTile(ONE, ONE, tileType);
+		gameEngine.addTile(ZERO, ONE, TileType.FINISH);
+		TileType loc = gameEngine.attemptedTiles(ZERO, ONE);
+		gameEngine.levelSix(loc, ZERO, ONE);
+		int actualX = gameEngine.getPlayerXCoordinate();
+		int actualY = gameEngine.getPlayerYCoordinate();
+		assertThat(actualX, equalTo(ZERO));
+		assertThat(actualY, equalTo(ONE));
+	}
+
 }
