@@ -11,7 +11,6 @@ import tiles.TileType;
 public class GamePanel extends Panel {
 
 	private static final long serialVersionUID = 1L;
-
 	private Image dbImage;
 	private final GameEngine gameEngine;
 	private final TilePainter tilePainter;
@@ -36,6 +35,7 @@ public class GamePanel extends Panel {
 		tilePainter.paintTiles(graphics, gameEngine, tileWidth, tileHeight);
 		tilePainter.paintPlayer(graphics, gameEngine.getPlayerXCoordinate(), gameEngine.getPlayerYCoordinate(),
 				tileWidth, tileHeight, TileType.PLAYER);
+		tilePainter.paintText(graphics, tileWidth, tileHeight, "Coins: " + gameEngine.getCoinCount());
 	}
 
 	@Override

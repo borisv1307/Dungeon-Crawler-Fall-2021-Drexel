@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.Font;
 import java.awt.Graphics;
 
 import org.junit.Before;
@@ -20,7 +21,7 @@ public class TilePainterTest {
 	private final int X = 2;
 	private final int Y = 3;
 	private final String PAINTED_TEXT = "TEXT";
-
+	final Font FONT = new Font("Arial", Font.PLAIN, TILE_HEIGHT);
 	Graphics graphics;
 	TilePainter tilePainter;
 
@@ -66,6 +67,12 @@ public class TilePainterTest {
 		tilePainter.paintText(graphics, X, Y, PAINTED_TEXT);
 		Mockito.verify(graphics).drawString("TEXT", 2, 3);
 
+	}
+
+	@Test
+	public void set_font() {
+		tilePainter.paintText(graphics, X, Y, PAINTED_TEXT);
+		Mockito.verify(graphics).setFont(FONT);
 	}
 
 }
