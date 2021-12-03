@@ -34,4 +34,14 @@ public class TileColorMapTest {
 	public void obstacle() {
 		assertSame(Color.RED, TileColorMap.get(TileType.OBSTACLE));
 	}
+
+	@Test
+	public void next_level() {
+		assertSame(Color.BLUE, TileColorMap.get(TileType.NEXT_LEVEL));
+	}
+
+	@Test
+	public void previous_level() {
+		assertSame(Color.MAGENTA, TileColorMap.get(TileType.PREVIOUS_LEVEL));
+	}
 }

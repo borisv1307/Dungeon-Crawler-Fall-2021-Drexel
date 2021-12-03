@@ -4,8 +4,8 @@ Feature: Create a Level
   Scenario: Level 1
     Given level is:
       | XXXX |
-      | XCPX |
-      | XXDX |
+      | XCPN |
+      | XXDB |
     When I create the level
     Then starting from the top-left:
     And the player's x coordinate is 3
@@ -17,11 +17,11 @@ Feature: Create a Level
     And (1, 2) is "X"
     And (2, 2) is "C"
     And (3, 2) is " "
-    And (4, 2) is "X"
+    And (4, 2) is "N"
     And (1, 3) is "X"
     And (2, 3) is "X"
     And (3, 3) is "D"
-    And (4, 3) is "X"
+    And (4, 3) is "B"
 
   Scenario: Invalid level
     Given level is:
