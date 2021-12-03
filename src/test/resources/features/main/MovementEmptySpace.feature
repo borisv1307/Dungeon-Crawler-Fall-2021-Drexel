@@ -1,4 +1,4 @@
-@IntegrationTest
+@Adhoc
 Feature: Move the player into empty space
 
   Background: 

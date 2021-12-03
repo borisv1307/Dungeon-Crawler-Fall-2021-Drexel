@@ -74,61 +74,19 @@ public class GameEngine {
 	}
 
 	public void keyLeft() {
-		int x = getXCoordinate("l");
-		int y = getYCoordinate("l");
-		TileType attemptedLocation = getTileFromCoordinates(x, y);
-		if (attemptedLocation.equals(TileType.PASSABLE)) {
-			setPlayer(x, y);
-		}
+		// TODO Implement movement logic here
 	}
 
 	public void keyRight() {
-		int x = getXCoordinate("r");
-		int y = getYCoordinate("r");
-		TileType attemptedLocation = getTileFromCoordinates(x, y);
-		if (attemptedLocation.equals(TileType.PASSABLE)) {
-			setPlayer(x, y);
-		}
+		// TODO Implement movement logic here
 	}
 
 	public void keyUp() {
-		int x = getXCoordinate("u");
-		int y = getYCoordinate("u");
-		TileType attemptedLocation = getTileFromCoordinates(x, y);
-		if (attemptedLocation.equals(TileType.PASSABLE)) {
-			setPlayer(x, y);
-		}
+		// TODO Implement movement logic here
 	}
 
 	public void keyDown() {
-		int x = getXCoordinate("d");
-		int y = getYCoordinate("d");
-		TileType attemptedLocation = getTileFromCoordinates(x, y);
-		if (attemptedLocation.equals(TileType.PASSABLE)) {
-			setPlayer(x, y);
-		}
-	}
-
-	public int getXCoordinate(String direction) {
-		if (direction.equals("l")) {
-			return getPlayerYCoordinate() - 1;
-		}
-		if (direction.equals("r")) {
-			return getPlayerYCoordinate() + 1;
-		} else {
-			return getPlayerYCoordinate();
-		}
-	}
-
-	public int getYCoordinate(String direction) {
-		if (direction.equals("d")) {
-			return getPlayerYCoordinate() + 1;
-		}
-		if (direction.equals("u")) {
-			return getPlayerYCoordinate() - 1;
-		} else {
-			return getPlayerYCoordinate();
-		}
+		// TODO Implement movement logic here
 	}
 
 	public void setExit(boolean exit) {
