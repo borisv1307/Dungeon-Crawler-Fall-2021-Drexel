@@ -156,6 +156,16 @@ public class GameEngineTest {
 		gameEngine.keyLeft();
 		TileType actual = gameEngine.getTileFromCoordinates(ONE, ONE);
 		assertThat(actual, equalTo(tileType));
+	}
+
+	@Test
+	public void player_moves_on_obstacle_and_game_ends() {
+		gameEngine.addTile(ONE, ONE, TileType.OBSTACLE);
+		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
+		gameEngine.keyRight();
+		boolean actual = gameEngine.isExit();
+		assertThat(actual, equalTo(true));
 
 	}
+
 }
