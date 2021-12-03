@@ -204,7 +204,7 @@ public class GameEngineTest {
 	@Test
 	public void decrease_level_on_player_move_over_tile() {
 		int level = 0;
-		gameEngine.addTile(ONE, ONE, TileType.NEXT_LEVEL);
+		gameEngine.addTile(ONE, ONE, TileType.PREVIOUS_LEVEL);
 		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
 		gameEngine.keyRight();
 		int actual = gameEngine.getLevel();

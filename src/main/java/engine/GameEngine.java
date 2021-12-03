@@ -107,6 +107,12 @@ public class GameEngine {
 		if (attemptedLocation.equals(TileType.OBSTACLE)) {
 			setExit(true);
 		}
+		if (attemptedLocation.equals(TileType.NEXT_LEVEL)) {
+			increaseLevel();
+		}
+		if (attemptedLocation.equals(TileType.PREVIOUS_LEVEL)) {
+			decreaseLevel();
+		}
 	}
 
 	private void increaseCoinCount() {
