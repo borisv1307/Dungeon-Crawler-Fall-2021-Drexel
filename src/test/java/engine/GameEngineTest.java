@@ -120,4 +120,42 @@ public class GameEngineTest {
 		assertThat(actualX, equalTo(ZERO));
 		assertThat(actualY, equalTo(ONE));
 	}
+
+	@Test
+	public void get_coin_count() {
+		int actual = gameEngine.getCoinCount();
+		assertThat(actual, equalTo(ZERO));
+	}
+
+	@Test
+	public void player_moving_to_coin_increases_coin_count() {
+		gameEngine.addTile(ONE, ONE, TileType.COIN);
+		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
+		gameEngine.keyRight();
+		int actual = gameEngine.getCoinCount();
+		assertThat(actual, equalTo(ONE));
+	}
+
+	@Test
+	public void player_moves_over_coin_tile() {
+		gameEngine.addTile(ZERO, ONE, TileType.COIN);
+		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
+		gameEngine.keyLeft();
+		int actualX = gameEngine.getPlayerXCoordinate();
+		int actualY = gameEngine.getPlayerYCoordinate();
+		assertThat(actualX, equalTo(ZERO));
+		assertThat(actualY, equalTo(ONE));
+	}
+
+	@Test
+	public void coin_tile_becomes_passable_once_collected_by_player_and_player_leaves() {
+		TileType tileType = TileType.PASSABLE;
+		gameEngine.addTile(ONE, ONE, TileType.COIN);
+		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
+		gameEngine.keyRight();
+		gameEngine.keyLeft();
+		TileType actual = gameEngine.getTileFromCoordinates(ONE, ONE);
+		assertThat(actual, equalTo(tileType));
+
+	}
 }
