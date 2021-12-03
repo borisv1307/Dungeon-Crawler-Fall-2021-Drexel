@@ -21,7 +21,7 @@ public class TilePainterTest {
 	private final int X = 2;
 	private final int Y = 3;
 	private final String PAINTED_TEXT = "TEXT";
-	final Font FONT = new Font("Arial", Font.PLAIN, TILE_HEIGHT);
+	final Font FONT = new Font("Arial", Font.PLAIN, Y);
 	Graphics graphics;
 	TilePainter tilePainter;
 

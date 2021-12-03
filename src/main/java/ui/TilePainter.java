@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.Font;
 import java.awt.Graphics;
 
 import engine.GameEngine;
@@ -30,8 +31,9 @@ public class TilePainter {
 		graphics.setColor(TileColorMap.get(tileType));
 	}
 
-	public void paintText(Graphics graphics, int x, int y, String paintedText) {
-		graphics.drawString(paintedText, x, y);
+	public void paintText(Graphics graphics, int xCoordinate, int yCoordinate, String paintedText) {
+		graphics.setFont(new Font("Arial", Font.PLAIN, yCoordinate));
+		graphics.drawString(paintedText, xCoordinate, yCoordinate);
 	}
 
 }
