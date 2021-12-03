@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
 
+import movement.PlayerMovement;
 import parser.LevelCreator;
 import tiles.TileType;
 import ui.GameFrame;
@@ -13,18 +14,20 @@ public class GameEngine {
 
 	private boolean exit;
 	private final LevelCreator levelCreator;
-	private final Map<Point, TileType> tiles = new HashMap<>();
+	public final Map<Point, TileType> tiles = new HashMap<>();
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
 	private int level;
 	private int coinCount = 0;
+	private PlayerMovement playerMovement;
 
-	public GameEngine(LevelCreator levelCreator) {
+	public GameEngine(LevelCreator levelCreator, PlayerMovement playerMovement) {
 		exit = false;
 		level = 1;
 		this.levelCreator = levelCreator;
 		this.levelCreator.createLevel(this, level);
+		this.playerMovement = playerMovement;
 	}
 
 	public void run(GameFrame gameFrame) {
@@ -62,7 +65,7 @@ public class GameEngine {
 		return tiles.get(new Point(x, y));
 	}
 
-	private void setPlayer(int x, int y) {
+	public void setPlayer(int x, int y) {
 		player = new Point(x, y);
 	}
 
@@ -75,49 +78,49 @@ public class GameEngine {
 	}
 
 	public void keyLeft() {
-		movingToTile(-1, 0);
+		playerMovement.movingToTile(this, -1, 0);
 	}
 
 	public void keyRight() {
-		movingToTile(1, 0);
+		playerMovement.movingToTile(this, 1, 0);
 
 	}
 
 	public void keyUp() {
-		movingToTile(0, -1);
+		playerMovement.movingToTile(this, 0, -1);
 	}
 
 	public void keyDown() {
-		movingToTile(0, 1);
+		playerMovement.movingToTile(this, 0, 1);
 
 	}
 
-	private void movingToTile(int xOffset, int yOffset) {
-		int xCoordinate = getPlayerXCoordinate() + xOffset;
-		int yCoordinate = getPlayerYCoordinate() + yOffset;
-		TileType attemptedLocation = getTileFromCoordinates(xCoordinate, yCoordinate);
-		if (attemptedLocation.equals(TileType.PASSABLE)) {
-			setPlayer(xCoordinate, yCoordinate);
-		}
-		if (attemptedLocation.equals(TileType.COIN)) {
-			setPlayer(xCoordinate, yCoordinate);
-			increaseCoinCount();
-			tiles.put(new Point(xCoordinate, yCoordinate), TileType.PASSABLE);
-		}
-		if (attemptedLocation.equals(TileType.OBSTACLE)) {
-			setExit(true);
-		}
-		if (attemptedLocation.equals(TileType.NEXT_LEVEL)) {
-			increaseLevel();
-			loadLevel();
-		}
-		if (attemptedLocation.equals(TileType.PREVIOUS_LEVEL)) {
-			decreaseLevel();
-			loadLevel();
-		}
-	}
+//	private void movingToTile(int xOffset, int yOffset) {
+//		int xCoordinate = getPlayerXCoordinate() + xOffset;
+//		int yCoordinate = getPlayerYCoordinate() + yOffset;
+//		TileType attemptedLocation = getTileFromCoordinates(xCoordinate, yCoordinate);
+//		if (attemptedLocation.equals(TileType.PASSABLE)) {
+//			setPlayer(xCoordinate, yCoordinate);
+//		}
+//		if (attemptedLocation.equals(TileType.COIN)) {
+//			setPlayer(xCoordinate, yCoordinate);
+//			increaseCoinCount();
+//			tiles.put(new Point(xCoordinate, yCoordinate), TileType.PASSABLE);
+//		}
+//		if (attemptedLocation.equals(TileType.OBSTACLE)) {
+//			setExit(true);
+//		}
+//		if (attemptedLocation.equals(TileType.NEXT_LEVEL)) {
+//			increaseLevel();
+//			loadLevel();
+//		}
+//		if (attemptedLocation.equals(TileType.PREVIOUS_LEVEL)) {
+//			decreaseLevel();
+//			loadLevel();
+//		}
+//	}
 
-	private void increaseCoinCount() {
+	public void increaseCoinCount() {
 		this.coinCount++;
 	}
 
@@ -145,7 +148,7 @@ public class GameEngine {
 		this.level--;
 	}
 
-	private void loadLevel() {
+	public void loadLevel() {
 		this.levelCreator.createLevel(this, level);
 	}
 
