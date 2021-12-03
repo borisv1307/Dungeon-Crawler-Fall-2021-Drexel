@@ -10,7 +10,6 @@ import tiles.TileType;
 import ui.GameFrame;
 
 public class GameEngine {
-
 	private boolean exit;
 	private final LevelCreator levelCreator;
 	private final Map<Point, TileType> tiles = new HashMap<>();
