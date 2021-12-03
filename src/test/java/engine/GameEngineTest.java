@@ -211,4 +211,26 @@ public class GameEngineTest {
 		assertThat(actual, equalTo(level));
 	}
 
+	@Test
+	public void next_level_created_when_moving_on_next_level_tile() {
+		LevelCreator levelCreator = Mockito.mock(LevelCreator.class);
+		gameEngine = new GameEngine(levelCreator);
+		gameEngine.addTile(ONE, ONE, TileType.NEXT_LEVEL);
+		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
+		gameEngine.keyRight();
+		int level = 2;
+		Mockito.verify(levelCreator, Mockito.times(ONE)).createLevel(gameEngine, level);
+	}
+
+	@Test
+	public void previous_level_created_when_moving_on_previous_level_tile() {
+		LevelCreator levelCreator = Mockito.mock(LevelCreator.class);
+		gameEngine = new GameEngine(levelCreator);
+		gameEngine.addTile(ONE, ONE, TileType.PREVIOUS_LEVEL);
+		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
+		gameEngine.keyRight();
+		int level = 0;
+		Mockito.verify(levelCreator, Mockito.times(ONE)).createLevel(gameEngine, level);
+	}
+
 }
