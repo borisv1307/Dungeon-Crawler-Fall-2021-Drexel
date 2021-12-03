@@ -11,6 +11,7 @@ import tiles.TileType;
 import ui.GameFrame;
 
 public class GameEngine {
+
 	private boolean exit;
 	private final LevelCreator levelCreator;
 	private final Map<Point, TileType> tiles = new HashMap<>();
@@ -20,6 +21,7 @@ public class GameEngine {
 	private int level;
 	private Point playerInitialPosition;
 	private CollisionCounter collisionCounter;
+	private GameMovement gameMovement;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
@@ -27,6 +29,7 @@ public class GameEngine {
 		this.levelCreator = levelCreator;
 		this.levelCreator.createLevel(this, level);
 		collisionCounter = new CollisionCounter(this);
+		gameMovement = new GameMovement(this, collisionCounter);
 	}
 
 	public void run(GameFrame gameFrame) {
@@ -78,44 +81,19 @@ public class GameEngine {
 	}
 
 	public void keyLeft() {
-		TileType nextLocation = getTileFromCoordinates(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
-		collisionCounter.countDoorCollisions(nextLocation);
-		collisionCounter.countObstacleCollisions(nextLocation);
-		changeObstacleToPassable(nextLocation, getPlayerXCoordinate() - 1, getPlayerYCoordinate());
-		movePlayerTo(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
-		finishGame(nextLocation);
+		gameMovement.move(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
 	}
 
 	public void keyRight() {
-		TileType nextLocation = getTileFromCoordinates(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
-		collisionCounter.countDoorCollisions(nextLocation);
-		collisionCounter.countObstacleCollisions(nextLocation);
-		changeObstacleToPassable(nextLocation, getPlayerXCoordinate() + 1, getPlayerYCoordinate());
-		movePlayerTo(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
-		finishGame(nextLocation);
+		gameMovement.move(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
 	}
 
 	public void keyUp() {
-		TileType nextLocation = getTileFromCoordinates(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
-		if (nextLocation.equals(TileType.NOT_PASSABLE_BRIDGE)) {
-			collisionCounter.incrementBridgeCollisionCounter();
-			bringPlayerBackToInitialPosition();
-		} else {
-			collisionCounter.countDoorCollisions(nextLocation);
-			collisionCounter.countObstacleCollisions(nextLocation);
-			changeObstacleToPassable(nextLocation, getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
-			movePlayerVertically(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
-			finishGame(nextLocation);
-		}
+		gameMovement.moveUp(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
 	}
 
 	public void keyDown() {
-		TileType nextLocation = getTileFromCoordinates(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
-		collisionCounter.countDoorCollisions(nextLocation);
-		collisionCounter.countObstacleCollisions(nextLocation);
-		changeObstacleToPassable(nextLocation, getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
-		movePlayerVertically(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
-		finishGame(nextLocation);
+		gameMovement.move(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
 	}
 
 	public void setExit(boolean exit) {
@@ -149,32 +127,6 @@ public class GameEngine {
 		}
 	}
 
-	private void movePlayerVertically(int x, int y) {
-		TileType nextLocation = getTileFromCoordinates(x, y);
-		if (nextLocation.equals(TileType.PASSABLE_BRIDGE)) {
-			setPlayer(x, y);
-		} else {
-			movePlayerTo(x, y);
-		}
-	}
-
-	private void movePlayerTo(int x, int y) {
-		TileType nextLocation = getTileFromCoordinates(x, y);
-		if (nextLocation.equals(TileType.PASSABLE) || nextLocation.equals(TileType.DOOR)) {
-			setPlayer(x, y);
-		}
-	}
-
-	private void advanceIfValidLevel() {
-		if (level < 3) {
-			collisionCounter.reinitializeCollisionCounters();
-			setLevel(level + 1);
-			levelCreator.createLevel(this, level);
-		} else {
-			setExit(true);
-		}
-	}
-
 	public void changeObstacleToPassable(TileType tile, int x, int y) {
 		int obstacleCollisionCounter = collisionCounter.getObstacleCollision();
 		if (tile.equals(TileType.OBSTACLE) && obstacleCollisionCounter % 3 == 0) {
@@ -198,6 +150,16 @@ public class GameEngine {
 		boolean noObstacle = checkIfNoObstacles();
 		if (isEndOfGame(tile, noObstacle)) {
 			System.out.println("YAY! YOU ESCAPED THE DUNGEON!");
+			setExit(true);
+		}
+	}
+
+	private void advanceIfValidLevel() {
+		if (level < 3) {
+			collisionCounter.reinitializeCollisionCounters();
+			setLevel(level + 1);
+			levelCreator.createLevel(this, level);
+		} else {
 			setExit(true);
 		}
 	}
