@@ -79,12 +79,16 @@ public class GameEngine {
 	public void keyLeft() {
 		TileType nextLocation = getTileFromCoordinates(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
 		collisionCounter.countDoorCollisions(nextLocation);
+		collisionCounter.countObstacleCollisions(nextLocation);
+		changeObstacleToPassable(nextLocation, getPlayerXCoordinate() - 1, getPlayerYCoordinate());
 		movePlayerTo(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
 	}
 
 	public void keyRight() {
 		TileType nextLocation = getTileFromCoordinates(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
 		collisionCounter.countDoorCollisions(nextLocation);
+		collisionCounter.countObstacleCollisions(nextLocation);
+		changeObstacleToPassable(nextLocation, getPlayerXCoordinate() + 1, getPlayerYCoordinate());
 		movePlayerTo(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
 	}
 
@@ -95,6 +99,8 @@ public class GameEngine {
 			bringPlayerBackToInitialPosition();
 		} else {
 			collisionCounter.countDoorCollisions(nextLocation);
+			collisionCounter.countObstacleCollisions(nextLocation);
+			changeObstacleToPassable(nextLocation, getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
 			movePlayerVertically(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
 		}
 	}
@@ -102,6 +108,8 @@ public class GameEngine {
 	public void keyDown() {
 		TileType nextLocation = getTileFromCoordinates(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
 		collisionCounter.countDoorCollisions(nextLocation);
+		collisionCounter.countObstacleCollisions(nextLocation);
+		changeObstacleToPassable(nextLocation, getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
 		movePlayerVertically(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
 	}
 
@@ -159,6 +167,14 @@ public class GameEngine {
 			levelCreator.createLevel(this, level);
 		} else {
 			setExit(true);
+		}
+	}
+
+	public void changeObstacleToPassable(TileType tile, int x, int y) {
+		int obstacleCollisionCounter = collisionCounter.getObstacleCollision();
+		if (tile.equals(TileType.OBSTACLE) && obstacleCollisionCounter % 3 == 0) {
+			tile = TileType.PASSABLE;
+			addTile(x, y, tile);
 		}
 	}
 }

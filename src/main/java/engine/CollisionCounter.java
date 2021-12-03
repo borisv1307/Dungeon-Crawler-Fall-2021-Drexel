@@ -5,8 +5,9 @@ import tiles.TileType;
 public class CollisionCounter {
 
 	private int doorCollisionCounter;
-	GameEngine gameEngine;
+	private GameEngine gameEngine;
 	private int bridgeCollisionCounter;
+	private int obstacleCollisionCounter;
 
 	public CollisionCounter(GameEngine gameEngine) {
 		this.gameEngine = gameEngine;
@@ -43,5 +44,14 @@ public class CollisionCounter {
 		if (tile.equals(TileType.DEACTIVATED_DOOR)) {
 			incrementDoorCollisionCounter();
 		}
+	}
+
+	public int getObstacleCollision() {
+		return obstacleCollisionCounter;
+	}
+
+	public void countObstacleCollisions(TileType tile) {
+		if (tile.equals(TileType.OBSTACLE))
+			obstacleCollisionCounter++;
 	}
 }

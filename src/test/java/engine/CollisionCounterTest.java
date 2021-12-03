@@ -77,4 +77,20 @@ public class CollisionCounterTest {
 		collisionCounter.incrementBridgeCollisionCounter();
 		Mockito.verify(gameEngine).setExit(true);
 	}
+
+	@Test
+	public void count_and_get_obstacle_collisions() {
+		TileType tile = TileType.OBSTACLE;
+		collisionCounter.countObstacleCollisions(tile);
+		int obstacleCollision = collisionCounter.getObstacleCollision();
+		assertThat(obstacleCollision, equalTo(1));
+	}
+
+	@Test
+	public void do_not_increment_obstacle_collision_if_no_collision_with_obstacle() {
+		TileType tile = TileType.NOT_PASSABLE;
+		collisionCounter.countObstacleCollisions(tile);
+		int obstacleCollision = collisionCounter.getObstacleCollision();
+		assertThat(obstacleCollision, equalTo(0));
+	}
 }

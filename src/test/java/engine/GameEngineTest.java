@@ -21,6 +21,7 @@ public class GameEngineTest {
 	private static final int THREE = 3;
 
 	GameEngine gameEngine;
+	CollisionCounter collisionCounter;
 
 	@Before
 	public void setUp() throws Exception {
@@ -28,6 +29,7 @@ public class GameEngineTest {
 		gameEngine = new GameEngine(levelCreator);
 		int level = 1;
 		Mockito.verify(levelCreator, Mockito.times(level)).createLevel(gameEngine, level);
+		collisionCounter = new CollisionCounter(gameEngine);
 	}
 
 	@Test
@@ -212,7 +214,7 @@ public class GameEngineTest {
 
 	@Test
 	public void reinitialize_collision_counters_when_going_to_next_level() {
-		CollisionCounter collisionCounter = new CollisionCounter(gameEngine);
+
 		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
 		gameEngine.addTile(TWO, ONE, TileType.DEACTIVATED_DOOR);
 		gameEngine.addTile(ONE, ZERO, TileType.NOT_PASSABLE_BRIDGE);
@@ -225,5 +227,49 @@ public class GameEngineTest {
 		int bridgeCollisonCounter = collisionCounter.getBridgeCollisionCounter();
 		assertThat(doorCollisionCounter, equalTo(ZERO));
 		assertThat(bridgeCollisonCounter, equalTo(ZERO));
+	}
+
+	@Test
+	public void change_obstacle_to_passable_after_three_collisions() {
+		TileType obstacle = TileType.OBSTACLE;
+		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
+		gameEngine.addTile(ONE, ONE, obstacle);
+		gameEngine.keyRight();
+		gameEngine.keyRight();
+		gameEngine.keyRight();
+		gameEngine.changeObstacleToPassable(obstacle, ONE, ONE);
+		TileType actual = gameEngine.getTileFromCoordinates(ONE, ONE);
+		assertThat(actual, equalTo(TileType.PASSABLE));
+	}
+
+	@Test
+	public void do_not_change_obstacle_to_passable_after_two_collisions() {
+		TileType obstacle = TileType.OBSTACLE;
+		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
+		gameEngine.addTile(ONE, ONE, obstacle);
+		gameEngine.keyRight();
+		gameEngine.keyRight();
+		gameEngine.changeObstacleToPassable(obstacle, ONE, ONE);
+		TileType actual = gameEngine.getTileFromCoordinates(ONE, ONE);
+		assertThat(actual, equalTo(TileType.OBSTACLE));
+	}
+
+	@Test
+	public void change_two_obstacles_to_passable_after_six_collisions() {
+		TileType obstacleOne = TileType.OBSTACLE;
+		TileType obstacleTwo = TileType.OBSTACLE;
+		gameEngine.addTile(ZERO, ONE, obstacleOne);
+		gameEngine.addTile(ZERO, TWO, obstacleTwo);
+		gameEngine.addTile(ZERO, THREE, TileType.PLAYER);
+		gameEngine.keyUp();
+		gameEngine.keyUp();
+		gameEngine.keyUp();
+		gameEngine.keyUp();
+		gameEngine.keyUp();
+		gameEngine.keyUp();
+		TileType actualObstacleOne = gameEngine.getTileFromCoordinates(ZERO, ONE);
+		TileType actualObstacleTwo = gameEngine.getTileFromCoordinates(ZERO, TWO);
+		assertThat(actualObstacleOne, equalTo(TileType.PASSABLE));
+		assertThat(actualObstacleTwo, equalTo(TileType.PASSABLE));
 	}
 }
