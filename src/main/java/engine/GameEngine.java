@@ -78,47 +78,22 @@ public class GameEngine {
 	}
 
 	public void keyLeft() {
-		playerMovement.movingToTile(this, -1, 0);
+		playerMovement.movingToTile(this, getPlayerXCoordinate(), getPlayerYCoordinate(), -1, 0);
 	}
 
 	public void keyRight() {
-		playerMovement.movingToTile(this, 1, 0);
+		playerMovement.movingToTile(this, getPlayerXCoordinate(), getPlayerYCoordinate(), 1, 0);
 
 	}
 
 	public void keyUp() {
-		playerMovement.movingToTile(this, 0, -1);
+		playerMovement.movingToTile(this, getPlayerXCoordinate(), getPlayerYCoordinate(), 0, -1);
 	}
 
 	public void keyDown() {
-		playerMovement.movingToTile(this, 0, 1);
+		playerMovement.movingToTile(this, getPlayerXCoordinate(), getPlayerYCoordinate(), 0, 1);
 
 	}
-
-//	private void movingToTile(int xOffset, int yOffset) {
-//		int xCoordinate = getPlayerXCoordinate() + xOffset;
-//		int yCoordinate = getPlayerYCoordinate() + yOffset;
-//		TileType attemptedLocation = getTileFromCoordinates(xCoordinate, yCoordinate);
-//		if (attemptedLocation.equals(TileType.PASSABLE)) {
-//			setPlayer(xCoordinate, yCoordinate);
-//		}
-//		if (attemptedLocation.equals(TileType.COIN)) {
-//			setPlayer(xCoordinate, yCoordinate);
-//			increaseCoinCount();
-//			tiles.put(new Point(xCoordinate, yCoordinate), TileType.PASSABLE);
-//		}
-//		if (attemptedLocation.equals(TileType.OBSTACLE)) {
-//			setExit(true);
-//		}
-//		if (attemptedLocation.equals(TileType.NEXT_LEVEL)) {
-//			increaseLevel();
-//			loadLevel();
-//		}
-//		if (attemptedLocation.equals(TileType.PREVIOUS_LEVEL)) {
-//			decreaseLevel();
-//			loadLevel();
-//		}
-//	}
 
 	public void increaseCoinCount() {
 		this.coinCount++;

@@ -7,9 +7,10 @@ import tiles.TileType;
 
 public class PlayerMovement {
 
-	public void movingToTile(GameEngine gameEngine, int xOffset, int yOffset) {
-		int xCoordinate = gameEngine.getPlayerXCoordinate() + xOffset;
-		int yCoordinate = gameEngine.getPlayerYCoordinate() + yOffset;
+	public void movingToTile(GameEngine gameEngine, int playerXCoordinate, int playerYCoordinate, int xOffset,
+			int yOffset) {
+		int xCoordinate = playerXCoordinate + xOffset;
+		int yCoordinate = playerYCoordinate + yOffset;
 		TileType attemptedLocation = gameEngine.getTileFromCoordinates(xCoordinate, yCoordinate);
 		if (attemptedLocation.equals(TileType.PASSABLE)) {
 			gameEngine.setPlayer(xCoordinate, yCoordinate);

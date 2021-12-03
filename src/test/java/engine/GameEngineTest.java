@@ -25,7 +25,7 @@ public class GameEngineTest {
 	@Before
 	public void setUp() throws Exception {
 		LevelCreator levelCreator = Mockito.mock(LevelCreator.class);
-		PlayerMovement playerMovement = new PlayerMovement();
+		playerMovement = new PlayerMovement();
 		gameEngine = new GameEngine(levelCreator, playerMovement);
 		int level = 1;
 		Mockito.verify(levelCreator, Mockito.times(level)).createLevel(gameEngine, level);
@@ -217,7 +217,6 @@ public class GameEngineTest {
 	@Test
 	public void next_level_created_when_moving_on_next_level_tile() {
 		LevelCreator levelCreator = Mockito.mock(LevelCreator.class);
-		playerMovement = new PlayerMovement();
 		gameEngine = new GameEngine(levelCreator, playerMovement);
 		gameEngine.addTile(ONE, ONE, TileType.NEXT_LEVEL);
 		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
@@ -228,7 +227,6 @@ public class GameEngineTest {
 	@Test
 	public void previous_level_created_when_moving_on_previous_level_tile() {
 		LevelCreator levelCreator = Mockito.mock(LevelCreator.class);
-		playerMovement = new PlayerMovement();
 		gameEngine = new GameEngine(levelCreator, playerMovement);
 		gameEngine.addTile(ONE, ONE, TileType.PREVIOUS_LEVEL);
 		gameEngine.addTile(ZERO, ONE, TileType.PLAYER);
