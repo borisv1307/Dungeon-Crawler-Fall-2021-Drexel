@@ -18,6 +18,7 @@ public class GameEngine {
 	private int levelVerticalDimension;
 	private Point player;
 	private final int level;
+	private int coinCount = 0;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
@@ -74,30 +75,34 @@ public class GameEngine {
 	}
 
 	public void keyLeft() {
-		TileType attemptedLocation = getTileFromCoordinates(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
-		if (attemptedLocation.equals(TileType.PASSABLE)) {
-			setPlayer(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
-		}
+		movingToTile(getPlayerXCoordinate(), getPlayerYCoordinate(), -1, 0);
 	}
 
 	public void keyRight() {
-		TileType attemptedLocation = getTileFromCoordinates(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
-		if (attemptedLocation.equals(TileType.PASSABLE)) {
-			setPlayer(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
-		}
+		movingToTile(getPlayerXCoordinate(), getPlayerYCoordinate(), 1, 0);
+
 	}
 
 	public void keyUp() {
-		TileType attemptedLocation = getTileFromCoordinates(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
-		if (attemptedLocation.equals(TileType.PASSABLE)) {
-			setPlayer(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
-		}
+		movingToTile(getPlayerXCoordinate(), getPlayerYCoordinate(), 0, -1);
 	}
 
 	public void keyDown() {
-		TileType attemptedLocation = getTileFromCoordinates(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
+		movingToTile(getPlayerXCoordinate(), getPlayerYCoordinate(), 0, 1);
+
+	}
+
+	private void movingToTile(int playerXCoordinate, int playerYCoordinate, int xOffset, int yOffset) {
+		int xCoordinate = playerXCoordinate + xOffset;
+		int yCoordinate = playerYCoordinate + yOffset;
+		TileType attemptedLocation = getTileFromCoordinates(xCoordinate, yCoordinate);
 		if (attemptedLocation.equals(TileType.PASSABLE)) {
-			setPlayer(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
+			setPlayer(xCoordinate, yCoordinate);
+		}
+		if (attemptedLocation.equals(TileType.COIN)) {
+			setPlayer(xCoordinate, yCoordinate);
+			this.coinCount++;
+			tiles.put(new Point(xCoordinate, yCoordinate), TileType.PASSABLE);
 		}
 	}
 
@@ -108,4 +113,9 @@ public class GameEngine {
 	public boolean isExit() {
 		return exit;
 	}
+
+	public int getCoinCount() {
+		return this.coinCount;
+	}
+
 }
