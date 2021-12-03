@@ -5,7 +5,7 @@ Feature: Create a Level
     Given level is:
       | XXXX |
       | XCPX |
-      | XXXX |
+      | XXDX |
     When I create the level
     Then starting from the top-left:
     And the player's x coordinate is 3
@@ -20,7 +20,7 @@ Feature: Create a Level
     And (4, 2) is "X"
     And (1, 3) is "X"
     And (2, 3) is "X"
-    And (3, 3) is "X"
+    And (3, 3) is "D"
     And (4, 3) is "X"
 
   Scenario: Invalid level

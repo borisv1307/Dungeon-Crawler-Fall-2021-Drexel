@@ -11,6 +11,7 @@ public class TileTypeTest {
 	private static final char INVALID_CHAR = 'Z';
 	private static final char PASSABLE_CHAR = ' ';
 	private static final char COIN_CHAR = 'C';
+	private static final char OBSTACLE_CHAR = 'D';
 
 	@Test
 	public void value_of() {
@@ -37,4 +38,11 @@ public class TileTypeTest {
 			assertEquals(exception.getMessage(), TileType.INVALID_CHARACTER_PROVIDED_MESSAGE + "Z");
 		}
 	}
+
+	@Test
+	public void get_obstacle_by_char_d() {
+		TileType actual = TileType.getTileTypeByChar(OBSTACLE_CHAR);
+		asserEquals(TileType.OBSTACLE, actual);
+	}
+
 }
