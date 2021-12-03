@@ -12,16 +12,26 @@ import ui.GameFrame;
 public class GameEngine {
 
 	private boolean exit;
-	private final LevelCreator levelCreator;
+	private LevelCreator levelCreator;
 	private final Map<Point, TileType> tiles = new HashMap<>();
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
-	private final int level;
+	private Point stairs = new Point(-1, -1);
+	private Point portalA;
+	private Point portalB;
+	private int level;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
 		level = 1;
+		this.levelCreator = levelCreator;
+		this.levelCreator.createLevel(this, level);
+	}
+
+	public GameEngine(LevelCreator levelCreator, int level) {
+		exit = false;
+		this.level = level;
 		this.levelCreator = levelCreator;
 		this.levelCreator.createLevel(this, level);
 	}
@@ -36,9 +46,24 @@ public class GameEngine {
 		if (tileType.equals(TileType.PLAYER)) {
 			setPlayer(x, y);
 			tiles.put(new Point(x, y), TileType.PASSABLE);
-		} else {
+		} else
 			tiles.put(new Point(x, y), tileType);
+
+		if (tileType.equals(TileType.STAIRS)) {
+			stairs = new Point(x, y);
+		} else if (tileType.equals(TileType.PORTAL)) {
+			setPortals(x, y);
 		}
+
+	}
+
+	private void setPortals(int x, int y) {
+		if (portalA == null) {
+			portalA = new Point(x, y);
+		} else {
+			portalB = new Point(x, y);
+		}
+
 	}
 
 	public void setLevelHorizontalDimension(int levelHorizontalDimension) {
@@ -66,27 +91,74 @@ public class GameEngine {
 	}
 
 	public int getPlayerXCoordinate() {
-		return (int) player.getX();
+		return player.x;
 	}
 
 	public int getPlayerYCoordinate() {
-		return (int) player.getY();
+		return player.y;
 	}
 
 	public void keyLeft() {
-		// TODO Implement movement logic here
+		int newX = getPlayerXCoordinate() - 1;
+		int newY = getPlayerYCoordinate();
+		setPlayerIfPassable(newX, newY);
+		checkEncounters(newX, newY);
 	}
 
 	public void keyRight() {
-		// TODO Implement movement logic here
+		int newX = getPlayerXCoordinate() + 1;
+		int newY = getPlayerYCoordinate();
+		setPlayerIfPassable(newX, newY);
+		checkEncounters(newX, newY);
 	}
 
 	public void keyUp() {
-		// TODO Implement movement logic here
+		int newX = getPlayerXCoordinate();
+		int newY = getPlayerYCoordinate() - 1;
+		setPlayerIfPassable(newX, newY);
+		checkEncounters(newX, newY);
 	}
 
 	public void keyDown() {
-		// TODO Implement movement logic here
+		int newX = getPlayerXCoordinate();
+		int newY = getPlayerYCoordinate() + 1;
+		setPlayerIfPassable(newX, newY);
+		checkEncounters(newX, newY);
+	}
+
+	private void checkEncounters(int x, int y) {
+		checkPlayerEncounterHostile(x, y);
+		checkPlayerEnteredPortal(x, y);
+		checkPlayerEnteredStairs(x, y);
+	}
+
+	private void checkPlayerEnteredPortal(int x, int y) {
+		if (getTileFromCoordinates(x, y).equals(TileType.PORTAL)) {
+			if ((x == portalA.x) && (y == portalA.y)) {
+				setPlayer(portalB.x, portalB.y);
+			} else {
+				setPlayer(portalA.x, portalA.y);
+			}
+		}
+	}
+
+	private void checkPlayerEncounterHostile(int x, int y) {
+		if (getTileFromCoordinates(x, y).equals(TileType.HOSTILE)) {
+			this.setExit(true);
+		}
+	}
+
+	private void checkPlayerEnteredStairs(int x, int y) {
+		if ((x == stairs.x) && (y == stairs.y)) {
+			this.loadNewLevel(level + 1);
+		}
+	}
+
+	public void setPlayerIfPassable(int x, int y) {
+		TileType tile = getTileFromCoordinates(x, y);
+		if (!tile.equals(TileType.NOT_PASSABLE)) {
+			setPlayer(x, y);
+		}
 	}
 
 	public void setExit(boolean exit) {
@@ -96,4 +168,22 @@ public class GameEngine {
 	public boolean isExit() {
 		return exit;
 	}
+
+	public void loadNewLevel(int newLevel) {
+		this.level = newLevel;
+		this.levelCreator.createLevel(this, level);
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public Point getPortalACoordinates() {
+		return portalA;
+	}
+
+	public Point getPortalBCoordinates() {
+		return portalB;
+	}
+
 }
