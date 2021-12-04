@@ -16,7 +16,7 @@
  *
  * This is mostly kept here for reference. In particular, the 4D code is very slow.
  */
-package library;
+package wrappers.noise;
 
 class OpenSimplexNoise {
 

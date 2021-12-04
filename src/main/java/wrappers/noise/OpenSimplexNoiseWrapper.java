@@ -1,4 +1,4 @@
-package library;
+package wrappers.noise;
 
 public class OpenSimplexNoiseWrapper {
 
