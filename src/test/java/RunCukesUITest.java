@@ -5,6 +5,7 @@ import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = { "src/test/resources" }, tags = { "~@Ignore", "~@WIP", "@UITest" })
+@CucumberOptions(features = { "src/test/resources" }, tags = { "~@Ignore",
+        "~@WIP", "@UITest" })
 public class RunCukesUITest {
 }

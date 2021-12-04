@@ -8,26 +8,56 @@ import values.TileColorMap;
 
 public class TilePainter {
 
-	void paintTiles(Graphics graphics, GameEngine game, int tileWidth, int tileHeight) {
-		for (int x = 0; x < game.getLevelHorizontalDimension(); x++) {
-			for (int y = 0; y < game.getLevelVerticalDimension(); y++) {
-				TileType tileType = game.getTileFromCoordinates(x, y);
-				paintTile(graphics, tileWidth, tileHeight, x, y, tileType);
-			}
-		}
-	}
-	
-	void paintPlayer(Graphics graphics, int x, int y, int tileWidth, int tileHeight, TileType tileType) {
-		paintTile(graphics, tileWidth, tileHeight, x, y, tileType);
-	}
+    void paintTiles(Graphics graphics, GameEngine game, int tileWidth,
+            int tileHeight) {
+        for (int x = 0; x < game.getLevelHorizontalDimension(); x++) {
+            for (int y = 0; y < game.getLevelVerticalDimension(); y++) {
+                TileType tileType = game.getTileFromCoordinates(x, y);
 
-	private void paintTile(Graphics graphics, int tileWidth, int tileHeight, int x, int y, TileType tileType) {
-		handleTile(graphics, tileType);
-		graphics.fillRect(x * tileWidth, y * tileHeight, tileWidth, tileHeight);
-	}
+                if (tileType == TileType.PORTAL) {
 
-	private void handleTile(Graphics graphics, TileType tileType) {
-		graphics.setColor(TileColorMap.get(tileType));
-	}
+                    paintPortal(graphics, tileWidth, tileHeight, x, y,
+                            tileType);
+                }
+                else if (tileType == TileType.COLLECTIBLE) {
+
+                    paintCollectible(graphics, tileWidth, tileHeight, x, y,
+                            tileType);
+                }
+                else {
+                    paintTile(graphics, tileWidth, tileHeight, x, y, tileType);
+                }
+
+            }
+        }
+    }
+
+    private void paintCollectible(Graphics graphics, int tileWidth,
+            int tileHeight, int x, int y, TileType tileType) {
+        handleTile(graphics, tileType);
+        graphics.fillOval(x * tileWidth, y * tileHeight, 25, 25);
+
+    }
+
+    void paintPlayer(Graphics graphics, int x, int y, int tileWidth,
+            int tileHeight, TileType tileType) {
+        paintTile(graphics, tileWidth, tileHeight, x, y, tileType);
+    }
+
+    private void paintTile(Graphics graphics, int tileWidth, int tileHeight,
+            int x, int y, TileType tileType) {
+        handleTile(graphics, tileType);
+        graphics.fillRect(x * tileWidth, y * tileHeight, tileWidth, tileHeight);
+    }
+
+    private void handleTile(Graphics graphics, TileType tileType) {
+        graphics.setColor(TileColorMap.get(tileType));
+    }
+
+    public void paintPortal(Graphics graphics, int tileWidth, int tileHeight,
+            int x, int y, TileType tileType) {
+        handleTile(graphics, tileType);
+        graphics.fillOval(x * tileWidth, y * tileHeight, tileWidth, tileHeight);
+    }
 
 }

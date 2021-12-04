@@ -14,23 +14,25 @@ import ui.GameFrame;
 @StepDefAnnotation
 public class WindowClosingStepDefs {
 
-	GameFrame gameFrame;
-	GameEngine gameEngine;
+    GameFrame gameFrame;
+    GameEngine gameEngine;
 
-	@Given("^the application is running$")
-	public void the_application_is_running() throws Throwable {
-		gameEngine = ObjectFactory.getDefaultGameEngine();
-		gameFrame = ObjectFactory.getDefaultGameFrame();
-	}
+    @Given("^the application is running$")
+    public void the_application_is_running() throws Throwable {
+        gameEngine = ObjectFactory.getDefaultGameEngine();
+        gameFrame = ObjectFactory.getDefaultGameFrame();
+    }
 
-	@When("^I close the application by using the X button$")
-	public void i_close_the_application_by_using_the_X_button() throws Throwable {
-		gameFrame.dispatchEvent(new WindowEvent(gameFrame, WindowEvent.WINDOW_CLOSING));
-	}
+    @When("^I close the application by using the X button$")
+    public void i_close_the_application_by_using_the_X_button()
+            throws Throwable {
+        gameFrame.dispatchEvent(
+                new WindowEvent(gameFrame, WindowEvent.WINDOW_CLOSING));
+    }
 
-	@Then("^the application is terminated$")
-	public void the_application_is_terminated() throws Throwable {
-		Assert.assertTrue(gameEngine.isExit());
-	}
+    @Then("^the application is terminated$")
+    public void the_application_is_terminated() throws Throwable {
+        Assert.assertTrue(gameEngine.isExit());
+    }
 
 }
