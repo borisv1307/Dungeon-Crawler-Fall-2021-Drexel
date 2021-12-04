@@ -24,7 +24,7 @@ Feature: Bomb placement and detonation
     Given player has bomb power up
     And player places a bomb
     When player places a bomb
-    And tile (3, 3) is " "
+    Then tile (3, 3) is " "
 
   Scenario: Bomb detonation does not kill the player (friendly fire)
     Given player has bomb power up
@@ -44,7 +44,7 @@ Feature: Bomb placement and detonation
   Scenario: Move then place bomb
     Given player has bomb power up
     And player moves up
-    When player moves left
-    And player places a bomb
+    And player moves left
+    When player places a bomb
     Then player is located at (2, 2)
     And tile (2, 2) is "O"

@@ -10,10 +10,10 @@ Feature: Bomb-Wall complex interaction
     And player places a bomb
     When player places a bomb
     Then tile (2, 2) is " "
-    Then tile (2, 1) is "X"
-    Then tile (3, 2) is "X"
-    Then tile (2, 3) is "X"
-    Then tile (1, 2) is "X"
+    And tile (2, 1) is "X"
+    And tile (3, 2) is "X"
+    And tile (2, 3) is "X"
+    And tile (1, 2) is "X"
 
   Scenario: Bomb placed where detonation fire range is exactly at level's bounds
     Given level design is:
@@ -26,10 +26,10 @@ Feature: Bomb-Wall complex interaction
     And player places a bomb
     When player places a bomb
     Then tile (3, 3) is " "
-    Then tile (3, 1) is "X"
-    Then tile (5, 3) is "X"
-    Then tile (3, 5) is "X"
-    Then tile (1, 3) is "X"
+    And tile (3, 1) is "X"
+    And tile (5, 3) is "X"
+    And tile (3, 5) is "X"
+    And tile (1, 3) is "X"
 
   Scenario: Bomb placed where detonation fire range just below level's bounds
     Given level design is:
@@ -44,10 +44,10 @@ Feature: Bomb-Wall complex interaction
     And player places a bomb
     When player places a bomb
     Then tile (4, 4) is " "
-    Then tile (4, 1) is "X"
-    Then tile (7, 4) is "X"
-    Then tile (4, 7) is "X"
-    Then tile (1, 4) is "X"
+    And tile (4, 1) is "X"
+    And tile (7, 4) is "X"
+    And tile (4, 7) is "X"
+    And tile (1, 4) is "X"
 
   Scenario: Bomb detonation has two breakable wall in each direction
     Given level design is:
