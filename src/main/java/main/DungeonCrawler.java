@@ -5,7 +5,9 @@ import java.util.logging.Logger;
 
 import engine.GameEngine;
 import timer.FramesPerSecondHandler;
+import timer.LevelTimer;
 import ui.GameFrame;
+import wrappers.SystemWrapper;
 import wrappers.ThreadWrapper;
 
 public class DungeonCrawler implements Runnable {
@@ -55,8 +57,23 @@ public class DungeonCrawler implements Runnable {
 		if (framesPerSecondHandler.hasEnoughTimeElapsed()) {
 			framesPerSecondHandler.resetLastRunTimer();
 			gameEngine.run(gameFrame);
+			checkIfLevelFive(new LevelTimer(new SystemWrapper(), gameFrame));
 			gameEngine.goToNextLevel();
 			threadWrapper.sleep(framesPerSecondHandler.calculateSleepDurationInMilliSeconds());
 		}
+	}
+
+	private void checkIfLevelFive(LevelTimer levelTimer) {
+		int level = gameEngine.getCurrentLevel();
+		if (level == 3) {
+			runLevelThree(levelTimer);
+		}
+	}
+
+	public void runLevelThree(LevelTimer levelTimer) {
+		levelTimer.setTimerForSeconds(10);
+		levelTimer.startTimer();
+		levelTimer.runLevel(gameEngine);
+		levelTimer.endLevel(gameEngine);
 	}
 }

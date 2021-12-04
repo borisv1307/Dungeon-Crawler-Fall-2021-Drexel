@@ -2,10 +2,12 @@ package main;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InOrder;
 import org.mockito.Mockito;
 
 import engine.GameEngine;
 import timer.FramesPerSecondHandler;
+import timer.LevelTimer;
 import ui.GameFrame;
 import wrappers.ThreadWrapper;
 
@@ -61,5 +63,17 @@ public class DungeonCrawlerTest {
 		Mockito.verify(framesPerSecondHandler).resetLastRunTimer();
 		Mockito.verify(gameEngine).run(gameFrame);
 		Mockito.verify(threadWrapper).sleep(SLEEP_TIME);
+	}
+
+	@Test
+	public void run_level_three() {
+		LevelTimer levelTimer = Mockito.mock(LevelTimer.class);
+		dungeonCrawler.runLevelThree(levelTimer);
+
+		InOrder inOrder = Mockito.inOrder(levelTimer);
+		inOrder.verify(levelTimer).setTimerForSeconds(10);
+		inOrder.verify(levelTimer).startTimer();
+		inOrder.verify(levelTimer).runLevel(gameEngine);
+		inOrder.verify(levelTimer).endLevel(gameEngine);
 	}
 }
