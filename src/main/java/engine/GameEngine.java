@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import parser.LevelCreator;
 import tiles.TileType;
@@ -14,9 +15,13 @@ public class GameEngine {
     private boolean exit;
     private final LevelCreator levelCreator;
     private final Map<Point, TileType> tiles = new HashMap<>();
+    public final Map<Point, TileType> portals = new HashMap<>();
+    public final Map<Point, TileType> collectibles = new HashMap<>();
+    int numberOfCollectibles;
     private int levelHorizontalDimension;
     private int levelVerticalDimension;
     private Point player;
+    private Point portal;
     private final int level;
 
     public GameEngine(LevelCreator levelCreator) {
@@ -36,6 +41,12 @@ public class GameEngine {
         if (tileType.equals(TileType.PLAYER)) {
             setPlayer(x, y);
             tiles.put(new Point(x, y), TileType.PASSABLE);
+
+        }
+        else if (tileType.equals(TileType.PORTAL)) {
+            tiles.put(new Point(x, y), TileType.PORTAL);
+            portals.put(new Point(x, y), TileType.PORTAL);
+            setPortal(x, y);
         }
         else {
             tiles.put(new Point(x, y), tileType);
@@ -66,6 +77,10 @@ public class GameEngine {
         player = new Point(x, y);
     }
 
+    private void setPortal(int x, int y) {
+        portal = new Point(x, y);
+    }
+
     public int getPlayerXCoordinate() {
         return (int) player.getX();
     }
@@ -75,35 +90,72 @@ public class GameEngine {
     }
 
     public void keyLeft() {
-        movePlayerIfPassable(getPlayerXCoordinate() - 1,
-                getPlayerYCoordinate());
+        movePlayer(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
 
     }
 
     public void keyRight() {
-        movePlayerIfPassable(getPlayerXCoordinate() + 1,
-                getPlayerYCoordinate());
+        movePlayer(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
 
     }
 
     public void keyUp() {
-        movePlayerIfPassable(getPlayerXCoordinate(),
-                getPlayerYCoordinate() - 1);
+        movePlayer(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
 
     }
 
     public void keyDown() {
-        movePlayerIfPassable(getPlayerXCoordinate(),
-                getPlayerYCoordinate() + 1);
+        movePlayer(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
 
     }
 
-    public void movePlayerIfPassable(int xCoordinate, int yCoordinate) {
+    public void movePlayer(int xCoordinate, int yCoordinate) {
         TileType nextLocation = getTileFromCoordinates(xCoordinate,
                 yCoordinate);
+
         if (nextLocation.equals(TileType.PASSABLE)) {
             setPlayer(xCoordinate, yCoordinate);
         }
+
+        if (nextLocation.equals(TileType.PORTAL)) {
+            movePlayerIfPortal(xCoordinate, yCoordinate);
+        }
+    }
+
+    private void movePlayerIfPortal(int xCoordinate, int yCoordinate) {
+        setPlayer(xCoordinate, yCoordinate);
+        Point nextPortal = getclosestPortal(xCoordinate, yCoordinate);
+        int x = (int) nextPortal.getX();
+        int y = (int) nextPortal.getY();
+        setPlayer(x, y);
+    }
+
+    public Point getclosestPortal(int xCoordinate, int yCoordinate) {
+        Point point = null;
+        Point closetPoint = null;
+        Double distance = null;
+
+        for (int i = 0; i < portals.size(); i++) {
+
+            Set<Point> portal = portals.keySet();
+            Object[] locations = portal.toArray();
+            point = (Point) locations[i];
+
+            if (xCoordinate == point.getX() && yCoordinate == point.getY()) {
+
+            }
+            else {
+                double pointDistance = Point.distance(xCoordinate, yCoordinate,
+                        point.getX(), point.getY());
+                if (distance == null || pointDistance < distance) {
+                    distance = pointDistance;
+                    closetPoint = point;
+                }
+
+            }
+        }
+
+        return closetPoint;
     }
 
     public void setExit(boolean exit) {
@@ -113,4 +165,18 @@ public class GameEngine {
     public boolean isExit() {
         return exit;
     }
+
+    public int getPortalXCoordinate() {
+        return (int) portal.getX();
+    }
+
+    public int getPortalYCoordinate() {
+        return (int) portal.getY();
+    }
+
+    public int getCollectible() {
+        return numberOfCollectibles++;
+
+    }
+
 }
