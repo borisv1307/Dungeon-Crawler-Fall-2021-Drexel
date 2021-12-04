@@ -3,7 +3,7 @@ package engine;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-import java.awt.Component;
+import java.awt.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,16 +12,18 @@ import org.mockito.Mockito;
 import parser.LevelCreator;
 import tiles.TileType;
 import ui.GameFrame;
+import values.TileColorMap;
 
 public class GameEngineTest {
 
 	private static final int ZERO = 0;
 	private static final int ONE = 1;
+	private static final int TWO = 2;
 
 	GameEngine gameEngine;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		LevelCreator levelCreator = Mockito.mock(LevelCreator.class);
 		gameEngine = new GameEngine(levelCreator);
 		int level = 1;
@@ -78,26 +80,88 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public void key_left() {
-		// TODO Should I start with this test?
-		gameEngine.keyLeft();
+	public void change_color_of_player_tile_to_red() {
+		TileColorMap.changePlayerColor(Color.RED);
+
+		Color actualColor = TileColorMap.get(TileType.PLAYER);
+
+		assertThat(actualColor, equalTo(Color.RED));
 	}
 
 	@Test
-	public void key_right() {
-		// TODO Should I start with this test?
-		gameEngine.keyRight();
+	public void reset_player_default_color() {
+		TileColorMap.changePlayerColor(Color.RED);
+		TileColorMap.resetPlayerColor();
+
+		Color actualColor = TileColorMap.get(TileType.PLAYER);
+
+		assertThat(actualColor, equalTo(Color.GREEN));
 	}
 
 	@Test
-	public void key_up() {
-		// TODO Should I start with this test?
-		gameEngine.keyUp();
-	}
+	public void target_tile_should_be_passable() {
+		TileType tileType = TileType.PLAYER;
+		gameEngine.addTile(ZERO, ONE, tileType);
 
-	@Test
-	public void key_down() {
-		// TODO Should I start with this test?
+		tileType = TileType.TARGET;
+		gameEngine.addTile(ZERO, TWO, tileType);
+
 		gameEngine.keyDown();
+
+		int actualX = gameEngine.getPlayerXCoordinate();
+		int actualY = gameEngine.getPlayerYCoordinate();
+
+		assertThat(actualX, equalTo(ZERO));
+		assertThat(actualY, equalTo(TWO));
+
+	}
+
+	@Test
+	public void timer_should_not_start_before_first_key_right_is_called() {
+		GameFrame gameFrame = Mockito.mock(GameFrame.class);
+		Component component = Mockito.mock(Component.class);
+		Mockito.when(gameFrame.getComponents()).thenReturn(new Component[] { component });
+		gameEngine.run(gameFrame);
+
+		assertThat(gameEngine.getTimerThread().isAlive(), equalTo(false));
+	}
+
+	@Test
+	public void player_cannot_move_when_timer_runs_out() throws InterruptedException {
+		GameFrame gameFrame = Mockito.mock(GameFrame.class);
+		Component component = Mockito.mock(Component.class);
+		Mockito.when(gameFrame.getComponents()).thenReturn(new Component[] { component });
+		gameEngine.run(gameFrame);
+
+		TileType tileType = TileType.PLAYER;
+		gameEngine.addTile(ZERO, ONE, tileType);
+		tileType = TileType.PASSABLE;
+		gameEngine.addTile(ONE, ONE, tileType);
+		gameEngine.addTile(ZERO, ONE, tileType);
+
+		gameEngine.keyRight();
+		assertThat(gameEngine.canMoveTo(ZERO, ONE), equalTo(true));
+		gameEngine.timerRunsOutCallBack();
+		assertThat(gameEngine.canMoveTo(ZERO, ONE), equalTo(false));
+
+	}
+
+	@Test
+	public void level_should_increase_when_player_reaches_target_before_timer_runs_out() throws InterruptedException {
+		GameFrame gameFrame = Mockito.mock(GameFrame.class);
+		Component component = Mockito.mock(Component.class);
+		Mockito.when(gameFrame.getComponents()).thenReturn(new Component[] { component });
+		gameEngine.run(gameFrame);
+
+		TileType tileType = TileType.PLAYER;
+		gameEngine.addTile(ZERO, ONE, tileType);
+		tileType = TileType.PASSABLE;
+		gameEngine.addTile(ONE, ONE, tileType);
+		tileType = TileType.TARGET;
+		gameEngine.addTile(TWO, ONE, tileType);
+
+		gameEngine.keyRight();
+		gameEngine.keyRight();
+		assertThat(gameEngine.getGameStats().getLevel(), equalTo(2));
 	}
 }
