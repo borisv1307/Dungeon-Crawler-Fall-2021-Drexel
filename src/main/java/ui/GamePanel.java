@@ -36,6 +36,7 @@ public class GamePanel extends Panel {
 		tilePainter.paintPlayer(graphics, gameEngine.getPlayerXCoordinate(), gameEngine.getPlayerYCoordinate(),
 				tileWidth, tileHeight, TileType.PLAYER);
 		tilePainter.paintText(graphics, tileWidth, tileHeight, "Coins: " + gameEngine.getCoinCount());
+		tilePainter.paintText(graphics, tileWidth, tileHeight, "Level: " + gameEngine.getLevel());
 	}
 
 	@Override

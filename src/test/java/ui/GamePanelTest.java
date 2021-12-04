@@ -106,20 +106,14 @@ public class GamePanelTest {
 	}
 
 	@Test
-	public void paint_coin_count() {
+	public void paint_coin_count_and_level() {
 		Graphics graphics = Mockito.mock(Graphics.class);
 		int xCoordinate = tileWidth;
 		int yCoordinate = tileHeight;
+		Mockito.when(gameEngine.getLevel()).thenReturn(1);
 		gamePanel.paint(graphics);
 		Mockito.verify(tilePainter).paintText(graphics, xCoordinate, yCoordinate, COIN_COUNT);
-	}
-
-	@Test
-	public void paint_level() {
-		Graphics graphics = Mockito.mock(Graphics.class);
-		int xCoordinate = tileWidth;
-		int yCoordinate = tileHeight;
-		gamePanel.paint(graphics);
 		Mockito.verify(tilePainter).paintText(graphics, xCoordinate, yCoordinate, LEVEL);
 	}
+
 }
