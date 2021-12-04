@@ -16,6 +16,8 @@ public class GameEngine {
     private final LevelCreator levelCreator;
     private final Map<Point, TileType> tiles = new HashMap<>();
     public final Map<Point, TileType> portals = new HashMap<>();
+    public final Map<Point, TileType> collectibles = new HashMap<>();
+    int numberOfCollectibles = 1;
     private int levelHorizontalDimension;
     private int levelVerticalDimension;
     private Point player;
@@ -120,15 +122,21 @@ public class GameEngine {
 
         if (nextLocation.equals(TileType.PORTAL)) {
 
-            Point nextPortal = closestPortal(xCoordinate, yCoordinate);
+            Point nextPortal = getclosestPortal(xCoordinate, yCoordinate);
             int x = (int) nextPortal.getX();
             int y = (int) nextPortal.getY();
 
             setPlayer(x, y);
         }
+
+        if (nextLocation.equals(TileType.COLLECTIBLE)) {
+            setPlayer(xCoordinate, yCoordinate);
+            System.out.println(getCollectible());
+            addTile(xCoordinate, yCoordinate, TileType.PASSABLE);
+        }
     }
 
-    public Point closestPortal(int xCoordinate, int yCoordinate) {
+    public Point getclosestPortal(int xCoordinate, int yCoordinate) {
         Point point = null;
         Point closetPoint = null;
         Double distance = null;
@@ -175,4 +183,11 @@ public class GameEngine {
         // TODO Auto-generated method stub
         return (int) portal.getY();
     }
+
+    public int getCollectible() {
+        // TODO Auto-generated method stub
+        return numberOfCollectibles++;
+
+    }
+
 }

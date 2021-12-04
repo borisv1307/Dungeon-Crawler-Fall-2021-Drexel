@@ -18,12 +18,26 @@ public class TilePainter {
                     paintPortal(graphics, tileWidth, tileHeight, x, y,
                             tileType);
                 }
+                else if (tileType.equals(TileType.COLLECTIBLE)) {
+
+                    paintCollectible(graphics, tileWidth, tileHeight, x, y,
+                            tileType);
+                }
                 else {
                     paintTile(graphics, tileWidth, tileHeight, x, y, tileType);
                 }
 
             }
         }
+    }
+
+    private void paintCollectible(Graphics graphics, int tileWidth,
+            int tileHeight, int x, int y, TileType tileType) {
+        handleTile(graphics, tileType);
+        // graphics.fillOval(x * tileWidth, y * tileHeight, tileWidth,
+        // tileHeight);
+        graphics.fillOval(x * tileWidth, y * tileHeight, 25, 25);
+
     }
 
     void paintPlayer(Graphics graphics, int x, int y, int tileWidth,
@@ -43,11 +57,7 @@ public class TilePainter {
 
     public void paintPortal(Graphics graphics, int tileWidth, int tileHeight,
             int x, int y, TileType tileType) {
-        // TODO Auto-generated method stub
         handleTile(graphics, tileType);
-        // graphics.fillRect(x * tileWidth, y * tileHeight, tileWidth,
-        // tileHeight);
-
         graphics.fillOval(x * tileWidth, y * tileHeight, tileWidth, tileHeight);
     }
 

@@ -94,7 +94,7 @@ public class GameEngineTest {
         gameEngine.portals.put(pointTwo, TileType.PORTAL);
         gameEngine.portals.put(pointThree, TileType.PORTAL);
 
-        Point closetPoint = gameEngine.closestPortal(0, 3);
+        Point closetPoint = gameEngine.getclosestPortal(0, 3);
         System.out.println(closetPoint);
 
         assertEquals(closetPoint, pointTwo);
@@ -111,7 +111,7 @@ public class GameEngineTest {
         gameEngine.portals.put(pointTwo, TileType.PORTAL);
         gameEngine.portals.put(pointThree, TileType.PORTAL);
 
-        Point closetPoint = gameEngine.closestPortal(3, 0);
+        Point closetPoint = gameEngine.getclosestPortal(3, 0);
         System.out.println(closetPoint);
 
         assertEquals(closetPoint, pointTwo);
@@ -128,7 +128,7 @@ public class GameEngineTest {
         gameEngine.portals.put(pointTwo, TileType.PORTAL);
         gameEngine.portals.put(pointThree, TileType.PORTAL);
 
-        Point closetPoint = gameEngine.closestPortal(3, 0);
+        Point closetPoint = gameEngine.getclosestPortal(3, 0);
         // System.out.println(closetPoint);
 
         assertEquals(closetPoint, pointOne);
@@ -145,7 +145,7 @@ public class GameEngineTest {
         gameEngine.portals.put(pointTwo, TileType.PORTAL);
         gameEngine.portals.put(pointThree, TileType.PORTAL);
 
-        Point closetPoint = gameEngine.closestPortal(0, 3);
+        Point closetPoint = gameEngine.getclosestPortal(0, 3);
         System.out.println(closetPoint);
 
         assertEquals(closetPoint, pointOne);
@@ -162,7 +162,7 @@ public class GameEngineTest {
         gameEngine.portals.put(pointTwo, TileType.PORTAL);
         gameEngine.portals.put(pointThree, TileType.PORTAL);
 
-        Point closetPoint = gameEngine.closestPortal(0, 3);
+        Point closetPoint = gameEngine.getclosestPortal(0, 3);
         System.out.println(closetPoint);
 
         assertEquals(closetPoint, pointThree);
@@ -179,10 +179,21 @@ public class GameEngineTest {
         gameEngine.portals.put(pointTwo, TileType.PORTAL);
         gameEngine.portals.put(pointThree, TileType.PORTAL);
 
-        Point closetPoint = gameEngine.closestPortal(0, 3);
+        Point closetPoint = gameEngine.getclosestPortal(0, 3);
         System.out.println(closetPoint);
 
         assertEquals(closetPoint, pointOne);
+    }
+
+    @Test
+    public void get_collectibles() {
+
+        gameEngine.getCollectible();
+        gameEngine.getCollectible();
+        gameEngine.getCollectible();
+
+        assertEquals(gameEngine.numberOfCollectibles, 3);
+
     }
 
     @Test
