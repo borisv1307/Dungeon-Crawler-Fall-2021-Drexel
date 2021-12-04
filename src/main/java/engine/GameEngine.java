@@ -98,10 +98,7 @@ public class GameEngine {
 	}
 
 	private boolean withinLightRadius(int tileX, int tileY, int lightX, int lightY, int lightRadius) {
-		if (Math.abs(tileX - lightX) <= lightRadius && Math.abs(tileY - lightY) <= lightRadius) {
-			return true;
-		}
-		return false;
+		return (Math.abs(tileX - lightX) <= lightRadius && Math.abs(tileY - lightY) <= lightRadius);
 	}
 
 	private void setPlayer(int x, int y) {
