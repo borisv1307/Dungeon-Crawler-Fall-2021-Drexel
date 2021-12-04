@@ -103,26 +103,22 @@ public class GameEngine {
     }
 
     public void keyLeft() {
-        movePlayer(getPlayerXCoordinate() - 1,
-                getPlayerYCoordinate());
+        movePlayer(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
 
     }
 
     public void keyRight() {
-        movePlayer(getPlayerXCoordinate() + 1,
-                getPlayerYCoordinate());
+        movePlayer(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
 
     }
 
     public void keyUp() {
-        movePlayer(getPlayerXCoordinate(),
-                getPlayerYCoordinate() - 1);
+        movePlayer(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
 
     }
 
     public void keyDown() {
-        movePlayer(getPlayerXCoordinate(),
-                getPlayerYCoordinate() + 1);
+        movePlayer(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
 
     }
 
@@ -160,14 +156,12 @@ public class GameEngine {
 
         for (int i = 0; i < portals.size(); i++) {
 
-            Set<Point> portal = portals.keySet();
-            Object[] locations = portal.toArray();
+            Set<Point> allPortals = portals.keySet();
+            Object[] locations = allPortals.toArray();
             point = (Point) locations[i];
 
-            if (xCoordinate == point.getX() && yCoordinate == point.getY()) {
+            if (xCoordinate != point.getX() && yCoordinate != point.getY()) {
 
-            }
-            else {
                 double pointDistance = Point.distance(xCoordinate, yCoordinate,
                         point.getX(), point.getY());
                 if (distance == null || pointDistance < distance) {
