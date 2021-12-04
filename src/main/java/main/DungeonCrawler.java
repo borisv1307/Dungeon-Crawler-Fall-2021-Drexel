@@ -36,7 +36,7 @@ public class DungeonCrawler implements Runnable {
             }
             catch (InterruptedException e) {
                 LOGGER.log(Level.SEVERE, e.toString(), e);
-                Thread.currentThread().interrupt();
+                threadWrapper.currentThreadInterrupt();
                 gameEngine.setExit(true);
             }
             terminateIfExit();
