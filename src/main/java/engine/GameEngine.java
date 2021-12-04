@@ -89,36 +89,27 @@ public class GameEngine {
         return (int) player.getY();
     }
 
-    public int getPortalXCoordinate() {
-        return (int) portal.getX();
-    }
-
-    public int getPortalYCoordinate() {
-        return (int) portal.getY();
-    }
-
-    public int getCollectible() {
-        return numberOfCollectibles++;
-
-    }
-
     public void keyLeft() {
-        movePlayer(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
+        movePlayer(getPlayerXCoordinate() - 1,
+                getPlayerYCoordinate());
 
     }
 
     public void keyRight() {
-        movePlayer(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
+        movePlayer(getPlayerXCoordinate() + 1,
+                getPlayerYCoordinate());
 
     }
 
     public void keyUp() {
-        movePlayer(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
+        movePlayer(getPlayerXCoordinate(),
+                getPlayerYCoordinate() - 1);
 
     }
 
     public void keyDown() {
-        movePlayer(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
+        movePlayer(getPlayerXCoordinate(),
+                getPlayerYCoordinate() + 1);
 
     }
 
@@ -135,14 +126,10 @@ public class GameEngine {
         }
 
         if (nextLocation.equals(TileType.COLLECTIBLE)) {
-            movePlayerIfCollectible(xCoordinate, yCoordinate);
+            setPlayer(xCoordinate, yCoordinate);
+            addTile(xCoordinate, yCoordinate, TileType.PASSABLE);
+            getCollectible();
         }
-    }
-
-    private void movePlayerIfCollectible(int xCoordinate, int yCoordinate) {
-        setPlayer(xCoordinate, yCoordinate);
-        addTile(xCoordinate, yCoordinate, TileType.PASSABLE);
-        getCollectible();
     }
 
     private void movePlayerIfPortal(int xCoordinate, int yCoordinate) {
@@ -187,6 +174,19 @@ public class GameEngine {
 
     public boolean isExit() {
         return exit;
+    }
+
+    public int getPortalXCoordinate() {
+        return (int) portal.getX();
+    }
+
+    public int getPortalYCoordinate() {
+        return (int) portal.getY();
+    }
+
+    public int getCollectible() {
+        return numberOfCollectibles++;
+
     }
 
 }
