@@ -35,8 +35,8 @@ public class DungeonCrawler implements Runnable {
                 runIfEnoughTimeHasElapsed();
             }
             catch (InterruptedException e) {
-                threadWrapper.currentThreadInterrupt();
                 LOGGER.log(Level.SEVERE, e.toString(), e);
+                threadWrapper.currentThreadInterrupt();
                 gameEngine.setExit(true);
             }
             terminateIfExit();
