@@ -17,6 +17,7 @@ public class GameEngineTest {
 
 	private static final int ZERO = 0;
 	private static final int ONE = 1;
+	private static final int FIVE = 5;
 
 	GameEngine gameEngine;
 
@@ -70,34 +71,16 @@ public class GameEngineTest {
 	}
 
 	@Test
+	public void get_starting_player_health() {
+		int actualPlayerHealth = gameEngine.getPlayerHealth();
+		assertThat(actualPlayerHealth, equalTo(FIVE));
+	}
+
+	@Test
 	public void set_and_get_exit() {
 		boolean exit = true;
 		gameEngine.setExit(exit);
 		boolean actual = gameEngine.isExit();
 		assertThat(actual, equalTo(exit));
-	}
-
-	@Test
-	public void key_left() {
-		// TODO Should I start with this test?
-		gameEngine.keyLeft();
-	}
-
-	@Test
-	public void key_right() {
-		// TODO Should I start with this test?
-		gameEngine.keyRight();
-	}
-
-	@Test
-	public void key_up() {
-		// TODO Should I start with this test?
-		gameEngine.keyUp();
-	}
-
-	@Test
-	public void key_down() {
-		// TODO Should I start with this test?
-		gameEngine.keyDown();
 	}
 }

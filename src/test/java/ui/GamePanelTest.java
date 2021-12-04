@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import engine.GameEngine;
-import tiles.TileType;
 
 public class GamePanelTest {
 
@@ -21,6 +20,9 @@ public class GamePanelTest {
 	int verticalDimension = 6;
 	int tileWidth = width / horizontalDimension;
 	int tileHeight = height / verticalDimension;
+
+	private final int MAX_PLAYER_HEALTH = 5;
+	private final int CURRENT_PLAYER_HEALTH = 3;
 
 	GamePanel gamePanel;
 	GameEngine gameEngine;
@@ -32,6 +34,9 @@ public class GamePanelTest {
 		tilePainter = Mockito.mock(TilePainter.class);
 		Mockito.when(gameEngine.getLevelHorizontalDimension()).thenReturn(horizontalDimension);
 		Mockito.when(gameEngine.getLevelVerticalDimension()).thenReturn(verticalDimension);
+		Mockito.when(gameEngine.getMaxPlayerHealth()).thenReturn(MAX_PLAYER_HEALTH);
+		Mockito.when(gameEngine.getPlayerHealth()).thenReturn(CURRENT_PLAYER_HEALTH);
+
 		gamePanel = new GamePanel(gameEngine, tilePainter);
 		gamePanel.setSize(width, height);
 		gamePanel.init();
@@ -46,8 +51,8 @@ public class GamePanelTest {
 		Mockito.when(gameEngine.getPlayerYCoordinate()).thenReturn(playerYCoordinate);
 		gamePanel.paint(graphics);
 		Mockito.verify(tilePainter).paintTiles(graphics, gameEngine, tileWidth, tileHeight);
-		Mockito.verify(tilePainter).paintPlayer(graphics, playerXCoordinate, playerYCoordinate, tileWidth, tileHeight,
-				TileType.PLAYER);
+		Mockito.verify(tilePainter).paintPlayer(graphics, playerXCoordinate, playerYCoordinate, gameEngine, tileWidth,
+				tileHeight);
 	}
 
 	@Test

@@ -6,7 +6,6 @@ import java.awt.Image;
 import java.awt.Panel;
 
 import engine.GameEngine;
-import tiles.TileType;
 
 public class GamePanel extends Panel {
 
@@ -35,7 +34,7 @@ public class GamePanel extends Panel {
 		requestFocusInWindow();
 		tilePainter.paintTiles(graphics, gameEngine, tileWidth, tileHeight);
 		tilePainter.paintPlayer(graphics, gameEngine.getPlayerXCoordinate(), gameEngine.getPlayerYCoordinate(),
-				tileWidth, tileHeight, TileType.PLAYER);
+				gameEngine, tileWidth, tileHeight);
 	}
 
 	@Override

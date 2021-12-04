@@ -17,6 +17,8 @@ public class GameEngine {
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
+	private static final int MAXPLAYERHEALTH = 5;
+	private int playerHealth = MAXPLAYERHEALTH;
 	private final int level;
 
 	public GameEngine(LevelCreator levelCreator) {
@@ -65,6 +67,15 @@ public class GameEngine {
 		player = new Point(x, y);
 	}
 
+	private void setPlayerAndDeductHealthOrQuit(int xCoordinate, int yCoordinate) {
+		if (getPlayerHealth() > 1) {
+			setPlayer(xCoordinate, yCoordinate);
+			setPlayerHealth(getPlayerHealth() - 1);
+		} else {
+			setExit(true);
+		}
+	}
+
 	public int getPlayerXCoordinate() {
 		return (int) player.getX();
 	}
@@ -74,19 +85,19 @@ public class GameEngine {
 	}
 
 	public void keyLeft() {
-		// TODO Implement movement logic here
+		makeAttemptedMoveIfPossibleByCoordinates(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
 	}
 
 	public void keyRight() {
-		// TODO Implement movement logic here
+		makeAttemptedMoveIfPossibleByCoordinates(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
 	}
 
 	public void keyUp() {
-		// TODO Implement movement logic here
+		makeAttemptedMoveIfPossibleByCoordinates(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
 	}
 
 	public void keyDown() {
-		// TODO Implement movement logic here
+		makeAttemptedMoveIfPossibleByCoordinates(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
 	}
 
 	public void setExit(boolean exit) {
@@ -96,4 +107,26 @@ public class GameEngine {
 	public boolean isExit() {
 		return exit;
 	}
+
+	private void makeAttemptedMoveIfPossibleByCoordinates(int xCoordinate, int yCoordinate) {
+		TileType attemptedTileToMoveTo = getTileFromCoordinates(xCoordinate, yCoordinate);
+		if (attemptedTileToMoveTo.equals(TileType.PASSABLE)) {
+			setPlayer(xCoordinate, yCoordinate);
+		} else if (attemptedTileToMoveTo.equals(TileType.TRAP)) {
+			setPlayerAndDeductHealthOrQuit(xCoordinate, yCoordinate);
+		}
+	}
+
+	public int getPlayerHealth() {
+		return playerHealth;
+	}
+
+	public int getMaxPlayerHealth() {
+		return MAXPLAYERHEALTH;
+	}
+
+	public void setPlayerHealth(int playerHealth) {
+		this.playerHealth = playerHealth;
+	}
+
 }

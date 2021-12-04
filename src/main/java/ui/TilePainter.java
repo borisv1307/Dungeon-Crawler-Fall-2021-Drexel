@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import engine.GameEngine;
@@ -16,9 +17,25 @@ public class TilePainter {
 			}
 		}
 	}
-	
-	void paintPlayer(Graphics graphics, int x, int y, int tileWidth, int tileHeight, TileType tileType) {
-		paintTile(graphics, tileWidth, tileHeight, x, y, tileType);
+
+	void paintPlayer(Graphics graphics, int x, int y, GameEngine game, int tileWidth, int tileHeight) {
+		paintPlayerTile(graphics, x, y, tileWidth, tileHeight, game);
+	}
+
+	private void paintPlayerTile(Graphics graphics, int x, int y, int tileWidth, int tileHeight, GameEngine game) {
+		paintTile(graphics, tileWidth, tileHeight, x, y, TileType.PLAYER);
+
+		int maxPlayerHealth = game.getMaxPlayerHealth();
+		int currentPlayerHealth = game.getPlayerHealth();
+		int currentMissingPlayerHealth = maxPlayerHealth - currentPlayerHealth;
+
+		int tileSegmentWidth = tileWidth / maxPlayerHealth;
+
+		for (int currentHealthSegment = 1; currentHealthSegment <= currentMissingPlayerHealth; currentHealthSegment++) {
+			graphics.setColor(Color.RED);
+			int currentTileSegentWidth = tileSegmentWidth * currentHealthSegment;
+			graphics.fillRect(x * tileWidth, y * tileHeight, currentTileSegentWidth, tileHeight);
+		}
 	}
 
 	private void paintTile(Graphics graphics, int tileWidth, int tileHeight, int x, int y, TileType tileType) {
