@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 import java.awt.Component;
+import java.awt.Point;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,12 +18,16 @@ public class GameEngineTest {
 
 	private static final int ZERO = 0;
 	private static final int ONE = 1;
+	private static final int TWO = 2;
+	private static final int THREE = 3;
+	private static final int FOUR = 4;
 
 	GameEngine gameEngine;
+	LevelCreator levelCreator;
 
 	@Before
 	public void setUp() throws Exception {
-		LevelCreator levelCreator = Mockito.mock(LevelCreator.class);
+		levelCreator = Mockito.mock(LevelCreator.class);
 		gameEngine = new GameEngine(levelCreator);
 		int level = 1;
 		Mockito.verify(levelCreator, Mockito.times(level)).createLevel(gameEngine, level);
@@ -70,6 +75,31 @@ public class GameEngineTest {
 	}
 
 	@Test
+	public void add_and_get_two_players_coordinates() {
+		TileType tileType = TileType.PLAYER;
+		gameEngine.addTile(ZERO, ONE, tileType);
+		int playerOneActualX = gameEngine.getPlayerXCoordinate();
+		int playerOneActualY = gameEngine.getPlayerYCoordinate();
+		gameEngine.addTile(ONE, TWO, tileType);
+		int playerTwoActualX = gameEngine.getPlayerXCoordinate();
+		int playerTwoActualY = gameEngine.getPlayerYCoordinate();
+		assertThat(playerOneActualX, equalTo(ZERO));
+		assertThat(playerOneActualY, equalTo(ONE));
+		assertThat(playerTwoActualX, equalTo(ONE));
+		assertThat(playerTwoActualY, equalTo(TWO));
+	}
+
+	@Test
+	public void add_and_get_food_coordinates() {
+		TileType tileType = TileType.FOOD;
+		gameEngine.addTile(ZERO, ONE, tileType);
+		int actualX = gameEngine.getFoodXCoordinate();
+		int actualY = gameEngine.getFoodYCoordinate();
+		assertThat(actualX, equalTo(ZERO));
+		assertThat(actualY, equalTo(ONE));
+	}
+
+	@Test
 	public void set_and_get_exit() {
 		boolean exit = true;
 		gameEngine.setExit(exit);
@@ -78,26 +108,80 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public void key_left() {
-		// TODO Should I start with this test?
-		gameEngine.keyLeft();
-	}
-
-	@Test
-	public void key_right() {
-		// TODO Should I start with this test?
-		gameEngine.keyRight();
-	}
-
-	@Test
-	public void key_up() {
-		// TODO Should I start with this test?
-		gameEngine.keyUp();
-	}
-
-	@Test
-	public void key_down() {
-		// TODO Should I start with this test?
+	public void set_new_food_location() {
+		gameEngine.setLevelHorizontalDimension(ONE);
+		gameEngine.setLevelVerticalDimension(TWO);
+		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
+		gameEngine.addTile(ONE, TWO, TileType.FOOD);
 		gameEngine.keyDown();
+		assertThat(gameEngine.getFood(), equalTo(new Point(ONE, ONE)));
 	}
+
+	@Test
+	public void set_new_food_location_random() {
+		gameEngine.setLevelHorizontalDimension(THREE);
+		gameEngine.setLevelVerticalDimension(TWO);
+		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
+		gameEngine.addTile(ONE, TWO, TileType.FOOD);
+		gameEngine.addTile(ONE, THREE, TileType.PASSABLE);
+		gameEngine.keyDown();
+		assertThat(gameEngine.getFood(),
+				equalTo(new Point(gameEngine.getNewFoodXCoordinate(), gameEngine.getNewFoodYCoordinate())));
+	}
+
+	@Test
+	public void add_tail_to_snake() {
+		gameEngine.setLevelHorizontalDimension(ONE);
+		gameEngine.setLevelVerticalDimension(THREE);
+		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
+		gameEngine.addTile(ONE, TWO, TileType.FOOD);
+		gameEngine.keyDown();
+		assertThat(gameEngine.getTail(ZERO), equalTo(new Point(ONE, ONE)));
+	}
+
+	@Test
+	public void moving_into_food_spawns_tail() {
+		gameEngine.setLevelHorizontalDimension(ONE);
+		gameEngine.setLevelVerticalDimension(THREE);
+		gameEngine.addTile(ONE, ONE, TileType.PLAYER);
+		gameEngine.addTile(ONE, TWO, TileType.FOOD);
+		gameEngine.addTile(ONE, THREE, TileType.PASSABLE);
+		gameEngine.keyDown();
+		gameEngine.keyDown();
+		assertThat(gameEngine.getTileFromCoordinates(ONE, TWO), equalTo(TileType.PLAYER));
+	}
+
+	@Test
+	public void tail_follows_player_two_moves() {
+		gameEngine.setLevelHorizontalDimension(ONE);
+		gameEngine.setLevelVerticalDimension(FOUR);
+		gameEngine.addTile(ONE, ONE, TileType.PASSABLE);
+		gameEngine.addTile(ONE, TWO, TileType.PLAYER);
+		gameEngine.addTile(ONE, THREE, TileType.PASSABLE);
+		gameEngine.addTile(ONE, FOUR, TileType.PASSABLE);
+		gameEngine.setSnake(new Point(ONE, ONE));
+		gameEngine.keyDown();
+		gameEngine.keyDown();
+		assertThat(gameEngine.getTileFromCoordinates(ONE, THREE), equalTo(TileType.PLAYER));
+	}
+
+	@Test
+	public void tail_follows_player_around_turns() {
+		gameEngine.setLevelHorizontalDimension(TWO);
+		gameEngine.setLevelVerticalDimension(FOUR);
+		gameEngine.addTile(ONE, ONE, TileType.PASSABLE);
+		gameEngine.addTile(ONE, TWO, TileType.PLAYER);
+		gameEngine.addTile(ONE, THREE, TileType.PASSABLE);
+		gameEngine.addTile(ONE, FOUR, TileType.PASSABLE);
+		gameEngine.addTile(TWO, ONE, TileType.PASSABLE);
+		gameEngine.addTile(TWO, TWO, TileType.PASSABLE);
+		gameEngine.addTile(TWO, THREE, TileType.PASSABLE);
+		gameEngine.addTile(TWO, FOUR, TileType.PASSABLE);
+		gameEngine.setSnake(new Point(ONE, ONE));
+		gameEngine.keyDown();
+		gameEngine.keyRight();
+		gameEngine.keyDown();
+		assertThat(gameEngine.getTileFromCoordinates(TWO, THREE), equalTo(TileType.PLAYER));
+	}
+
 }

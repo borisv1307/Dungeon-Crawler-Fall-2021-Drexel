@@ -18,8 +18,8 @@ public class MovementStepDefs extends LevelCreationStepDefHelper {
 
 	private GameEngine gameEngine;
 
-	@Given("^the level design is:$")
-	public void level_is(List<String> levelStrings) throws Throwable {
+	@Given("^the design is:$")
+	public void the_design_is(List<String> levelStrings) throws Throwable {
 		writeLevelFile(levelStrings);
 		gameEngine = new GameEngine(
 				new LevelCreator(TestingTunableParameters.FILE_LOCATION_PREFIX, new ReaderWrapper()));
@@ -50,4 +50,10 @@ public class MovementStepDefs extends LevelCreationStepDefHelper {
 		assertThat(gameEngine.getPlayerXCoordinate(), equalTo(playerX - COORDINATE_OFFSET));
 		assertThat(gameEngine.getPlayerYCoordinate(), equalTo(playerY - COORDINATE_OFFSET));
 	}
+
+	@Then("^exit$")
+	public void exit() throws Throwable {
+		assertThat(gameEngine.isExit(), equalTo(true));
+	}
+
 }

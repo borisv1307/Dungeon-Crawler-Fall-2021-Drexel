@@ -1,8 +1,8 @@
-@Adhoc
+@IntegrationTest
 Feature: Move the player into empty space
 
   Background: 
-    Given the level design is:
+    Given the level 1 design is:
       | XXXXX |
       | X   X |
       | X P X |
