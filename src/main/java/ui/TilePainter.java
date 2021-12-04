@@ -14,12 +14,12 @@ public class TilePainter {
             for (int y = 0; y < game.getLevelVerticalDimension(); y++) {
                 TileType tileType = game.getTileFromCoordinates(x, y);
 
-                if (tileType.equals(TileType.PORTAL)) {
+                if (tileType == TileType.PORTAL) {
 
                     paintPortal(graphics, tileWidth, tileHeight, x, y,
                             tileType);
                 }
-                else if (tileType.equals(TileType.COLLECTIBLE)) {
+                else if (tileType == TileType.COLLECTIBLE) {
 
                     paintCollectible(graphics, tileWidth, tileHeight, x, y,
                             tileType);
