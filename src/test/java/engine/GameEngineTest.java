@@ -83,9 +83,8 @@ public class GameEngineTest {
         assertThat(actualY, equalTo(ONE));
     }
 
-    // Better naming convention needed
     @Test
-    public void get_closets_coordinates_after_portal_one() {
+    public void move_to_closest_portal_vertical_slope() {
         Point pointOne = new Point(0, 1);
         Point pointTwo = new Point(0, 2);
         Point pointThree = new Point(0, 3);
@@ -95,14 +94,11 @@ public class GameEngineTest {
         gameEngine.portals.put(pointThree, TileType.PORTAL);
 
         Point closetPoint = gameEngine.getclosestPortal(0, 3);
-        System.out.println(closetPoint);
-
         assertEquals(closetPoint, pointTwo);
     }
 
-    // Better naming convention needed
     @Test
-    public void get_coordinates_after_portal_two() {
+    public void move_to_closest_portal_horizontal_slope() {
         Point pointOne = new Point(1, 0);
         Point pointTwo = new Point(2, 0);
         Point pointThree = new Point(3, 0);
@@ -112,14 +108,11 @@ public class GameEngineTest {
         gameEngine.portals.put(pointThree, TileType.PORTAL);
 
         Point closetPoint = gameEngine.getclosestPortal(3, 0);
-        System.out.println(closetPoint);
-
         assertEquals(closetPoint, pointTwo);
     }
 
-    // Better naming convention needed
     @Test
-    public void get_coordinates_after_portal_three() {
+    public void move_to_closest_portal_positive_slope() {
         Point pointOne = new Point(1, 1);
         Point pointTwo = new Point(2, 2);
         Point pointThree = new Point(3, 3);
@@ -129,31 +122,25 @@ public class GameEngineTest {
         gameEngine.portals.put(pointThree, TileType.PORTAL);
 
         Point closetPoint = gameEngine.getclosestPortal(3, 0);
-        // System.out.println(closetPoint);
-
         assertEquals(closetPoint, pointOne);
     }
 
-    // Better naming convention needed
     @Test
-    public void get_coordinates_after_portal_four() {
-        Point pointOne = new Point(1, 1);
-        Point pointTwo = new Point(2, 2);
-        Point pointThree = new Point(3, 3);
+    public void move_to_closest_portal_negative_slope() {
+        Point pointOne = new Point(-1, -1);
+        Point pointTwo = new Point(-2, -2);
+        Point pointThree = new Point(-3, -3);
 
         gameEngine.portals.put(pointOne, TileType.PORTAL);
         gameEngine.portals.put(pointTwo, TileType.PORTAL);
         gameEngine.portals.put(pointThree, TileType.PORTAL);
 
         Point closetPoint = gameEngine.getclosestPortal(0, 3);
-        System.out.println(closetPoint);
-
         assertEquals(closetPoint, pointOne);
     }
 
-    // Better naming convention needed
     @Test
-    public void get_coordinates_after_portal_five() {
+    public void move_to_closest_portal_distance_aprox_4() {
         Point pointOne = new Point(4, 1);
         Point pointTwo = new Point(4, 2);
         Point pointThree = new Point(4, 3);
@@ -163,26 +150,7 @@ public class GameEngineTest {
         gameEngine.portals.put(pointThree, TileType.PORTAL);
 
         Point closetPoint = gameEngine.getclosestPortal(0, 3);
-        System.out.println(closetPoint);
-
         assertEquals(closetPoint, pointThree);
-    }
-
-    // Better naming convention needed
-    @Test
-    public void get_coordinates_after_portal_six() {
-        Point pointOne = new Point(1, 4);
-        Point pointTwo = new Point(2, 4);
-        Point pointThree = new Point(3, 4);
-
-        gameEngine.portals.put(pointOne, TileType.PORTAL);
-        gameEngine.portals.put(pointTwo, TileType.PORTAL);
-        gameEngine.portals.put(pointThree, TileType.PORTAL);
-
-        Point closetPoint = gameEngine.getclosestPortal(0, 3);
-        System.out.println(closetPoint);
-
-        assertEquals(closetPoint, pointOne);
     }
 
     @Test
@@ -192,14 +160,12 @@ public class GameEngineTest {
 
     @Test
     public void get_one_collectible() {
-
         gameEngine.getCollectible();
         assertEquals(gameEngine.numberOfCollectibles, 1);
     }
 
     @Test
     public void get_two_collectibles() {
-
         gameEngine.getCollectible();
         gameEngine.getCollectible();
 

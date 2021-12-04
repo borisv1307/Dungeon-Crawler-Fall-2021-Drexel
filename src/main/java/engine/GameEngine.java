@@ -131,7 +131,6 @@ public class GameEngine {
 
         if (nextLocation.equals(TileType.COLLECTIBLE)) {
             setPlayer(xCoordinate, yCoordinate);
-            System.out.println(getCollectible());
             addTile(xCoordinate, yCoordinate, TileType.PASSABLE);
         }
     }
