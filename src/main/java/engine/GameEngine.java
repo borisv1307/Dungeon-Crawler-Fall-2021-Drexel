@@ -90,30 +90,26 @@ public class GameEngine {
     }
 
     public void keyLeft() {
-        movePlayerIfPassable(getPlayerXCoordinate() - 1,
-                getPlayerYCoordinate());
+        movePlayer(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
 
     }
 
     public void keyRight() {
-        movePlayerIfPassable(getPlayerXCoordinate() + 1,
-                getPlayerYCoordinate());
+        movePlayer(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
 
     }
 
     public void keyUp() {
-        movePlayerIfPassable(getPlayerXCoordinate(),
-                getPlayerYCoordinate() - 1);
+        movePlayer(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
 
     }
 
     public void keyDown() {
-        movePlayerIfPassable(getPlayerXCoordinate(),
-                getPlayerYCoordinate() + 1);
+        movePlayer(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
 
     }
 
-    public void movePlayerIfPassable(int xCoordinate, int yCoordinate) {
+    public void movePlayer(int xCoordinate, int yCoordinate) {
         TileType nextLocation = getTileFromCoordinates(xCoordinate,
                 yCoordinate);
 
@@ -122,17 +118,26 @@ public class GameEngine {
         }
 
         if (nextLocation.equals(TileType.PORTAL)) {
-            setPlayer(xCoordinate, yCoordinate);
-            Point nextPortal = getclosestPortal(xCoordinate, yCoordinate);
-            int x = (int) nextPortal.getX();
-            int y = (int) nextPortal.getY();
-            setPlayer(x, y);
+            movePlayerIfPortal(xCoordinate, yCoordinate);
         }
 
         if (nextLocation.equals(TileType.COLLECTIBLE)) {
-            setPlayer(xCoordinate, yCoordinate);
-            addTile(xCoordinate, yCoordinate, TileType.PASSABLE);
+            movePlayerIfCollectible(xCoordinate, yCoordinate);
         }
+    }
+
+    private void movePlayerIfCollectible(int xCoordinate, int yCoordinate) {
+        setPlayer(xCoordinate, yCoordinate);
+        addTile(xCoordinate, yCoordinate, TileType.PASSABLE);
+        getCollectible();
+    }
+
+    private void movePlayerIfPortal(int xCoordinate, int yCoordinate) {
+        setPlayer(xCoordinate, yCoordinate);
+        Point nextPortal = getclosestPortal(xCoordinate, yCoordinate);
+        int x = (int) nextPortal.getX();
+        int y = (int) nextPortal.getY();
+        setPlayer(x, y);
     }
 
     public Point getclosestPortal(int xCoordinate, int yCoordinate) {
