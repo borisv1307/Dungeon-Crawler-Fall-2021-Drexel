@@ -16,7 +16,7 @@ public class GameEngine {
 
 	private final LevelCreator levelCreator;
 	private final Map<Point, TileType> tiles = new HashMap<>();
-	public GameStats gameStats;
+	private GameStats gameStats;
 	private CountDownThread timerThread;
 	private boolean exit;
 	private WindowsDimension dimensions = new WindowsDimension();
@@ -181,5 +181,9 @@ public class GameEngine {
 
 	public CountDownThread getTimerThread() {
 		return timerThread;
+	}
+
+	public GameStats getGameStats() {
+		return gameStats;
 	}
 }

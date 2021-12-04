@@ -7,7 +7,7 @@ import values.TileColorMap;
 import values.TunableParameters;
 
 class CountDown extends TimerTask {
-	private int countdown = TunableParameters.PLAYER_LIMIT_TIME;
+	private int countDown = TunableParameters.PLAYER_LIMIT_TIME;
 	private LevelTimer timerThread = null;
 
 	public CountDown(LevelTimer timerThread) {
@@ -16,11 +16,10 @@ class CountDown extends TimerTask {
 
 	@Override
 	public void run() {
-		countdown--;
-		if (countdown <= 0) {
+		countDown--;
+		if (countDown <= 0) {
 			TileColorMap.changePlayerColor(Color.RED);
 			closeTimer();
-			return;
 		}
 	}
 
