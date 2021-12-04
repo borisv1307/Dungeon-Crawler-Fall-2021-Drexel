@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import parser.LevelCreator;
 import tiles.TileType;
 import ui.GameFrame;
+import values.TunableParameters;
 
 public class GameEngine {
 
@@ -19,7 +20,7 @@ public class GameEngine {
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
-	private int playerLightRadius = 1;
+	private int playerLightRadius = TunableParameters.playerLightRadius;
 	private final int level;
 
 	public GameEngine(LevelCreator levelCreator) {
