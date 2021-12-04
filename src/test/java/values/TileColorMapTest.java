@@ -30,4 +30,11 @@ public class TileColorMapTest {
 		assertSame(Color.GREEN, TileColorMap.get(TileType.PLAYER));
 	}
 
+	@Test
+	public void reset_player_color_should_change_player_tile_green() {
+		TileColorMap.changePlayerColor(Color.RED);
+		TileColorMap.resetPlayerColor();
+		assertSame(Color.GREEN, TileColorMap.get(TileType.PLAYER));
+	}
+
 }
