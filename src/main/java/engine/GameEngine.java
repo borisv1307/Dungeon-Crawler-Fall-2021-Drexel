@@ -145,39 +145,53 @@ public class GameEngine {
 	}
 
 	private void detonateBomb() {
-		breakWallsInFourDirections();
+		destroyTilesInFourDirections();
 		removeBomb();
 	}
 
-	private void breakWallsInFourDirections() {
+	private void destroyTilesInFourDirections() {
 		int[][] directions = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
 		for (int i = 0; i < 4; i++) {
 			int xDirection = directions[i][0];
 			int yDirection = directions[i][1];
 
-			breakWallsInDirection(xDirection, yDirection);
+			destroyTilesInDirection(xDirection, yDirection);
 		}
 	}
 
-	private void breakWallsInDirection(int xDirection, int yDirection) {
-		int range = getPlayerPowerUps().contains(TileType.FIRE_POWER_UP) ? BOMB_DEFAULT_RANGE + 1 : BOMB_DEFAULT_RANGE;
-		for (int delta = 1; delta <= range; delta++) {
-			int xDelta = xDirection * delta;
-			int yDelta = yDirection * delta;
-
-			int x = bomb.x + xDelta;
-			int y = bomb.y + yDelta;
-
-			TileType toBeDestroyed = getTileFromCoordinates(x, y);
+	private void destroyTilesInDirection(int xDirection, int yDirection) {
+		int bombRange = getBombRange();
+		for (int delta = 1; delta <= bombRange; delta++) {
+			Point fireLocation = calculateFireLocation(xDirection, yDirection, delta);
+			TileType toBeDestroyed = getTileFromCoordinates(fireLocation.x, fireLocation.y);
 			if (!toBeDestroyed.equals(TileType.PASSABLE)) {
-				if (isDestroyable(toBeDestroyed)) {
-					removeTile(x, y);
-				}
+				attemptToDestroy(fireLocation, toBeDestroyed);
 				break;
 			}
 		}
 	}
+
+	private int getBombRange() {
+		return getPlayerPowerUps().contains(TileType.FIRE_POWER_UP) ? BOMB_DEFAULT_RANGE + 1 : BOMB_DEFAULT_RANGE;
+	}
+
+	private Point calculateFireLocation(int xDirection, int yDirection, int delta) {
+		int xDelta = xDirection * delta;
+		int yDelta = yDirection * delta;
+
+		int x = bomb.x + xDelta;
+		int y = bomb.y + yDelta;
+
+		return new Point(x, y);
+	}
+
+	private void attemptToDestroy(Point fireLocation, TileType toBeDestroyed) {
+		if (isDestroyable(toBeDestroyed)) {
+			removeTile(fireLocation.x, fireLocation.y);
+		}
+	}
+
 
 	private boolean isDestroyable(TileType toBeDestroyed) {
 		return toBeDestroyed.equals(TileType.BREAKABLE) || isPowerUp(toBeDestroyed);
