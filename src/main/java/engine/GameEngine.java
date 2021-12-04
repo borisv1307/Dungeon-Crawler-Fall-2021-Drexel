@@ -105,9 +105,7 @@ public class GameEngine {
 	}
 
 	public void bringPlayerBackToInitialPosition() {
-		int playerInitialX = (int) playerInitialPosition.getX();
-		int playerInitialY = (int) playerInitialPosition.getY();
-		setPlayer(playerInitialX, playerInitialY);
+		player = playerInitialPosition;
 	}
 
 	public int getCurrentLevel() {

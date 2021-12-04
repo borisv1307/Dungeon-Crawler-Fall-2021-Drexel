@@ -50,4 +50,9 @@ public class LevelTimer {
 		}
 		stopTimer();
 	}
+
+	public boolean isFinished() {
+		return finished;
+	}
+
 }

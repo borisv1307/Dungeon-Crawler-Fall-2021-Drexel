@@ -64,4 +64,18 @@ public class LevelTimerTest {
 		Mockito.verifyZeroInteractions(gameEngine);
 	}
 
+	@Test
+	public void do_not_stop_game_if_timer_did_not_start() {
+		levelTimer.stopTimer();
+		levelTimer.endLevel(gameEngine);
+		Mockito.verifyZeroInteractions(gameEngine);
+	}
+
+	@Test
+	public void finish_run_level_when_current_time_equals_timer() {
+		levelTimer.setTimerForSeconds(0);
+		levelTimer.runLevel(gameEngine);
+		boolean finished = levelTimer.isFinished();
+		assertThat(finished, equalTo(true));
+	}
 }
