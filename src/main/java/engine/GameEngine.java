@@ -160,8 +160,10 @@ public class GameEngine {
             Object[] locations = allPortals.toArray();
             point = (Point) locations[i];
 
-            if (xCoordinate != point.getX() && yCoordinate != point.getY()) {
-
+            if (xCoordinate == point.getX() && yCoordinate == point.getY()) {
+                distance = 0.0;
+            }
+            else {
                 double pointDistance = Point.distance(xCoordinate, yCoordinate,
                         point.getX(), point.getY());
                 if (distance == null || pointDistance < distance) {
