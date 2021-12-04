@@ -10,7 +10,6 @@ import tiles.TileType;
 import ui.GameFrame;
 import ui.WindowsDimension;
 import values.GameStats;
-import values.TunableParameters;
 import wrappers.SystemWrapper;
 
 public class GameEngine {
@@ -51,7 +50,7 @@ public class GameEngine {
 	}
 
 	private void setUpCountDownTimer() {
-		timerThread = new CountDownThread(TunableParameters.PLAYER_LIMIT_TIME, this);
+		timerThread = new CountDownThread(this);
 	}
 
 	public void run(GameFrame gameFrame) {

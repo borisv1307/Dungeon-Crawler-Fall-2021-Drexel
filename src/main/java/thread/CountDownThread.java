@@ -7,8 +7,8 @@ public class CountDownThread {
 	private LevelTimer levelTimer;
 	private Thread timerThread;
 
-	public CountDownThread(int timeLimit, GameEngine gameEngine) {
-		levelTimer = new LevelTimer(timeLimit, gameEngine);
+	public CountDownThread(GameEngine gameEngine) {
+		levelTimer = new LevelTimer(gameEngine);
 	}
 
 	public void startCountDown() {
