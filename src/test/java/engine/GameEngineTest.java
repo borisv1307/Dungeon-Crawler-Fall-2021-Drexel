@@ -2,8 +2,10 @@ package engine;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertEquals;
 
 import java.awt.Component;
+import java.awt.Point;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -69,6 +71,22 @@ public class GameEngineTest {
         int actualY = gameEngine.getPlayerYCoordinate();
         assertThat(actualX, equalTo(ZERO));
         assertThat(actualY, equalTo(ONE));
+    }
+
+    @Test
+    public void get_closest_coordinates_after_portal() {
+        Point pointOne = new Point(0, 1);
+        Point pointTwo = new Point(0, 4);
+        Point pointThree = new Point(0, 5);
+
+        gameEngine.portals.put(pointOne, TileType.PORTAL);
+        gameEngine.portals.put(pointTwo, TileType.PORTAL);
+        gameEngine.portals.put(pointThree, TileType.PORTAL);
+
+        Point closetPoint = gameEngine.getclosestPortal(0, 3);
+        System.out.println(closetPoint);
+
+        assertEquals(closetPoint, pointTwo);
     }
 
     @Test
