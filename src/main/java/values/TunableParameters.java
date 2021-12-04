@@ -12,5 +12,6 @@ public final class TunableParameters {
 	public static final String FILE_LOCATION_PREFIX = "src/main/resources/levels/";
 	public static final String FILE_NAME_SUFFIX = ".txt";
 
-	public static final int playerLightRadius = 1;
+	public static final int playerLightRadius = 2;
+	public static final int startingLevel = 1;
 }

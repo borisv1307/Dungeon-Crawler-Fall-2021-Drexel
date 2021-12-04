@@ -46,6 +46,11 @@ public class MovementStepDefs extends LevelCreationStepDefHelper {
 		gameEngine.keyDown();
 	}
 
+	@When("^the player light radius is (\\d+)$")
+	public void the_player_light_radius_is(int radius) throws Throwable {
+		gameEngine.playerLightRadius = 1;
+	}
+
 	@Then("^the player is located at \\((\\d+), (\\d+)\\)$")
 	public void the_player_is_located_at(int playerX, int playerY) throws Throwable {
 		assertThat(gameEngine.getPlayerXCoordinate(), equalTo(playerX - COORDINATE_OFFSET));

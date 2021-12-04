@@ -20,12 +20,12 @@ public class GameEngine {
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
-	private int playerLightRadius = TunableParameters.playerLightRadius;
+	public int playerLightRadius = TunableParameters.playerLightRadius;
 	private final int level;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
-		level = 1;
+		level = TunableParameters.startingLevel;
 		this.levelCreator = levelCreator;
 		this.levelCreator.createLevel(this, level);
 	}
