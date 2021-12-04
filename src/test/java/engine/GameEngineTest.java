@@ -186,13 +186,24 @@ public class GameEngineTest {
     }
 
     @Test
-    public void get_collectibles() {
+    public void get_zero_collectible() {
+        assertEquals(gameEngine.numberOfCollectibles, 0);
+    }
+
+    @Test
+    public void get_one_collectible() {
+
+        gameEngine.getCollectible();
+        assertEquals(gameEngine.numberOfCollectibles, 1);
+    }
+
+    @Test
+    public void get_two_collectibles() {
 
         gameEngine.getCollectible();
         gameEngine.getCollectible();
-        gameEngine.getCollectible();
 
-        assertEquals(gameEngine.numberOfCollectibles, 3);
+        assertEquals(gameEngine.numberOfCollectibles, 2);
 
     }
 
