@@ -1,4 +1,4 @@
-package parser;
+package level;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -35,7 +35,7 @@ public class LevelCreatorStepDefs extends LevelCreationStepDefHelper {
 
 	@When("^I create the level$")
 	public void i_create_the_level() throws Throwable {
-		LevelCreator levelCreator = new LevelCreator(TestingTunableParameters.FILE_LOCATION_PREFIX,
+		LevelCreator levelCreator = new FileParserLevelCreator(TestingTunableParameters.FILE_LOCATION_PREFIX,
 				new ReaderWrapper());
 		try {
 			gameEngine = new GameEngine(levelCreator);
@@ -51,7 +51,7 @@ public class LevelCreatorStepDefs extends LevelCreationStepDefHelper {
 		BufferedReader bufferedReader = Mockito.mock(BufferedReader.class);
 		Mockito.when(readerWrapper.createBufferedReader(Mockito.anyString())).thenReturn(bufferedReader);
 		Mockito.doThrow(ioException).when(bufferedReader).readLine();
-		LevelCreator levelCreator = new LevelCreator(TestingTunableParameters.FILE_LOCATION_PREFIX, readerWrapper);
+		LevelCreator levelCreator = new FileParserLevelCreator(TestingTunableParameters.FILE_LOCATION_PREFIX, readerWrapper);
 		gameEngine = new GameEngine(levelCreator);
 	}
 

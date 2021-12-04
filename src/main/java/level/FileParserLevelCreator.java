@@ -1,38 +1,28 @@
-package parser;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+package level;
 
 import engine.GameEngine;
 import tiles.TileType;
 import values.TunableParameters;
 import wrappers.ReaderWrapper;
 
-public class LevelCreator {
-	private static final Logger LOGGER = Logger.getLogger(LevelCreator.class.getName());
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.logging.Level;
+
+public class FileParserLevelCreator extends LevelCreator {
 
 	String fileLocationPrefix;
 	String fileNameSuffix = TunableParameters.FILE_NAME_SUFFIX;
 	ReaderWrapper readerWrapper;
 
-	public LevelCreator(String fileLocationPrefix, ReaderWrapper readerWrapper) {
+	public FileParserLevelCreator(String fileLocationPrefix, ReaderWrapper readerWrapper) {
 		this.fileLocationPrefix = fileLocationPrefix;
 		this.readerWrapper = readerWrapper;
 	}
 
+	@Override
 	public void createLevel(GameEngine gameEngine, int level) {
-		BufferedReader reader;
-		try {
-			reader = readerWrapper.createBufferedReader(getFilePath(level));
-		} catch (FileNotFoundException e) {
-			LOGGER.log(Level.SEVERE, e.toString(), e);
-			gameEngine.setExit(true);
-			return;
-		}
-		try {
+		try (BufferedReader reader = readerWrapper.createBufferedReader(getFilePath(level))) {
 			String line = null;
 			int y = 0;
 			while ((line = reader.readLine()) != null) {
@@ -45,17 +35,6 @@ public class LevelCreator {
 				y++;
 			}
 			gameEngine.setLevelVerticalDimension(y);
-		} catch (IOException e) {
-			LOGGER.log(Level.SEVERE, e.toString(), e);
-			gameEngine.setExit(true);
-		} finally {
-			closeBufferedReader(reader, gameEngine);
-		}
-	}
-
-	private void closeBufferedReader(BufferedReader reader, GameEngine gameEngine) {
-		try {
-			reader.close();
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, e.toString(), e);
 			gameEngine.setExit(true);

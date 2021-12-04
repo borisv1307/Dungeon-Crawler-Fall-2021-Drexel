@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import parser.LevelCreator;
+import level.LevelCreator;
 import tiles.TileType;
 import ui.GameFrame;
 

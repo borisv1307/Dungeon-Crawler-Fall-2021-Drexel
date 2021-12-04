@@ -5,7 +5,7 @@ import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
 
-import parser.LevelCreator;
+import level.LevelCreator;
 import tiles.TileType;
 import ui.GameFrame;
 

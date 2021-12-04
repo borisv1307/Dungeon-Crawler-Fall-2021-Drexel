@@ -1,7 +1,8 @@
 package main;
 
 import engine.GameEngine;
-import parser.LevelCreator;
+import level.FileParserLevelCreator;
+import level.LevelCreator;
 import timer.FramesPerSecondHandler;
 import ui.GameFrame;
 import ui.GamePanel;
@@ -17,7 +18,7 @@ public abstract class ObjectFactory {
 
 	private static ThreadWrapper defaultThreadWrapper = new ThreadWrapper();
 
-	private static LevelCreator defaultLevelCreator = new LevelCreator(TunableParameters.FILE_LOCATION_PREFIX,
+	private static LevelCreator defaultLevelCreator = new FileParserLevelCreator(TunableParameters.FILE_LOCATION_PREFIX,
 			new ReaderWrapper());
 
 	private static GameEngine defaultGameEngine = new GameEngine(defaultLevelCreator);
