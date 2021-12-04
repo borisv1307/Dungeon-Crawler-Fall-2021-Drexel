@@ -3,7 +3,7 @@ Feature: Create a Level
 
   Scenario: Level 1
     Given level is:
-      | XXXX |
+      | XXDX |
       | X PX |
       | XXXX |
     When I create the level
@@ -12,7 +12,7 @@ Feature: Create a Level
     And the player's y coordinate is 2
     And (1, 1) is "X"
     And (2, 1) is "X"
-    And (3, 1) is "X"
+    And (3, 1) is "D"
     And (4, 1) is "X"
     And (1, 2) is "X"
     And (2, 2) is " "
