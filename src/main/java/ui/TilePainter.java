@@ -15,6 +15,7 @@ public class TilePainter {
                 TileType tileType = game.getTileFromCoordinates(x, y);
 
                 if (tileType.equals(TileType.PORTAL)) {
+
                     paintPortal(graphics, tileWidth, tileHeight, x, y,
                             tileType);
                 }
@@ -34,8 +35,6 @@ public class TilePainter {
     private void paintCollectible(Graphics graphics, int tileWidth,
             int tileHeight, int x, int y, TileType tileType) {
         handleTile(graphics, tileType);
-        // graphics.fillOval(x * tileWidth, y * tileHeight, tileWidth,
-        // tileHeight);
         graphics.fillOval(x * tileWidth, y * tileHeight, 25, 25);
 
     }
