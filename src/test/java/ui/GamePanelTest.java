@@ -21,6 +21,8 @@ public class GamePanelTest {
 	int verticalDimension = 6;
 	int tileWidth = width / horizontalDimension;
 	int tileHeight = height / verticalDimension;
+	String COIN_COUNT = "Coins: 0";
+	String LEVEL = "Level: 1";
 
 	GamePanel gamePanel;
 	GameEngine gameEngine;
@@ -102,4 +104,16 @@ public class GamePanelTest {
 		boolean actual = gamePanel.keyDown(null, Event.ESCAPE);
 		assertSame(true, actual);
 	}
+
+	@Test
+	public void paint_coin_count_and_level() {
+		Graphics graphics = Mockito.mock(Graphics.class);
+		int xCoordinate = tileWidth;
+		int yCoordinate = tileHeight;
+		Mockito.when(gameEngine.getLevel()).thenReturn(1);
+		gamePanel.paint(graphics);
+		Mockito.verify(tilePainter).paintText(graphics, xCoordinate, yCoordinate, COIN_COUNT);
+		Mockito.verify(tilePainter).paintText(graphics, xCoordinate, yCoordinate, LEVEL);
+	}
+
 }

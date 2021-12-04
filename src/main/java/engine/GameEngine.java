@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
 
+import movement.PlayerMovement;
 import parser.LevelCreator;
 import tiles.TileType;
 import ui.GameFrame;
@@ -13,17 +14,20 @@ public class GameEngine {
 
 	private boolean exit;
 	private final LevelCreator levelCreator;
-	private final Map<Point, TileType> tiles = new HashMap<>();
+	public final Map<Point, TileType> tiles = new HashMap<>();
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
-	private final int level;
+	private int level;
+	private int coinCount = 0;
+	private PlayerMovement playerMovement;
 
-	public GameEngine(LevelCreator levelCreator) {
+	public GameEngine(LevelCreator levelCreator, PlayerMovement playerMovement) {
 		exit = false;
 		level = 1;
 		this.levelCreator = levelCreator;
 		this.levelCreator.createLevel(this, level);
+		this.playerMovement = playerMovement;
 	}
 
 	public void run(GameFrame gameFrame) {
@@ -61,7 +65,7 @@ public class GameEngine {
 		return tiles.get(new Point(x, y));
 	}
 
-	private void setPlayer(int x, int y) {
+	public void setPlayer(int x, int y) {
 		player = new Point(x, y);
 	}
 
@@ -74,19 +78,25 @@ public class GameEngine {
 	}
 
 	public void keyLeft() {
-		// TODO Implement movement logic here
+		playerMovement.movingToTile(this, getPlayerXCoordinate(), getPlayerYCoordinate(), -1, 0);
 	}
 
 	public void keyRight() {
-		// TODO Implement movement logic here
+		playerMovement.movingToTile(this, getPlayerXCoordinate(), getPlayerYCoordinate(), 1, 0);
+
 	}
 
 	public void keyUp() {
-		// TODO Implement movement logic here
+		playerMovement.movingToTile(this, getPlayerXCoordinate(), getPlayerYCoordinate(), 0, -1);
 	}
 
 	public void keyDown() {
-		// TODO Implement movement logic here
+		playerMovement.movingToTile(this, getPlayerXCoordinate(), getPlayerYCoordinate(), 0, 1);
+
+	}
+
+	public void increaseCoinCount() {
+		this.coinCount++;
 	}
 
 	public void setExit(boolean exit) {
@@ -96,4 +106,25 @@ public class GameEngine {
 	public boolean isExit() {
 		return exit;
 	}
+
+	public int getCoinCount() {
+		return this.coinCount;
+	}
+
+	public int getLevel() {
+		return this.level;
+	}
+
+	public void increaseLevel() {
+		this.level++;
+	}
+
+	public void decreaseLevel() {
+		this.level--;
+	}
+
+	public void loadLevel() {
+		this.levelCreator.createLevel(this, level);
+	}
+
 }
