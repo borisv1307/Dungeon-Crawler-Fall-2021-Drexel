@@ -89,6 +89,19 @@ public class GameEngine {
         return (int) player.getY();
     }
 
+    public int getPortalXCoordinate() {
+        return (int) portal.getX();
+    }
+
+    public int getPortalYCoordinate() {
+        return (int) portal.getY();
+    }
+
+    public int getCollectible() {
+        return numberOfCollectibles++;
+
+    }
+
     public void keyLeft() {
         movePlayer(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
 
@@ -174,19 +187,6 @@ public class GameEngine {
 
     public boolean isExit() {
         return exit;
-    }
-
-    public int getPortalXCoordinate() {
-        return (int) portal.getX();
-    }
-
-    public int getPortalYCoordinate() {
-        return (int) portal.getY();
-    }
-
-    public int getCollectible() {
-        return numberOfCollectibles++;
-
     }
 
 }
