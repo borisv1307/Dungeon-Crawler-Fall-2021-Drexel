@@ -141,7 +141,7 @@ public class GameEngineTest {
 
 		gameEngine.keyRight();
 		assertThat(gameEngine.canMoveTo(ZERO, ONE), equalTo(true));
-		Thread.sleep(6000);
+		gameEngine.timerRunsOutCallBack();
 		assertThat(gameEngine.canMoveTo(ZERO, ONE), equalTo(false));
 
 	}
@@ -161,7 +161,6 @@ public class GameEngineTest {
 		gameEngine.addTile(TWO, ONE, tileType);
 
 		gameEngine.keyRight();
-		Thread.sleep(3000);
 		gameEngine.keyRight();
 		assertThat(gameEngine.gameStats.getLevel(), equalTo(2));
 	}
