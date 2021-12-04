@@ -155,13 +155,13 @@ public class GameEngineTest {
 
     @Test
     public void get_zero_collectible() {
-        assertEquals(gameEngine.numberOfCollectibles, 0);
+        assertEquals(0, gameEngine.numberOfCollectibles);
     }
 
     @Test
     public void get_one_collectible() {
         gameEngine.getCollectible();
-        assertEquals(gameEngine.numberOfCollectibles, 1);
+        assertEquals(1, gameEngine.numberOfCollectibles);
     }
 
     @Test
@@ -169,7 +169,7 @@ public class GameEngineTest {
         gameEngine.getCollectible();
         gameEngine.getCollectible();
 
-        assertEquals(gameEngine.numberOfCollectibles, 2);
+        assertEquals(2, gameEngine.numberOfCollectibles);
 
     }
 
