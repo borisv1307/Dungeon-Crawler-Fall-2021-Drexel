@@ -14,8 +14,8 @@ import wrappers.ThreadWrapper;
 
 public abstract class ObjectFactory {
 
-	private static final int DEFAULT_TILE_AMOUNT_X = 20;
-	private static final int DEFAULT_TILE_AMOUNT_Y = 10;
+	private static final int DEFAULT_TILE_AMOUNT_X = 40;
+	private static final int DEFAULT_TILE_AMOUNT_Y = 20;
 
 	private ObjectFactory() {}
 

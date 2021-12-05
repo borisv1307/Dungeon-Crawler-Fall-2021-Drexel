@@ -92,7 +92,7 @@ public class GameEngineTest {
 
 	@Test
 	public void find_location_of_closest_pocket() {
-		fillBoardWithNonPassableTiles();
+		fillBoardWithNonPassableTiles(gameEngine);
 		Point pocketLocation = new Point(CENTER_X - 1, CENTER_Y);
 		gameEngine.changeTileType(pocketLocation.x, pocketLocation.y, TileType.PASSABLE);
 		Point actual = gameEngine.findClosestLocationOfATileType(CENTER_X, CENTER_Y, TileType.PASSABLE);
@@ -102,7 +102,7 @@ public class GameEngineTest {
 
 	@Test
 	public void pocket_location_found_opposite_side() {
-		fillBoardWithNonPassableTiles();
+		fillBoardWithNonPassableTiles(gameEngine);
 		Point pocketLocation = new Point(CENTER_X + 1, CENTER_Y);
 		gameEngine.changeTileType(pocketLocation.x, pocketLocation.y, TileType.PASSABLE);
 		Point actual = gameEngine.findClosestLocationOfATileType(CENTER_X, CENTER_Y, TileType.PASSABLE);
@@ -112,7 +112,7 @@ public class GameEngineTest {
 
 	@Test
 	public void two_pockets_picks_closer() {
-		fillBoardWithNonPassableTiles();
+		fillBoardWithNonPassableTiles(gameEngine);
 		Point pocketLocation = new Point(CENTER_X + 2, CENTER_Y);
 		gameEngine.changeTileType(pocketLocation.x, pocketLocation.y, TileType.PASSABLE);
 		gameEngine.changeTileType(CENTER_X + 4, CENTER_Y, TileType.PASSABLE);
@@ -187,13 +187,13 @@ public class GameEngineTest {
 		assertFalse(gameEngine.isTileTouching(0, 0, TileType.PASSABLE));
 	}
 
-	private void fillBoardWithNonPassableTiles() {
+	public static void fillBoardWithNonPassableTiles(GameEngine engine) {
 		for (int y = 0; y < TILE_Y_RANGE; y++) {
 			for (int x = 0; x < TILE_X_RANGE; x++) {
 				if (x == TILE_X_RANGE / 2 && y == TILE_Y_RANGE / 2) {
-					gameEngine.addTile(x, y, TileType.PLAYER);
+					engine.addTile(x, y, TileType.PLAYER);
 				} else {
-					gameEngine.addTile(x, y, TileType.NOT_PASSABLE);
+					engine.addTile(x, y, TileType.NOT_PASSABLE);
 				}
 			}
 		}

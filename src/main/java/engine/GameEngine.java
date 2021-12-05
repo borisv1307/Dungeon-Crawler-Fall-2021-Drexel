@@ -109,6 +109,10 @@ public class GameEngine {
 		player = new Point(x, y);
 	}
 
+	public Point getPlayerLocation() {
+		return player;
+	}
+
 	public int getPlayerXCoordinate() {
 		return (int) player.getX();
 	}
