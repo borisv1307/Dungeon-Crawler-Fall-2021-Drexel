@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import parser.LevelCreator;
+import parser.LevelMap;
 import tiles.TileType;
 import ui.GameFrame;
 import values.TunableParameters;
@@ -17,17 +18,21 @@ public class GameEngine {
 	private final LevelCreator levelCreator;
 	private final Map<Point, TileType> tiles = new HashMap<>();
 	private final Map<Point, TileType> visibleTiles = new HashMap<>();
+	private final LevelMap levelMap = new LevelMap();
+	private final int levelTransitionOffset = 3;
+	private final int northDoorYCoordinate = 1;
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
 	public int playerLightRadius = TunableParameters.playerLightRadius;
-	private final int level;
+	public int level;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
 		level = TunableParameters.startingLevel;
 		this.levelCreator = levelCreator;
 		this.levelCreator.createLevel(this, level);
+		levelMap.addLevel(level, tiles);
 	}
 
 	public void run(GameFrame gameFrame) {
@@ -134,7 +139,28 @@ public class GameEngine {
 		if (attemptedLocation.equals(TileType.PASSABLE)) {
 			player.setLocation(x, y);
 			updateVisibleTiles();
+		} else if (attemptedLocation.equals(TileType.DOOR)) {
+			moveToNextLevel(getDirection());
 		}
+	}
+
+	public void moveToNextLevel(int direction) {
+		if (levelMap.levelExists(level + direction)) {
+			tiles.putAll(levelMap.getLevel(level + direction, direction));
+		} else {
+			this.levelCreator.createLevel(this, level + direction);
+			levelMap.addLevel(level + direction, tiles);
+		}
+		player.setLocation(player.x, player.y - (levelVerticalDimension - levelTransitionOffset) * direction);
+		level = level + direction;
+		updateVisibleTiles();
+	}
+
+	public int getDirection() {
+		if (player.y == northDoorYCoordinate) {
+			return -1;
+		}
+		return 1;
 	}
 
 	public void setExit(boolean exit) {
