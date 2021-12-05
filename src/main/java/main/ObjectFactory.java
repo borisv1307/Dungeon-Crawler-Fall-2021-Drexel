@@ -3,6 +3,7 @@ package main;
 import engine.GameEngine;
 import level.FileParserLevelCreator;
 import level.LevelCreator;
+import level.ProceduralLevelCreator;
 import timer.FramesPerSecondHandler;
 import ui.GameFrame;
 import ui.GamePanel;
@@ -12,14 +13,20 @@ import values.TunableParameters;
 import wrappers.ReaderWrapper;
 import wrappers.SystemWrapper;
 import wrappers.ThreadWrapper;
+import wrappers.noise.OpenSimplexNoiseWrapper;
 
 public abstract class ObjectFactory {
+
+	private static final int DEFAULT_TILE_AMOUNT_X = 20;
+	private static final int DEFAULT_TILE_AMOUNT_Y = 10;
+
 	private ObjectFactory() {}
 
 	private static ThreadWrapper defaultThreadWrapper = new ThreadWrapper();
 
-	private static LevelCreator defaultLevelCreator = new FileParserLevelCreator(TunableParameters.FILE_LOCATION_PREFIX,
-			new ReaderWrapper());
+//	private static LevelCreator defaultLevelCreator = new FileParserLevelCreator(TunableParameters.FILE_LOCATION_PREFIX,
+//			new ReaderWrapper());
+	private static LevelCreator defaultLevelCreator = new ProceduralLevelCreator(DEFAULT_TILE_AMOUNT_X, DEFAULT_TILE_AMOUNT_Y);
 
 	private static GameEngine defaultGameEngine = new GameEngine(defaultLevelCreator);
 
