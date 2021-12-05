@@ -1,27 +1,32 @@
 package engine;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-
-import java.awt.Component;
-
+import level.LevelCreator;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import parser.LevelCreator;
 import tiles.TileType;
 import ui.GameFrame;
+
+import java.awt.*;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.*;
 
 public class GameEngineTest {
 
 	private static final int ZERO = 0;
 	private static final int ONE = 1;
 
+	private static final int TILE_X_RANGE = 10;
+	private static final int TILE_Y_RANGE = 10;
+	private static final int CENTER_X = TILE_X_RANGE / 2;
+	private static final int CENTER_Y = TILE_Y_RANGE / 2;
+
 	GameEngine gameEngine;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		LevelCreator levelCreator = Mockito.mock(LevelCreator.class);
 		gameEngine = new GameEngine(levelCreator);
 		int level = 1;
@@ -78,26 +83,120 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public void key_left() {
-		// TODO Should I start with this test?
-		gameEngine.keyLeft();
+	public void update_type_type() {
+		gameEngine.addTile(ZERO, ONE, TileType.PASSABLE);
+		gameEngine.changeTileType(ZERO, ONE, TileType.NOT_PASSABLE);
+		TileType actual = gameEngine.getTileFromCoordinates(ZERO, ONE);
+		assertThat(actual, equalTo(TileType.NOT_PASSABLE));
 	}
 
 	@Test
-	public void key_right() {
-		// TODO Should I start with this test?
-		gameEngine.keyRight();
+	public void find_location_of_closest_pocket() {
+		fillBoardWithNonPassableTiles(gameEngine);
+		Point pocketLocation = new Point(CENTER_X - 1, CENTER_Y);
+		gameEngine.changeTileType(pocketLocation.x, pocketLocation.y, TileType.PASSABLE);
+		Point actual = gameEngine.findClosestLocationOfATileType(CENTER_X, CENTER_Y, TileType.PASSABLE);
+
+		assertEquals(pocketLocation, actual);
 	}
 
 	@Test
-	public void key_up() {
-		// TODO Should I start with this test?
-		gameEngine.keyUp();
+	public void pocket_location_found_opposite_side() {
+		fillBoardWithNonPassableTiles(gameEngine);
+		Point pocketLocation = new Point(CENTER_X + 1, CENTER_Y);
+		gameEngine.changeTileType(pocketLocation.x, pocketLocation.y, TileType.PASSABLE);
+		Point actual = gameEngine.findClosestLocationOfATileType(CENTER_X, CENTER_Y, TileType.PASSABLE);
+
+		assertEquals(pocketLocation, actual);
 	}
 
 	@Test
-	public void key_down() {
-		// TODO Should I start with this test?
-		gameEngine.keyDown();
+	public void two_pockets_picks_closer() {
+		fillBoardWithNonPassableTiles(gameEngine);
+		Point pocketLocation = new Point(CENTER_X + 2, CENTER_Y);
+		gameEngine.changeTileType(pocketLocation.x, pocketLocation.y, TileType.PASSABLE);
+		gameEngine.changeTileType(CENTER_X + 4, CENTER_Y, TileType.PASSABLE);
+		Point actual = gameEngine.findClosestLocationOfATileType(CENTER_X, CENTER_Y, TileType.PASSABLE);
+
+		assertEquals(pocketLocation, actual);
 	}
+
+	@Test
+	public void not_touching_a_passable() {
+		gameEngine.addTile(0, 0, TileType.NOT_PASSABLE);
+		gameEngine.addTile(1, 0, TileType.NOT_PASSABLE);
+		gameEngine.addTile(2, 0, TileType.NOT_PASSABLE);
+		gameEngine.addTile(0, 1, TileType.NOT_PASSABLE);
+		gameEngine.addTile(1, 1, TileType.PLAYER);
+		gameEngine.addTile(2, 1, TileType.NOT_PASSABLE);
+		gameEngine.addTile(0, 2, TileType.NOT_PASSABLE);
+		gameEngine.addTile(1, 2, TileType.NOT_PASSABLE);
+		gameEngine.addTile(2, 2, TileType.NOT_PASSABLE);
+
+		assertFalse(gameEngine.isTileTouching(1, 1, TileType.PASSABLE));
+	}
+
+	@Test
+	public void touching_a_passable() {
+		gameEngine.addTile(0, 0, TileType.NOT_PASSABLE);
+		gameEngine.addTile(1, 0, TileType.NOT_PASSABLE);
+		gameEngine.addTile(2, 0, TileType.NOT_PASSABLE);
+		gameEngine.addTile(0, 1, TileType.NOT_PASSABLE);
+		gameEngine.addTile(1, 1, TileType.PLAYER);
+		gameEngine.addTile(2, 1, TileType.NOT_PASSABLE);
+		gameEngine.addTile(0, 2, TileType.NOT_PASSABLE);
+		gameEngine.addTile(1, 2, TileType.PASSABLE);
+		gameEngine.addTile(2, 2, TileType.NOT_PASSABLE);
+
+		assertTrue(gameEngine.isTileTouching(1, 1, TileType.PASSABLE));
+	}
+
+	@Test
+	public void corner_only_touching_a_passable() {
+		gameEngine.addTile(0, 0, TileType.PASSABLE);
+		gameEngine.addTile(1, 0, TileType.NOT_PASSABLE);
+		gameEngine.addTile(2, 0, TileType.NOT_PASSABLE);
+		gameEngine.addTile(0, 1, TileType.NOT_PASSABLE);
+		gameEngine.addTile(1, 1, TileType.PLAYER);
+		gameEngine.addTile(2, 1, TileType.NOT_PASSABLE);
+		gameEngine.addTile(0, 2, TileType.NOT_PASSABLE);
+		gameEngine.addTile(1, 2, TileType.NOT_PASSABLE);
+		gameEngine.addTile(2, 2, TileType.NOT_PASSABLE);
+
+		assertFalse(gameEngine.isTileTouching(1, 1, TileType.PASSABLE));
+	}
+
+
+	@Test
+	public void tile_border_touching_check() {
+		gameEngine.addTile(0, 0, TileType.PLAYER);
+		gameEngine.addTile(1, 0, TileType.NOT_PASSABLE);
+		gameEngine.addTile(0, 1, TileType.PASSABLE);
+		gameEngine.addTile(1, 1, TileType.NOT_PASSABLE);
+
+		assertTrue(gameEngine.isTileTouching(0, 0, TileType.PASSABLE));
+	}
+
+	@Test
+	public void tile_border_touching_check_without() {
+		gameEngine.addTile(0, 0, TileType.PLAYER);
+		gameEngine.addTile(1, 0, TileType.NOT_PASSABLE);
+		gameEngine.addTile(0, 1, TileType.NOT_PASSABLE);
+		gameEngine.addTile(1, 1, TileType.NOT_PASSABLE);
+
+		assertFalse(gameEngine.isTileTouching(0, 0, TileType.PASSABLE));
+	}
+
+	public static void fillBoardWithNonPassableTiles(GameEngine engine) {
+		for (int y = 0; y < TILE_Y_RANGE; y++) {
+			for (int x = 0; x < TILE_X_RANGE; x++) {
+				if (x == TILE_X_RANGE / 2 && y == TILE_Y_RANGE / 2) {
+					engine.addTile(x, y, TileType.PLAYER);
+				} else {
+					engine.addTile(x, y, TileType.NOT_PASSABLE);
+				}
+			}
+		}
+	}
+
 }

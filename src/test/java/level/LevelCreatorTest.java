@@ -1,24 +1,23 @@
-package parser;
+package level;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import engine.GameEngine;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
+import values.TunableParameters;
+import wrappers.ReaderWrapper;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
-
-import engine.GameEngine;
-import values.TunableParameters;
-import wrappers.ReaderWrapper;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 public class LevelCreatorTest {
 
 	private GameEngine gameEngine;
-	private LevelCreator levelCreator;
+	private FileParserLevelCreator levelCreator;
 	private final String FILE_LOCATION_PREFIX = "FILE_LOCATION_PREFIX";
 	private ReaderWrapper readerWrapper;
 	private final int LEVEL = 1;
@@ -27,7 +26,7 @@ public class LevelCreatorTest {
 	public void setUp() {
 		gameEngine = Mockito.mock(GameEngine.class);
 		readerWrapper = Mockito.mock(ReaderWrapper.class);
-		levelCreator = new LevelCreator(FILE_LOCATION_PREFIX, readerWrapper);
+		levelCreator = new FileParserLevelCreator(FILE_LOCATION_PREFIX, readerWrapper);
 	}
 
 	@Test

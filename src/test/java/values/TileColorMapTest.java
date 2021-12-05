@@ -1,12 +1,11 @@
 package values;
 
-import static org.junit.Assert.assertSame;
-
-import java.awt.Color;
-
 import org.junit.Test;
-
 import tiles.TileType;
+
+import java.awt.*;
+
+import static org.junit.Assert.assertSame;
 
 public class TileColorMapTest {
 

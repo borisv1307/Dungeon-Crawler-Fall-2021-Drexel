@@ -1,12 +1,12 @@
-package parser;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-
-import java.util.List;
+package level;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 public class LevelCreatorIntegrationTest extends LevelCreatorITHelper {
 

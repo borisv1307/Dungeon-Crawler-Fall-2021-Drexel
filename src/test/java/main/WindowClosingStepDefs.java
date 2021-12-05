@@ -1,15 +1,14 @@
 package main;
 
-import java.awt.event.WindowEvent;
-
-import org.junit.Assert;
-
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import cucumber.runtime.java.StepDefAnnotation;
 import engine.GameEngine;
+import org.junit.Assert;
 import ui.GameFrame;
+
+import java.awt.event.WindowEvent;
 
 @StepDefAnnotation
 public class WindowClosingStepDefs {

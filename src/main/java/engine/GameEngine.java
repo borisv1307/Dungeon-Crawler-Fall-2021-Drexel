@@ -1,13 +1,13 @@
 package engine;
 
-import java.awt.Component;
-import java.awt.Point;
-import java.util.HashMap;
-import java.util.Map;
-
-import parser.LevelCreator;
+import level.LevelCreator;
 import tiles.TileType;
 import ui.GameFrame;
+
+import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class GameEngine {
 
@@ -41,6 +41,43 @@ public class GameEngine {
 		}
 	}
 
+	public void changeTileType(int x, int y, TileType newTileType) {
+		if (newTileType.equals(TileType.PLAYER)) {
+			setPlayer(x, y);
+			tiles.replace(new Point(x, y), TileType.PASSABLE);
+		} else {
+			tiles.replace(new Point(x, y), newTileType);
+		}
+	}
+
+	public Point findClosestLocationOfATileType(int searchCenterX, int searchCenterY, TileType searchTileType) {
+		Set<Point> tileLocations = tiles.keySet();
+		Point searchCenter = new Point(searchCenterX, searchCenterY);
+		Point closestPocket = new Point(searchCenterX, searchCenterY);
+		for (Point targetTileLocation : tileLocations) {
+			TileType targetTileType = getTileFromCoordinates(targetTileLocation.x, targetTileLocation.y);
+			double distanceTargetAndCenter = searchCenter.distance(targetTileLocation);
+			double distanceClosestPocketAndCenter = searchCenter.distance(closestPocket);
+			if (targetTileType.equals(searchTileType) && isTargetTileIsCloser(distanceTargetAndCenter, distanceClosestPocketAndCenter) && !targetTileLocation.equals(searchCenter)) {
+				closestPocket = targetTileLocation;
+			}
+		}
+		return closestPocket;
+	}
+
+	public boolean isTileTouching(int tileX, int tileY, TileType sourceTileType) {
+		boolean isRightTileSameType = areTileTypesEqual(tileX + 1, tileY, sourceTileType);
+		boolean isLeftTileSameType = areTileTypesEqual(tileX - 1, tileY, sourceTileType);
+		boolean isTopTileSameType = areTileTypesEqual(tileX, tileY + 1, sourceTileType);
+		boolean isBottomTileSameType = areTileTypesEqual(tileX, tileY - 1, sourceTileType);
+		return isRightTileSameType || isLeftTileSameType || isTopTileSameType || isBottomTileSameType;
+	}
+
+	private boolean areTileTypesEqual(int targetX, int targetY, TileType sourceTileType) {
+		TileType neighborTileType = getTileFromCoordinates(targetX, targetY);
+		return neighborTileType != null && neighborTileType.equals(sourceTileType);
+	}
+
 	public void setLevelHorizontalDimension(int levelHorizontalDimension) {
 		this.levelHorizontalDimension = levelHorizontalDimension;
 	}
@@ -65,6 +102,10 @@ public class GameEngine {
 		player = new Point(x, y);
 	}
 
+	public Point getPlayerLocation() {
+		return player;
+	}
+
 	public int getPlayerXCoordinate() {
 		return (int) player.getX();
 	}
@@ -74,19 +115,39 @@ public class GameEngine {
 	}
 
 	public void keyLeft() {
-		// TODO Implement movement logic here
+		attemptRelativeMovement(-1, 0);
 	}
 
 	public void keyRight() {
-		// TODO Implement movement logic here
+		attemptRelativeMovement(1, 0);
 	}
 
 	public void keyUp() {
-		// TODO Implement movement logic here
+		attemptRelativeMovement(0, -1);
 	}
 
 	public void keyDown() {
-		// TODO Implement movement logic here
+		attemptRelativeMovement(0, 1);
+	}
+
+	private void attemptRelativeMovement(int xOffset, int yOffset) {
+		Point attemptedDestination = getDestinationLocationFromOffset(xOffset, yOffset);
+		if (movementIsPossible(attemptedDestination)) {
+			movePlayerToPoint(attemptedDestination);
+		}
+	}
+
+	private Point getDestinationLocationFromOffset(int xOffset, int yOffset) {
+		return new Point(getPlayerXCoordinate() + xOffset, getPlayerYCoordinate() + yOffset);
+	}
+
+	private boolean movementIsPossible(Point attemptedDestination) {
+		TileType attemptedLocation = getTileFromCoordinates((int) attemptedDestination.getX(), (int) attemptedDestination.getY());
+		return attemptedLocation.equals(TileType.PASSABLE);
+	}
+
+	private void movePlayerToPoint(Point attemptedDestination) {
+		setPlayer((int) attemptedDestination.getX(), (int) attemptedDestination.getY());
 	}
 
 	public void setExit(boolean exit) {
@@ -95,5 +156,9 @@ public class GameEngine {
 
 	public boolean isExit() {
 		return exit;
+	}
+
+	private boolean isTargetTileIsCloser(double distanceBetweenTargetAndCenter, double distanceBetweenClosestPocketAndCenter) {
+		return distanceBetweenTargetAndCenter < distanceBetweenClosestPocketAndCenter || distanceBetweenClosestPocketAndCenter == 0;
 	}
 }
