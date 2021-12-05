@@ -28,7 +28,7 @@ public class LevelCreator {
 
 	public void createLevel(GameEngine gameEngine, int level) {
 		int doorCharCounter = 0;
-		int doorToDeactivate = activateRandomDoor(randomWrapper);
+		int doorToKeepActivated = activateRandomDoor(randomWrapper);
 		BufferedReader reader;
 		try {
 			reader = readerWrapper.createBufferedReader(getFilePath(level));
@@ -44,7 +44,7 @@ public class LevelCreator {
 				int x = 0;
 				for (char ch : line.toCharArray()) {
 					doorCharCounter = addTilesDependingOnLevel(gameEngine, level, doorCharCounter, x, y, ch,
-							doorToDeactivate);
+							doorToKeepActivated);
 					x++;
 				}
 				gameEngine.setLevelHorizontalDimension(x);
@@ -60,9 +60,19 @@ public class LevelCreator {
 	}
 
 	private int addTilesDependingOnLevel(GameEngine gameEngine, int level, int doorCharCounter, int x, int y, char ch,
-			int doorToDeactivate) {
+			int doorToKeepActivated) {
 		if (level == 1) {
-			doorCharCounter = deactivateAllDoorsButOne(gameEngine, doorCharCounter, x, y, ch, doorToDeactivate);
+			doorCharCounter = addDoorTiles(gameEngine, doorCharCounter, x, y, ch, doorToKeepActivated);
+		} else {
+			gameEngine.addTile(x, y, TileType.getTileTypeByChar(ch));
+		}
+		return doorCharCounter;
+	}
+
+	private int addDoorTiles(GameEngine gameEngine, int doorCharCounter, int x, int y, char ch,
+			int doorToKeepActivated) {
+		if (ch == 'D') {
+			doorCharCounter = deactivateAllDoorsButOne(gameEngine, doorCharCounter, x, y, ch, doorToKeepActivated);
 		} else {
 			gameEngine.addTile(x, y, TileType.getTileTypeByChar(ch));
 		}
@@ -70,18 +80,9 @@ public class LevelCreator {
 	}
 
 	private int deactivateAllDoorsButOne(GameEngine gameEngine, int doorCharCounter, int x, int y, char ch,
-			int doorToDeactivate) {
-		if (ch == 'D') {
-			doorCharCounter = addDoorTiles(gameEngine, doorCharCounter, x, y, ch, doorToDeactivate);
-		} else {
-			gameEngine.addTile(x, y, TileType.getTileTypeByChar(ch));
-		}
-		return doorCharCounter;
-	}
+			int doorToKeepActivated) {
 
-	private int addDoorTiles(GameEngine gameEngine, int doorCharCounter, int x, int y, char ch, int doorToDeactivate) {
-
-		if (doorCharCounter != doorToDeactivate) {
+		if (doorCharCounter != doorToKeepActivated) {
 			doorCharCounter++;
 			TileType door = TileType.getTileTypeByChar(ch);
 			TileType deactivatedDoor = door.deactivate();
