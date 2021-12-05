@@ -67,6 +67,24 @@ public class GameEngine {
 		return closestPocket;
 	}
 
+	public boolean isTileTouching(int tileX, int tileY, TileType sourceTileType) {
+		if (areTileTypesEqual(tileX + 1, tileY, sourceTileType)) {
+			return true;
+		} else if (areTileTypesEqual(tileX - 1, tileY, sourceTileType)) {
+			return true;
+		} else if (areTileTypesEqual(tileX, tileY + 1, sourceTileType)) {
+			return true;
+		} else if (areTileTypesEqual(tileX, tileY - 1, sourceTileType)) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean areTileTypesEqual(int targetX, int targetY, TileType sourceTileType) {
+		TileType neighborTileType = getTileFromCoordinates(targetX, targetY);
+		return neighborTileType != null && neighborTileType.equals(sourceTileType);
+	}
+
 	public void setLevelHorizontalDimension(int levelHorizontalDimension) {
 		this.levelHorizontalDimension = levelHorizontalDimension;
 	}
