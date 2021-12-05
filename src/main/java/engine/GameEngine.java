@@ -7,6 +7,7 @@ import ui.GameFrame;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class GameEngine {
 
@@ -38,6 +39,32 @@ public class GameEngine {
 		} else {
 			tiles.put(new Point(x, y), tileType);
 		}
+	}
+
+	public void changeTileType(int x, int y, TileType newTileType) {
+		if (newTileType.equals(TileType.PLAYER)) {
+			setPlayer(x, y);
+			tiles.replace(new Point(x, y), TileType.PASSABLE);
+		} else {
+			tiles.replace(new Point(x, y), newTileType);
+		}
+	}
+
+	public Point findClosestLocationOfATileType(int searchCenterX, int searchCenterY, TileType searchTileType) {
+		Set<Point> tileLocations = tiles.keySet();
+		Point searchCenter = new Point(searchCenterX, searchCenterY);
+		Point closestPocket = new Point(searchCenterX, searchCenterY);
+		for (Point targetTileLocation : tileLocations) {
+			TileType targetTileType = getTileFromCoordinates(targetTileLocation.x, targetTileLocation.y);
+			double distanceBetweenTargetAndCenter = searchCenter.distance(targetTileLocation);
+			double distanceBetweenClosestPocketAndCenter = searchCenter.distance(closestPocket);
+			if (targetTileType.equals(searchTileType) && isTargetTileIsCloser(distanceBetweenTargetAndCenter, distanceBetweenClosestPocketAndCenter)) {
+				if (!targetTileLocation.equals(searchCenter)) {
+					closestPocket = targetTileLocation;
+				}
+			}
+		}
+		return closestPocket;
 	}
 
 	public void setLevelHorizontalDimension(int levelHorizontalDimension) {
@@ -114,5 +141,9 @@ public class GameEngine {
 
 	public boolean isExit() {
 		return exit;
+	}
+
+	private boolean isTargetTileIsCloser(double distanceBetweenTargetAndCenter, double distanceBetweenClosestPocketAndCenter) {
+		return distanceBetweenTargetAndCenter < distanceBetweenClosestPocketAndCenter || distanceBetweenClosestPocketAndCenter == 0;
 	}
 }
