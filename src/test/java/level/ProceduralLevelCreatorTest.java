@@ -8,8 +8,8 @@ import tiles.TileType;
 import wrappers.noise.OpenSimplexNoiseWrapper;
 
 import static org.junit.Assert.assertSame;
-import static org.mockito.Matchers.anyDouble;
-import static org.mockito.Matchers.anyInt;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.*;
 
 public class ProceduralLevelCreatorTest {
 
@@ -17,12 +17,12 @@ public class ProceduralLevelCreatorTest {
 	private OpenSimplexNoiseWrapper noiseGenerator;
 	private ProceduralLevelCreator levelCreator;
 
-	private final int LEVEL = 1;
-	private final int TILE_X = 3;
-	private final int TILE_Y = 4;
-	private final int TILE_X_RANGE = 10;
-	private final int TILE_Y_RANGE = 10;
-
+	private static final int LEVEL = 1;
+	private static final int TILE_X = 3;
+	private static final int TILE_Y = 4;
+	private static final int TILE_X_RANGE = 10;
+	private static final int TILE_Y_RANGE = 10;
+	private static final Double TILE_PASSABLE_NOISE_VALUE = 0.1;
 
 	@Before
 	public void setUp() {
@@ -72,9 +72,39 @@ public class ProceduralLevelCreatorTest {
 		int yRange = 10;
 		int centerX = xRange / 2;
 		int centerY = yRange / 2;
-		Mockito.when(noiseGenerator.eval(TILE_X, TILE_Y)).thenReturn(0.1);
+		Mockito.when(noiseGenerator.eval(TILE_X, TILE_Y)).thenReturn(TILE_PASSABLE_NOISE_VALUE);
 
 		assertSame(levelCreator.determineTileType(centerX, centerY, xRange, yRange), TileType.PLAYER);
+	}
+
+	@Test
+	public void level_is_rendered_with_correct_tile_amount() {
+		Mockito.when(noiseGenerator.eval(TILE_X, TILE_Y)).thenReturn(TILE_PASSABLE_NOISE_VALUE);
+		levelCreator.createLevel(gameEngine, LEVEL, TILE_X_RANGE, TILE_Y_RANGE);
+
+		int actual = TILE_X_RANGE * TILE_Y_RANGE;
+
+		Mockito.verify(gameEngine, Mockito.times(actual)).addTile(anyInt(), anyInt(), anyObject());
+	}
+
+	@Test
+	public void borders_are_filled_in_to_prevent_leaving_level() {
+		assertTrue(areBordersFilled(TILE_X_RANGE, TILE_Y_RANGE));
+	}
+
+	private boolean areBordersFilled(int xRange, int yRange) {
+		Mockito.when(noiseGenerator.eval(anyInt(), anyInt())).thenReturn(TILE_PASSABLE_NOISE_VALUE);
+		for (int y = 0; y < yRange; y++) {
+			for (int x = 0; x < xRange; x++) {
+				if (x == 0 || y == 0 || x == xRange - 1 || y == yRange - 1) {
+					if (levelCreator.determineTileType(x, y, xRange, yRange) == TileType.PASSABLE) {
+						System.out.println(x + " " + y);
+						return false;
+					}
+				}
+			}
+		}
+		return true;
 	}
 
 }

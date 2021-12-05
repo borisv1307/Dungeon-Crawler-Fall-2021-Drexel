@@ -6,6 +6,7 @@ import wrappers.noise.OpenSimplexNoiseWrapper;
 
 public class ProceduralLevelCreator extends LevelCreator {
 
+	private static final double PASSABLE_THRESHOLD = 0;
 	private OpenSimplexNoiseWrapper noiseGenerator;
 
 	private static final int DEFAULT_TILE_AMOUNT_X = 20;
@@ -34,14 +35,19 @@ public class ProceduralLevelCreator extends LevelCreator {
 		double randomValue = noiseGenerator.eval(x, y);
 		if (tileIsCenter(x, y, xRange, yRange)) {
 			return TileType.PLAYER;
-		} else if (randomValue > 0) {
-			return TileType.PASSABLE;
-		} else {
+		} else if (randomValue <= PASSABLE_THRESHOLD || tileIsBorder(x, y, xRange, yRange)) {
 			return TileType.NOT_PASSABLE;
+		} else {
+			return TileType.PASSABLE;
 		}
 	}
 
 	private boolean tileIsCenter(int x, int y, int xRange, int yRange) {
 		return x == xRange / 2 && y == yRange / 2;
 	}
+
+	private boolean tileIsBorder(int x, int y, int xRange, int yRange) {
+		return x == 0 || y == 0 || x == xRange - 1 || y == yRange - 1;
+	}
+
 }
