@@ -1,4 +1,6 @@
-package wrappers.noise;
+package wrappers;
+
+import com.github.kdotjpg.noise.OpenSimplexNoise;
 
 public class OpenSimplexNoiseWrapper {
 

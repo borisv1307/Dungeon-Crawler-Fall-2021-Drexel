@@ -1,7 +1,7 @@
 package level;
 
 import tiles.TileType;
-import wrappers.noise.OpenSimplexNoiseWrapper;
+import wrappers.OpenSimplexNoiseWrapper;
 
 public class ProceduralLevelCreator extends LevelCreator {
 

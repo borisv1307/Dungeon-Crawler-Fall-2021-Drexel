@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import tiles.TileType;
-import wrappers.noise.OpenSimplexNoiseWrapper;
+import wrappers.OpenSimplexNoiseWrapper;
 
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
