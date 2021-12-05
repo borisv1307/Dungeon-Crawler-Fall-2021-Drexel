@@ -2,14 +2,12 @@ package wrappers;
 
 import com.github.kdotjpg.noise.OpenSimplexNoise;
 
-import java.util.Random;
-
 public class OpenSimplexNoiseWrapper {
 
 	private OpenSimplexNoise noiseLibrary;
 
 	public OpenSimplexNoiseWrapper() {
-		noiseLibrary = new OpenSimplexNoise((new Random()).nextLong());
+		noiseLibrary = new OpenSimplexNoise((long) (Math.random() * 1000000L));
 	}
 
 	public OpenSimplexNoiseWrapper(long seed) {

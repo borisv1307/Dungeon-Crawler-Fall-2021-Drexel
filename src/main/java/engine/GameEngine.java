@@ -56,28 +56,21 @@ public class GameEngine {
 		Point closestPocket = new Point(searchCenterX, searchCenterY);
 		for (Point targetTileLocation : tileLocations) {
 			TileType targetTileType = getTileFromCoordinates(targetTileLocation.x, targetTileLocation.y);
-			double distanceBetweenTargetAndCenter = searchCenter.distance(targetTileLocation);
-			double distanceBetweenClosestPocketAndCenter = searchCenter.distance(closestPocket);
-			if (targetTileType.equals(searchTileType) && isTargetTileIsCloser(distanceBetweenTargetAndCenter, distanceBetweenClosestPocketAndCenter)) {
-				if (!targetTileLocation.equals(searchCenter)) {
-					closestPocket = targetTileLocation;
-				}
+			double distanceTargetAndCenter = searchCenter.distance(targetTileLocation);
+			double distanceClosestPocketAndCenter = searchCenter.distance(closestPocket);
+			if (targetTileType.equals(searchTileType) && isTargetTileIsCloser(distanceTargetAndCenter, distanceClosestPocketAndCenter) && !targetTileLocation.equals(searchCenter)) {
+				closestPocket = targetTileLocation;
 			}
 		}
 		return closestPocket;
 	}
 
 	public boolean isTileTouching(int tileX, int tileY, TileType sourceTileType) {
-		if (areTileTypesEqual(tileX + 1, tileY, sourceTileType)) {
-			return true;
-		} else if (areTileTypesEqual(tileX - 1, tileY, sourceTileType)) {
-			return true;
-		} else if (areTileTypesEqual(tileX, tileY + 1, sourceTileType)) {
-			return true;
-		} else if (areTileTypesEqual(tileX, tileY - 1, sourceTileType)) {
-			return true;
-		}
-		return false;
+		boolean isRightTileSameType = areTileTypesEqual(tileX + 1, tileY, sourceTileType);
+		boolean isLeftTileSameType = areTileTypesEqual(tileX - 1, tileY, sourceTileType);
+		boolean isTopTileSameType = areTileTypesEqual(tileX, tileY + 1, sourceTileType);
+		boolean isBottomTileSameType = areTileTypesEqual(tileX, tileY - 1, sourceTileType);
+		return isRightTileSameType || isLeftTileSameType || isTopTileSameType || isBottomTileSameType;
 	}
 
 	private boolean areTileTypesEqual(int targetX, int targetY, TileType sourceTileType) {
