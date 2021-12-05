@@ -24,12 +24,12 @@ public class GameEngine {
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
-	public int playerLightRadius = TunableParameters.playerLightRadius;
+	public int playerLightRadius = TunableParameters.BASE_PLAYER_LIGHT_RADIUS;
 	public int level;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
-		level = TunableParameters.startingLevel;
+		level = TunableParameters.STARTING_LEVEL;
 		this.levelCreator = levelCreator;
 		this.levelCreator.createLevel(this, level);
 		levelMap.addLevel(level, tiles);

@@ -10,7 +10,7 @@ public class LevelMap {
 	private final Map<Integer, Map<Point, TileType>> levels = new HashMap<>();
 
 	public void addLevel(int levelNumber, Map<Point, TileType> levelTiles) {
-		Map<Point, TileType> level = new HashMap<Point, TileType>();
+		Map<Point, TileType> level = new HashMap<>();
 		level.putAll(levelTiles);
 		levels.put(levelNumber, level);
 	}
