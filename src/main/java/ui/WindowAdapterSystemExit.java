@@ -1,8 +1,8 @@
 package ui;
 
-import java.awt.event.WindowAdapter;
-
 import engine.GameEngine;
+
+import java.awt.event.WindowAdapter;
 
 public class WindowAdapterSystemExit extends WindowAdapter {
 	

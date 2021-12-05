@@ -1,23 +1,18 @@
 package level;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.mockito.Mockito;
-
 import engine.GameEngine;
+import org.mockito.Mockito;
 import tiles.TileType;
 import values.TestingTunableParameters;
 import values.TunableParameters;
 import wrappers.ReaderWrapper;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 public class LevelCreatorITHelper {
 

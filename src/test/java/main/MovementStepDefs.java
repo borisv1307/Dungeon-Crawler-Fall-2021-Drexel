@@ -1,19 +1,18 @@
 package main;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-
-import java.util.List;
-
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import engine.GameEngine;
 import level.FileParserLevelCreator;
 import level.LevelCreationStepDefHelper;
-import level.LevelCreator;
 import values.TestingTunableParameters;
 import wrappers.ReaderWrapper;
+
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 public class MovementStepDefs extends LevelCreationStepDefHelper {
 

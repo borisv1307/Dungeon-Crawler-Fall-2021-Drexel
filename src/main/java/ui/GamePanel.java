@@ -1,12 +1,9 @@
 package ui;
 
-import java.awt.Event;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Panel;
-
 import engine.GameEngine;
 import tiles.TileType;
+
+import java.awt.*;
 
 public class GamePanel extends Panel {
 

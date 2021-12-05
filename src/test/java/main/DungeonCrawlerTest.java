@@ -1,10 +1,9 @@
 package main;
 
+import engine.GameEngine;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import engine.GameEngine;
 import timer.FramesPerSecondHandler;
 import ui.GameFrame;
 import wrappers.ThreadWrapper;

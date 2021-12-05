@@ -27,7 +27,7 @@ public class FileParserLevelCreator extends LevelCreator {
 	@Override
 	public void createLevel(GameEngine gameEngine, int level) {
 		this.fileContents = pullLevelDataFromFile(gameEngine, level);
-		if (!gameEngine.isExit() && fileContents.size() != 0) {
+		if (!gameEngine.isExit() && !fileContents.isEmpty()) {
 			super.xRange = fileContents.get(0).length();
 			super.yRange = fileContents.size();
 			super.createLevel(gameEngine, level);
@@ -41,17 +41,17 @@ public class FileParserLevelCreator extends LevelCreator {
 	}
 
 	private List<String> pullLevelDataFromFile(GameEngine gameEngine, int level) {
-		List<String> fileContents = new ArrayList<>();
+		List<String> fileData = new ArrayList<>();
 		try (BufferedReader reader = readerWrapper.createBufferedReader(getFilePath(level))) {
 			String line;
 			while ((line = reader.readLine()) != null) {
-				fileContents.add(line);
+				fileData.add(line);
 			}
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, e.toString(), e);
 			gameEngine.setExit(true);
 		}
-		return fileContents;
+		return fileData;
 	}
 
 	String getFilePath(int level) {

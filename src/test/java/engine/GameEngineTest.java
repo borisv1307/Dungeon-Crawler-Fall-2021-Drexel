@@ -1,17 +1,16 @@
 package engine;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-
-import java.awt.Component;
-
+import level.LevelCreator;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import level.LevelCreator;
 import tiles.TileType;
 import ui.GameFrame;
+
+import java.awt.*;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 public class GameEngineTest {
 

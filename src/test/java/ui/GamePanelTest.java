@@ -1,17 +1,14 @@
 package ui;
 
-import static org.junit.Assert.assertSame;
-
-import java.awt.Event;
-import java.awt.Graphics;
-import java.awt.Image;
-
+import engine.GameEngine;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import engine.GameEngine;
 import tiles.TileType;
+
+import java.awt.*;
+
+import static org.junit.Assert.assertSame;
 
 public class GamePanelTest {
 

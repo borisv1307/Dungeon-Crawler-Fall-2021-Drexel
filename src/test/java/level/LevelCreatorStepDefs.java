@@ -1,23 +1,22 @@
 package level;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.List;
-
-import org.junit.Assert;
-import org.mockito.Mockito;
-
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import cucumber.runtime.java.StepDefAnnotation;
 import engine.GameEngine;
+import org.junit.Assert;
+import org.mockito.Mockito;
 import tiles.TileType;
 import values.TestingTunableParameters;
 import wrappers.ReaderWrapper;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 @StepDefAnnotation
 public class LevelCreatorStepDefs extends LevelCreationStepDefHelper {

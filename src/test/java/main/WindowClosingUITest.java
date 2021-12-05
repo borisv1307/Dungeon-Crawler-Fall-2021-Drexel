@@ -1,12 +1,11 @@
 package main;
 
-import java.awt.event.WindowEvent;
-
+import engine.GameEngine;
 import org.junit.Assert;
 import org.junit.Test;
-
-import engine.GameEngine;
 import ui.GameFrame;
+
+import java.awt.event.WindowEvent;
 
 public class WindowClosingUITest {
 

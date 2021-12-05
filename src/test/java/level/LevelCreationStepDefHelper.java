@@ -1,12 +1,12 @@
 package level;
 
+import values.TestingTunableParameters;
+import values.TunableParameters;
+
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-
-import values.TestingTunableParameters;
-import values.TunableParameters;
 
 public class LevelCreationStepDefHelper {
 	protected static final int ONE = 1;

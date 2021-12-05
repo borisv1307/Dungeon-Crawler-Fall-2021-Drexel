@@ -1,9 +1,9 @@
 package level;
 
-import java.util.logging.Logger;
-
 import engine.GameEngine;
 import tiles.TileType;
+
+import java.util.logging.Logger;
 
 public abstract class LevelCreator {
 	protected static final Logger LOGGER = Logger.getLogger(LevelCreator.class.getName());
@@ -11,7 +11,7 @@ public abstract class LevelCreator {
 	protected int xRange;
 	protected int yRange;
 
-	public LevelCreator(int xRange, int yRange) {
+	protected LevelCreator(int xRange, int yRange) {
 		this.xRange = xRange;
 		this.yRange = yRange;
 	}

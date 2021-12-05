@@ -1,12 +1,12 @@
 package main;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import engine.GameEngine;
 import timer.FramesPerSecondHandler;
 import ui.GameFrame;
 import wrappers.ThreadWrapper;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DungeonCrawler implements Runnable {
 

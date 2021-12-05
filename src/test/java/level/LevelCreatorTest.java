@@ -1,19 +1,18 @@
 package level;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import engine.GameEngine;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
+import values.TunableParameters;
+import wrappers.ReaderWrapper;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
-
-import engine.GameEngine;
-import values.TunableParameters;
-import wrappers.ReaderWrapper;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 public class LevelCreatorTest {
 

@@ -1,13 +1,12 @@
 package engine;
 
-import java.awt.Component;
-import java.awt.Point;
-import java.util.HashMap;
-import java.util.Map;
-
 import level.LevelCreator;
 import tiles.TileType;
 import ui.GameFrame;
+
+import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GameEngine {
 

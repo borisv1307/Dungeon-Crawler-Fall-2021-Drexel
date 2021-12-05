@@ -1,9 +1,8 @@
 package ui;
 
+import engine.GameEngine;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import engine.GameEngine;
 
 public class WindowAdapterSystemExitTest {
 

@@ -1,17 +1,16 @@
 package ui;
 
-import java.awt.Graphics;
-
+import engine.GameEngine;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.AdditionalMatchers;
 import org.mockito.InOrder;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-
-import engine.GameEngine;
 import tiles.TileType;
 import values.TileColorMap;
+
+import java.awt.*;
 
 public class TilePainterTest {
 
