@@ -30,7 +30,7 @@ public class BombsStepDefs extends LevelCreationStepDefHelper {
 
 	@When("^player places a bomb$")
 	public void playerPlacesABomb() {
-		gameEngine.keyB();
+		gameEngine.keyEnter();
 	}
 
 	@Then("^player is located at \\((\\d+), (\\d+)\\)$")

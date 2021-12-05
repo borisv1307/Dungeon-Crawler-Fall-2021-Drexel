@@ -103,7 +103,7 @@ public class GameEngine {
 		movePlayer(0, 1);
 	}
 
-	public void keyB() {
+	public void keyEnter() {
 		if (getPlayerPowerUps().contains(TileType.BOMB_POWER_UP)) {
 			if (bomb == null) {
 				addTile(getPlayerXCoordinate(), getPlayerYCoordinate(), TileType.BOMB);
