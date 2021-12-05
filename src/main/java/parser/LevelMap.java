@@ -10,14 +10,13 @@ public class LevelMap {
 	private final Map<Integer, Map<Point, TileType>> levels = new HashMap<>();
 
 	public void addLevel(int levelNumber, Map<Point, TileType> levelTiles) {
-		Map<Point, TileType> level = new HashMap();
+		Map<Point, TileType> level = new HashMap<Point, TileType>();
 		level.putAll(levelTiles);
 		levels.put(levelNumber, level);
 	}
 
-	public Map<Point, TileType> getLevel(int levelNumber, int direction) {
-		Map<Point, TileType> level = levels.get(levelNumber);
-		return level;
+	public Map<Point, TileType> getLevel(int levelNumber) {
+		return levels.get(levelNumber);
 	}
 
 	public boolean levelExists(int levelNumber) {

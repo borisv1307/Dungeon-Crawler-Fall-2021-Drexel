@@ -19,8 +19,8 @@ public class GameEngine {
 	private final Map<Point, TileType> tiles = new HashMap<>();
 	private final Map<Point, TileType> visibleTiles = new HashMap<>();
 	private final LevelMap levelMap = new LevelMap();
-	private final int levelTransitionOffset = 3;
-	private final int northDoorYCoordinate = 1;
+	private static final int LEVEL_TRANSITION_OFFSET = 3;
+	private static final int NORTH_DOOR_Y_COORDINATE = 1;
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
@@ -146,18 +146,18 @@ public class GameEngine {
 
 	public void moveToNextLevel(int direction) {
 		if (levelMap.levelExists(level + direction)) {
-			tiles.putAll(levelMap.getLevel(level + direction, direction));
+			tiles.putAll(levelMap.getLevel(level + direction));
 		} else {
 			this.levelCreator.createLevel(this, level + direction);
 			levelMap.addLevel(level + direction, tiles);
 		}
-		player.setLocation(player.x, player.y - (levelVerticalDimension - levelTransitionOffset) * direction);
+		player.setLocation(player.x, player.y - (levelVerticalDimension - LEVEL_TRANSITION_OFFSET) * direction);
 		level = level + direction;
 		updateVisibleTiles();
 	}
 
 	public int getDirection() {
-		if (player.y == northDoorYCoordinate) {
+		if (player.y == NORTH_DOOR_Y_COORDINATE) {
 			return -1;
 		}
 		return 1;
