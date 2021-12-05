@@ -21,7 +21,20 @@ public class LevelCreationStepDefHelper {
 		writer.close();
 	}
 
+	protected void writeLevelFile(List<String> levelStrings, int levelNumber)
+			throws FileNotFoundException, UnsupportedEncodingException {
+		PrintWriter writer = new PrintWriter(getFilePath(levelNumber), "UTF-8");
+		for (String levelString : levelStrings) {
+			writer.println(levelString);
+		}
+		writer.close();
+	}
+
 	private String getFilePath() {
 		return TestingTunableParameters.FILE_LOCATION_PREFIX + ONE + TunableParameters.FILE_NAME_SUFFIX;
+	}
+
+	private String getFilePath(int levelNumber) {
+		return TestingTunableParameters.FILE_LOCATION_PREFIX + levelNumber + TunableParameters.FILE_NAME_SUFFIX;
 	}
 }

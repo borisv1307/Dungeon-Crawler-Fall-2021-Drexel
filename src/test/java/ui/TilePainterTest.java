@@ -34,8 +34,8 @@ public class TilePainterTest {
 		GameEngine game = Mockito.mock(GameEngine.class);
 		Mockito.when(game.getLevelHorizontalDimension()).thenReturn(X);
 		Mockito.when(game.getLevelVerticalDimension()).thenReturn(Y);
-		Mockito.when(game.getTileFromCoordinates(1, 1)).thenReturn(TileType.NOT_PASSABLE);
-		Mockito.when(game.getTileFromCoordinates(AdditionalMatchers.not(Matchers.eq(1)),
+		Mockito.when(game.getVisibleTileFromCoordinates(1, 1)).thenReturn(TileType.NOT_PASSABLE);
+		Mockito.when(game.getVisibleTileFromCoordinates(AdditionalMatchers.not(Matchers.eq(1)),
 				AdditionalMatchers.not(Matchers.eq(1)))).thenReturn(TileType.PASSABLE);
 
 		tilePainter.paintTiles(graphics, game, TILE_WIDTH, TILE_HEIGHT);

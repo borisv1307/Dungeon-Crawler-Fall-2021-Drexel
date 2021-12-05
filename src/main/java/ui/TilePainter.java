@@ -11,12 +11,12 @@ public class TilePainter {
 	void paintTiles(Graphics graphics, GameEngine game, int tileWidth, int tileHeight) {
 		for (int x = 0; x < game.getLevelHorizontalDimension(); x++) {
 			for (int y = 0; y < game.getLevelVerticalDimension(); y++) {
-				TileType tileType = game.getTileFromCoordinates(x, y);
+				TileType tileType = game.getVisibleTileFromCoordinates(x, y);
 				paintTile(graphics, tileWidth, tileHeight, x, y, tileType);
 			}
 		}
 	}
-	
+
 	void paintPlayer(Graphics graphics, int x, int y, int tileWidth, int tileHeight, TileType tileType) {
 		paintTile(graphics, tileWidth, tileHeight, x, y, tileType);
 	}

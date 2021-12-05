@@ -11,6 +11,7 @@ import cucumber.api.java.en.When;
 import engine.GameEngine;
 import parser.LevelCreationStepDefHelper;
 import parser.LevelCreator;
+import tiles.TileType;
 import values.TestingTunableParameters;
 import wrappers.ReaderWrapper;
 
@@ -45,9 +46,26 @@ public class MovementStepDefs extends LevelCreationStepDefHelper {
 		gameEngine.keyDown();
 	}
 
+	@When("^the player light radius is (\\d+)$")
+	public void the_player_light_radius_is(int radius) throws Throwable {
+		gameEngine.setPlayerLightRadius(1);
+	}
+
 	@Then("^the player is located at \\((\\d+), (\\d+)\\)$")
 	public void the_player_is_located_at(int playerX, int playerY) throws Throwable {
 		assertThat(gameEngine.getPlayerXCoordinate(), equalTo(playerX - COORDINATE_OFFSET));
 		assertThat(gameEngine.getPlayerYCoordinate(), equalTo(playerY - COORDINATE_OFFSET));
+	}
+
+	@Then("^the tile located at \\((\\d+), (\\d+)\\) is lit$")
+	public void the_tile_located_at_is_lit(int x, int y) throws Throwable {
+		assertThat(gameEngine.getVisibleTileFromCoordinates(x - COORDINATE_OFFSET, y - COORDINATE_OFFSET),
+				equalTo(TileType.PASSABLE));
+	}
+
+	@Then("^the tile located at \\((\\d+), (\\d+)\\) is unlit$")
+	public void the_tile_located_at_is_unlit(int x, int y) throws Throwable {
+		assertThat(gameEngine.getVisibleTileFromCoordinates(x - COORDINATE_OFFSET, y - COORDINATE_OFFSET),
+				equalTo(TileType.UNLIT));
 	}
 }
