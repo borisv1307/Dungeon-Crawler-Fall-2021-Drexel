@@ -7,6 +7,8 @@ import wrappers.ReaderWrapper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 public class FileParserLevelCreator extends LevelCreator {
@@ -14,31 +16,42 @@ public class FileParserLevelCreator extends LevelCreator {
 	String fileLocationPrefix;
 	String fileNameSuffix = TunableParameters.FILE_NAME_SUFFIX;
 	ReaderWrapper readerWrapper;
+	List<String> fileContents;
 
 	public FileParserLevelCreator(String fileLocationPrefix, ReaderWrapper readerWrapper) {
+		super(0, 0);
 		this.fileLocationPrefix = fileLocationPrefix;
 		this.readerWrapper = readerWrapper;
 	}
 
 	@Override
 	public void createLevel(GameEngine gameEngine, int level) {
+		this.fileContents = pullLevelDataFromFile(gameEngine, level);
+		if (!gameEngine.isExit() && fileContents.size() != 0) {
+			super.xRange = fileContents.get(0).length();
+			super.yRange = fileContents.size();
+			super.createLevel(gameEngine, level);
+		}
+	}
+
+	@Override
+	protected TileType determineTileType(int x, int y) {
+		char tileRepresentation = fileContents.get(y).toCharArray()[x];
+		return TileType.getTileTypeByChar(tileRepresentation);
+	}
+
+	private List<String> pullLevelDataFromFile(GameEngine gameEngine, int level) {
+		List<String> fileContents = new ArrayList<>();
 		try (BufferedReader reader = readerWrapper.createBufferedReader(getFilePath(level))) {
-			String line = null;
-			int y = 0;
+			String line;
 			while ((line = reader.readLine()) != null) {
-				int x = 0;
-				for (char ch : line.toCharArray()) {
-					gameEngine.addTile(x, y, TileType.getTileTypeByChar(ch));
-					x++;
-				}
-				gameEngine.setLevelHorizontalDimension(x);
-				y++;
+				fileContents.add(line);
 			}
-			gameEngine.setLevelVerticalDimension(y);
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, e.toString(), e);
 			gameEngine.setExit(true);
 		}
+		return fileContents;
 	}
 
 	String getFilePath(int level) {

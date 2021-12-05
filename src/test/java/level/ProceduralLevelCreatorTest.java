@@ -28,59 +28,57 @@ public class ProceduralLevelCreatorTest {
 	public void setUp() {
 		gameEngine = Mockito.mock(GameEngine.class);
 		noiseGenerator = Mockito.mock(OpenSimplexNoiseWrapper.class);
-		levelCreator = new ProceduralLevelCreator(noiseGenerator);
+		levelCreator = new ProceduralLevelCreator(noiseGenerator, TILE_X_RANGE, TILE_Y_RANGE);
 	}
 
 	@Test
 	public void convert_below_zero_to_unpassable_tiles() {
 		Mockito.when(noiseGenerator.eval(anyDouble(), anyDouble())).thenReturn(-0.0000000000001);
 
-		assertSame(levelCreator.determineTileType(TILE_X, TILE_Y, TILE_X_RANGE, TILE_Y_RANGE), TileType.NOT_PASSABLE);
+		assertSame(levelCreator.determineTileType(TILE_X, TILE_Y), TileType.NOT_PASSABLE);
 	}
 
 	@Test
 	public void convert_zero_to_an_unpassable_tile() {
 		Mockito.when(noiseGenerator.eval(anyDouble(), anyDouble())).thenReturn(0.0);
 
-		assertSame(levelCreator.determineTileType(TILE_X, TILE_Y, TILE_X_RANGE, TILE_Y_RANGE), TileType.NOT_PASSABLE);
+		assertSame(levelCreator.determineTileType(TILE_X, TILE_Y), TileType.NOT_PASSABLE);
 	}
 
 	@Test
 	public void convert_positive_to_passable_tiles() {
 		Mockito.when(noiseGenerator.eval(anyDouble(), anyDouble())).thenReturn(0.0000000000001);
 
-		assertSame(levelCreator.determineTileType(TILE_X, TILE_Y, TILE_X_RANGE, TILE_Y_RANGE), TileType.PASSABLE);
+		assertSame(levelCreator.determineTileType(TILE_X, TILE_Y), TileType.PASSABLE);
 	}
 
 	@Test
 	public void lower_boundary_is_non_passable() {
 		Mockito.when(noiseGenerator.eval(anyDouble(), anyDouble())).thenReturn(-1.0);
 
-		assertSame(levelCreator.determineTileType(TILE_X, TILE_Y, TILE_X_RANGE, TILE_Y_RANGE), TileType.NOT_PASSABLE);
+		assertSame(levelCreator.determineTileType(TILE_X, TILE_Y), TileType.NOT_PASSABLE);
 	}
 
 	@Test
 	public void upper_boundary_is_passable() {
 		Mockito.when(noiseGenerator.eval(anyDouble(), anyDouble())).thenReturn(1.0);
 
-		assertSame(levelCreator.determineTileType(TILE_X, TILE_Y, TILE_X_RANGE, TILE_Y_RANGE), TileType.PASSABLE);
+		assertSame(levelCreator.determineTileType(TILE_X, TILE_Y), TileType.PASSABLE);
 	}
 
 	@Test
 	public void player_spawns_at_the_center() {
-		int xRange = 20;
-		int yRange = 10;
-		int centerX = xRange / 2;
-		int centerY = yRange / 2;
+		int centerX = TILE_X_RANGE / 2;
+		int centerY = TILE_Y_RANGE / 2;
 		Mockito.when(noiseGenerator.eval(TILE_X, TILE_Y)).thenReturn(TILE_PASSABLE_NOISE_VALUE);
 
-		assertSame(levelCreator.determineTileType(centerX, centerY, xRange, yRange), TileType.PLAYER);
+		assertSame(levelCreator.determineTileType(centerX, centerY), TileType.PLAYER);
 	}
 
 	@Test
 	public void level_is_rendered_with_correct_tile_amount() {
 		Mockito.when(noiseGenerator.eval(TILE_X, TILE_Y)).thenReturn(TILE_PASSABLE_NOISE_VALUE);
-		levelCreator.createLevel(gameEngine, LEVEL, TILE_X_RANGE, TILE_Y_RANGE);
+		levelCreator.createLevel(gameEngine, LEVEL);
 
 		int actual = TILE_X_RANGE * TILE_Y_RANGE;
 
@@ -97,8 +95,7 @@ public class ProceduralLevelCreatorTest {
 		for (int y = 0; y < yRange; y++) {
 			for (int x = 0; x < xRange; x++) {
 				if (x == 0 || y == 0 || x == xRange - 1 || y == yRange - 1) {
-					if (levelCreator.determineTileType(x, y, xRange, yRange) == TileType.PASSABLE) {
-						System.out.println(x + " " + y);
+					if (levelCreator.determineTileType(x, y) == TileType.PASSABLE) {
 						return false;
 					}
 				}
