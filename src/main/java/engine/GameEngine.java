@@ -24,8 +24,8 @@ public class GameEngine {
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
-	public int playerLightRadius = TunableParameters.BASE_PLAYER_LIGHT_RADIUS;
-	public int level;
+	private int playerLightRadius = TunableParameters.BASE_PLAYER_LIGHT_RADIUS;
+	private int level;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
@@ -56,6 +56,22 @@ public class GameEngine {
 
 	public void setLevelVerticalDimension(int levelVerticalDimension) {
 		this.levelVerticalDimension = levelVerticalDimension;
+	}
+
+	public void setPlayerLightRadius(int newRadius) {
+		playerLightRadius = newRadius;
+	}
+
+	public void setLevel(int newLevel) {
+		level = newLevel;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public int getPlayerLightRadius() {
+		return playerLightRadius;
 	}
 
 	public int getLevelHorizontalDimension() {

@@ -43,7 +43,7 @@ public class MovementLevelsStepDefs extends LevelCreationStepDefHelper {
 
 	@Then("^the player is moved to level (\\d+)$")
 	public void the_player_is_moved_to_level(int levelNumber) throws Throwable {
-		assertThat(gameEngine.level, equalTo(levelNumber));
+		assertThat(gameEngine.getLevel(), equalTo(levelNumber));
 	}
 
 	@Then("^the player x coordinate is (\\d+)$")

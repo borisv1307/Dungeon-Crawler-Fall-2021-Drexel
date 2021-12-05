@@ -48,7 +48,7 @@ public class MovementStepDefs extends LevelCreationStepDefHelper {
 
 	@When("^the player light radius is (\\d+)$")
 	public void the_player_light_radius_is(int radius) throws Throwable {
-		gameEngine.playerLightRadius = 1;
+		gameEngine.setPlayerLightRadius(1);
 	}
 
 	@Then("^the player is located at \\((\\d+), (\\d+)\\)$")
