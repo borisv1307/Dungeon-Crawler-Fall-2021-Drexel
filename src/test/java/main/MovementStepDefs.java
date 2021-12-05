@@ -50,4 +50,32 @@ public class MovementStepDefs extends LevelCreationStepDefHelper {
 		assertThat(gameEngine.getPlayerXCoordinate(), equalTo(playerX - COORDINATE_OFFSET));
 		assertThat(gameEngine.getPlayerYCoordinate(), equalTo(playerY - COORDINATE_OFFSET));
 	}
+
+	@When("^the player moves left (\\d+) times$")
+	public void the_player_moves_left_times(int numberOfCollisions) throws Throwable {
+		for (int i = 0; i < numberOfCollisions; i++) {
+			gameEngine.keyLeft();
+		}
+	}
+
+	@When("^the player moves right (\\d+) times$")
+	public void the_player_moves_right_times(int numberOfCollisions) throws Throwable {
+		for (int i = 0; i < numberOfCollisions; i++) {
+			gameEngine.keyRight();
+		}
+	}
+
+	@When("^the player moves up (\\d+) times$")
+	public void the_player_moves_up_times(int numberOfCollisions) throws Throwable {
+		for (int i = 0; i < numberOfCollisions; i++) {
+			gameEngine.keyUp();
+		}
+	}
+
+	@When("^the player moves down (\\d+) times$")
+	public void the_player_moves_down_times(int numberOfCollisions) throws Throwable {
+		for (int i = 0; i < numberOfCollisions; i++) {
+			gameEngine.keyDown();
+		}
+	}
 }

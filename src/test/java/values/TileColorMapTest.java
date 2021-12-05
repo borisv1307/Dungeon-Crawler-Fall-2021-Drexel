@@ -25,4 +25,29 @@ public class TileColorMapTest {
 		assertSame(Color.GREEN, TileColorMap.get(TileType.PLAYER));
 	}
 
+	@Test
+	public void door() {
+		assertSame(Color.RED, TileColorMap.get(TileType.DOOR));
+	}
+
+	@Test
+	public void deactivated_door() {
+		assertSame(Color.RED, TileColorMap.get(TileType.DEACTIVATED_DOOR));
+	}
+
+	@Test
+	public void passable_bridge() {
+		assertSame(Color.BLUE, TileColorMap.get(TileType.PASSABLE_BRIDGE));
+	}
+
+	@Test
+	public void not_passable_bridge() {
+		assertSame(Color.BLUE, TileColorMap.get(TileType.NOT_PASSABLE_BRIDGE));
+	}
+
+	@Test
+	public void obstacle() {
+		assertSame(Color.YELLOW, TileColorMap.get(TileType.OBSTACLE));
+	}
+
 }

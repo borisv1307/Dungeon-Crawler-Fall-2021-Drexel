@@ -16,9 +16,17 @@ public class TilePainter {
 			}
 		}
 	}
-	
+
 	void paintPlayer(Graphics graphics, int x, int y, int tileWidth, int tileHeight, TileType tileType) {
 		paintTile(graphics, tileWidth, tileHeight, x, y, tileType);
+	}
+
+	void paintDoorTiles(Graphics graphics, int x, int y, int tileWidth, int tileHeight, TileType doorTileTypes) {
+		paintTile(graphics, tileWidth, tileHeight, x, y, doorTileTypes);
+	}
+
+	void paintBridgeTiles(Graphics graphics, int x, int y, int tileWidth, int tileHeight, TileType bridgeTileTypes) {
+		paintTile(graphics, tileWidth, tileHeight, x, y, bridgeTileTypes);
 	}
 
 	private void paintTile(Graphics graphics, int tileWidth, int tileHeight, int x, int y, TileType tileType) {
@@ -28,6 +36,10 @@ public class TilePainter {
 
 	private void handleTile(Graphics graphics, TileType tileType) {
 		graphics.setColor(TileColorMap.get(tileType));
+	}
+
+	public void paintObstacleTile(Graphics graphics, int x, int y, int tileWidth, int tileHeight, TileType obstacle) {
+		paintTile(graphics, tileWidth, tileHeight, x, y, obstacle);
 	}
 
 }

@@ -10,6 +10,11 @@ public class TileTypeTest {
 
 	private static final char INVALID_CHAR = 'Z';
 	private static final char VALID_CHAR = ' ';
+	private static final char DOOR_CHAR = 'D';
+	private static final char PASSABLE_BRIDGE = 'B';
+	private static final char NOT_PASSABLE_BRIDGE = 'E';
+	private static final char DEACTIVATED_DOOR = 'Q';
+	private static final char OBSTACLE = 'O';
 
 	@Test
 	public void value_of() {
@@ -29,5 +34,42 @@ public class TileTypeTest {
 		} catch (IllegalArgumentException exception) {
 			assertEquals(exception.getMessage(), TileType.INVALID_CHARACTER_PROVIDED_MESSAGE + "Z");
 		}
+	}
+
+	@Test
+	public void get_tile_type_by_char_door_char() {
+		TileType actual = TileType.getTileTypeByChar(DOOR_CHAR);
+		assertEquals(TileType.DOOR, actual);
+	}
+
+	@Test
+	public void get_tile_type_by_char_deactivated_door_char() {
+		TileType actual = TileType.getTileTypeByChar(DEACTIVATED_DOOR);
+		assertEquals(TileType.DEACTIVATED_DOOR, actual);
+	}
+
+	@Test
+	public void get_tile_type_by_char_passable_bridge_char() {
+		TileType actual = TileType.getTileTypeByChar(PASSABLE_BRIDGE);
+		assertEquals(TileType.PASSABLE_BRIDGE, actual);
+	}
+
+	@Test
+	public void get_tile_type_by_char_not_passable_bridge_char() {
+		TileType actual = TileType.getTileTypeByChar(NOT_PASSABLE_BRIDGE);
+		assertEquals(TileType.NOT_PASSABLE_BRIDGE, actual);
+	}
+
+	@Test
+	public void deactivate_door() {
+		TileType door = TileType.DOOR;
+		TileType deactivatedDoor = door.deactivate();
+		assertEquals(TileType.DEACTIVATED_DOOR, deactivatedDoor);
+	}
+
+	@Test
+	public void get_tile_by_char_obstacle_char() {
+		TileType actual = TileType.getTileTypeByChar(OBSTACLE);
+		assertEquals(TileType.OBSTACLE, actual);
 	}
 }

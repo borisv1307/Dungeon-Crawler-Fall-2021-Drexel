@@ -10,6 +10,7 @@ import values.TunableParameters;
 
 public class LevelCreationStepDefHelper {
 	protected static final int ONE = 1;
+	protected static final int TWO = 2;
 	protected static final int COORDINATE_OFFSET = ONE;
 
 	protected void writeLevelFile(List<String> levelStrings)

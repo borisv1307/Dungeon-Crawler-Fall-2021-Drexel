@@ -2,6 +2,7 @@ package engine;
 
 import java.awt.Component;
 import java.awt.Point;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,13 +18,18 @@ public class GameEngine {
 	private int levelHorizontalDimension;
 	private int levelVerticalDimension;
 	private Point player;
-	private final int level;
+	private int level;
+	private Point playerInitialPosition;
+	private CollisionCounter collisionCounter;
+	private GameMovement gameMovement;
 
 	public GameEngine(LevelCreator levelCreator) {
 		exit = false;
 		level = 1;
 		this.levelCreator = levelCreator;
 		this.levelCreator.createLevel(this, level);
+		collisionCounter = new CollisionCounter(this);
+		gameMovement = new GameMovement(this, collisionCounter);
 	}
 
 	public void run(GameFrame gameFrame) {
@@ -36,6 +42,7 @@ public class GameEngine {
 		if (tileType.equals(TileType.PLAYER)) {
 			setPlayer(x, y);
 			tiles.put(new Point(x, y), TileType.PASSABLE);
+			playerInitialPosition = new Point(x, y);
 		} else {
 			tiles.put(new Point(x, y), tileType);
 		}
@@ -61,7 +68,7 @@ public class GameEngine {
 		return tiles.get(new Point(x, y));
 	}
 
-	private void setPlayer(int x, int y) {
+	void setPlayer(int x, int y) {
 		player = new Point(x, y);
 	}
 
@@ -74,19 +81,19 @@ public class GameEngine {
 	}
 
 	public void keyLeft() {
-		// TODO Implement movement logic here
+		gameMovement.move(getPlayerXCoordinate() - 1, getPlayerYCoordinate());
 	}
 
 	public void keyRight() {
-		// TODO Implement movement logic here
+		gameMovement.move(getPlayerXCoordinate() + 1, getPlayerYCoordinate());
 	}
 
 	public void keyUp() {
-		// TODO Implement movement logic here
+		gameMovement.moveUp(getPlayerXCoordinate(), getPlayerYCoordinate() - 1);
 	}
 
 	public void keyDown() {
-		// TODO Implement movement logic here
+		gameMovement.move(getPlayerXCoordinate(), getPlayerYCoordinate() + 1);
 	}
 
 	public void setExit(boolean exit) {
@@ -95,5 +102,67 @@ public class GameEngine {
 
 	public boolean isExit() {
 		return exit;
+	}
+
+	public void bringPlayerBackToInitialPosition() {
+		player = playerInitialPosition;
+	}
+
+	public int getCurrentLevel() {
+		return level;
+	}
+
+	public void setLevel(int newLevel) {
+		level = newLevel;
+	}
+
+	public void goToNextLevel() {
+		int playerX = getPlayerXCoordinate();
+		int playerY = getPlayerYCoordinate();
+		TileType potentialDoor = getTileFromCoordinates(playerX, playerY);
+		if (potentialDoor.equals(TileType.DOOR)) {
+			advanceIfValidLevel();
+		}
+	}
+
+	public void changeObstacleToPassable(TileType tile, int x, int y) {
+		int obstacleCollisionCounter = collisionCounter.getObstacleCollision();
+		if (tile.equals(TileType.OBSTACLE) && obstacleCollisionCounter % 3 == 0) {
+			tile = TileType.PASSABLE;
+			addTile(x, y, tile);
+		}
+	}
+
+	public boolean checkIfNoObstacles() {
+		Collection<TileType> potentialObstacles = tiles.values();
+		int obstacle = 0;
+		for (TileType tile : potentialObstacles) {
+			if (tile.equals(TileType.OBSTACLE)) {
+				obstacle++;
+			}
+		}
+		return obstacle == 0;
+	}
+
+	public void finishGame(TileType tile) {
+		boolean noObstacle = checkIfNoObstacles();
+		if (isEndOfGame(tile, noObstacle)) {
+			System.out.println("YAY! YOU ESCAPED THE DUNGEON!");
+			setExit(true);
+		}
+	}
+
+	private void advanceIfValidLevel() {
+		if (level < 3) {
+			collisionCounter.reinitializeCollisionCounters();
+			setLevel(level + 1);
+			levelCreator.createLevel(this, level);
+		} else {
+			setExit(true);
+		}
+	}
+
+	private boolean isEndOfGame(TileType tile, boolean noObstacle) {
+		return level == 3 && tile.equals(TileType.DEACTIVATED_DOOR) && noObstacle;
 	}
 }
