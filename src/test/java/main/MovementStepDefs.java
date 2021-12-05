@@ -1,16 +1,19 @@
 package main;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.isIn;
 import static org.hamcrest.Matchers.equalTo;
 
 import java.util.List;
 
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import engine.GameEngine;
 import parser.LevelCreationStepDefHelper;
 import parser.LevelCreator;
+import tiles.TileType;
 import values.TestingTunableParameters;
 import wrappers.ReaderWrapper;
 
@@ -49,5 +52,20 @@ public class MovementStepDefs extends LevelCreationStepDefHelper {
 	public void the_player_is_located_at(int playerX, int playerY) throws Throwable {
 		assertThat(gameEngine.getPlayerXCoordinate(), equalTo(playerX - COORDINATE_OFFSET));
 		assertThat(gameEngine.getPlayerYCoordinate(), equalTo(playerY - COORDINATE_OFFSET));
+	}
+
+	@And("^the players has \"([^\"]*)\" added to their power ups$")
+	public void thePlayersHasAddedToTheirPowerUps(char powerUpChar) throws Throwable {
+		assertThat(TileType.getTileTypeByChar(powerUpChar), isIn(gameEngine.getPlayerPowerUps()));
+	}
+
+	@And("^power up at \\((\\d+), (\\d+)\\) is not longer there$")
+	public void powerUpAtIsNotLongerThere(int x, int y) {
+		assertThat(gameEngine.getTileFromCoordinates(x - COORDINATE_OFFSET, y - COORDINATE_OFFSET), equalTo(TileType.PASSABLE));
+	}
+
+	@Given("^the players already has \"([^\"]*)\" added to their power ups$")
+	public void thePlayersAlreadyHasAddedToTheirPowerUps(char powerUpChar) throws Throwable {
+		gameEngine.addPowerUp(TileType.getTileTypeByChar(powerUpChar));
 	}
 }
