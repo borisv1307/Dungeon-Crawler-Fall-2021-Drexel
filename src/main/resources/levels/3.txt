@@ -1,0 +1,10 @@
+XXXXXXXXXXXXXXXXXXXXXX
+X A                APX
+X A AAAAAAAAAAAA AA  X
+X A            A A  AX
+X AAAA      A  A    AX
+X  AZA      A  AAAAA X
+X  A A      A        X
+X  A A    AAA A    XXX
+X            A     XFX
+XXXXXXXXXXXXXXXXXXXXXX
