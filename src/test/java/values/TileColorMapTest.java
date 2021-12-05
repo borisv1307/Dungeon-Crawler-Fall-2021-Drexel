@@ -25,4 +25,24 @@ public class TileColorMapTest {
 		assertSame(Color.GREEN, TileColorMap.get(TileType.PLAYER));
 	}
 
+	@Test
+	public void bomb_power_up() {
+		assertSame(Color.LIGHT_GRAY, TileColorMap.get(TileType.BOMB_POWER_UP));
+	}
+
+	@Test
+	public void fire_power_up() {
+		assertSame(Color.YELLOW, TileColorMap.get(TileType.FIRE_POWER_UP));
+	}
+
+	@Test
+	public void breakable() {
+		assertSame(Color.ORANGE, TileColorMap.get(TileType.BREAKABLE));
+	}
+
+	@Test
+	public void bomb() {
+		assertSame(Color.DARK_GRAY, TileColorMap.get(TileType.BOMB));
+	}
+
 }
