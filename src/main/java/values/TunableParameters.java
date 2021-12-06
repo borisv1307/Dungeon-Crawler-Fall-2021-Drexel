@@ -1,10 +1,11 @@
 package values;
 
 public final class TunableParameters {
-	private TunableParameters() {}
-	
-	public static final int SCREEN_WIDTH = 900;
-	public static final int SCREEN_HEIGHT = 600;
+	private TunableParameters() {
+	}
+
+	public static final int SCREEN_WIDTH = 1400;
+	public static final int SCREEN_HEIGHT = 800;
 
 	public static final int TARGET_FPS = 45;
 
