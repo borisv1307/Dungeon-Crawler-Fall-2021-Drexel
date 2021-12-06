@@ -149,31 +149,5 @@ public class GameEngineTest {
 		assertThat(tF, equalTo(true));
 	}
 
-	@Test
-	public void level_five() {
-		TileType tileType = TileType.PLAYER;
-		gameEngine.addTile(ONE, ONE, tileType);
-		gameEngine.addTile(ZERO, ONE, TileType.KEY1);
-		TileType loc = gameEngine.attemptedTiles(ZERO, ONE);
-		gameEngine.levelFive(loc, ZERO, ONE);
-		int actualX = gameEngine.getPlayerXCoordinate();
-		int actualY = gameEngine.getPlayerYCoordinate();
-		assertThat(actualX, equalTo(ZERO));
-		assertThat(actualY, equalTo(ONE));
-	}
-
-	@Test
-	public void level_six() {
-		TileType tileType = TileType.PLAYER;
-		gameEngine.addTile(ONE, ONE, tileType);
-		gameEngine.addTile(ZERO, ONE, TileType.FINISH);
-		TileType loc = gameEngine.attemptedTiles(ZERO, ONE);
-		gameEngine.levelSix(loc, ZERO, ONE);
-		int actualX = gameEngine.getPlayerXCoordinate();
-		int actualY = gameEngine.getPlayerYCoordinate();
-		assertThat(actualX, equalTo(ZERO));
-		assertThat(actualY, equalTo(ONE));
-	}
-
 }
 
